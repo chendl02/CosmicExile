@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class StarDome : MonoBehaviour {
 
     public MeshRenderer starPrefab;
@@ -10,9 +10,15 @@ public class StarDome : MonoBehaviour {
     const float calibrationDst = 2000;
     public Vector2 brightnessMinMax;
 
+    public Image backgroundImage;   
+    public float fadeDuration = 1f; 
+
     Camera cam;
 
     void Start () {
+        // scene loading
+        StartCoroutine(FadeFromBlack());
+
         cam = Camera.main;
         //var sw = System.Diagnostics.Stopwatch.StartNew ();
         float starDst = cam.farClipPlane - radiusMinMax.y;
@@ -39,5 +45,19 @@ public class StarDome : MonoBehaviour {
         if (cam != null) {
             transform.position = cam.transform.position;
         }
+    }
+    private IEnumerator FadeFromBlack()
+    {
+        Color color = backgroundImage.color; 
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        {
+            color.a = Mathf.Clamp01(1f - (t / fadeDuration));
+            backgroundImage.color = color; 
+            // canvasGroup.color.a = Mathf.Clamp01(1f - (t / fadeDuration));
+            yield return null;
+        }
+        color.a = 0f;
+        backgroundImage.color = color; 
+        backgroundImage.gameObject.SetActive(false);
     }
 }
