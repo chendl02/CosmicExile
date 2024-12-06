@@ -5,6 +5,14 @@ using UnityEngine;
 [RequireComponent (typeof (Rigidbody))]
 public class CelestialBody : GravityObject {
 
+
+    //distance(10^9 m)
+    //mass(10^18 kg)
+    //acceleration(m/s^2)
+    //velocity(m/s)
+
+    //10^36kg/10^18 m =10^18kg
+
     public float radius;
     public float surfaceGravity;
     public Vector3 initialVelocity;
@@ -22,6 +30,12 @@ public class CelestialBody : GravityObject {
         velocity = initialVelocity;
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        //gravityCamera.orthographicSize = radius * 5;
+    }
+
     public void UpdateVelocity (CelestialBody[] allBodies, float timeStep) {
         foreach (var otherBody in allBodies) {
             if (otherBody != this) {
@@ -35,11 +49,11 @@ public class CelestialBody : GravityObject {
     }
 
     public void UpdateVelocity (Vector3 acceleration, float timeStep) {
-        velocity += acceleration * timeStep;
+        velocity +=  acceleration * timeStep;
     }
 
     public void UpdatePosition (float timeStep) {
-        rb.MovePosition (rb.position + velocity * timeStep);
+        rb.MovePosition (rb.position +  velocity * timeStep / Universe.distanceCoefficint);
 
     }
 

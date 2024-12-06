@@ -16,12 +16,11 @@ public class NBodySimulation : MonoBehaviour {
     void FixedUpdate () {
         for (int i = 0; i < bodies.Length; i++) {
             Vector3 acceleration = CalculateAcceleration (bodies[i].Position, bodies[i]);
-            bodies[i].UpdateVelocity (acceleration, Universe.physicsTimeStep);
-            //bodies[i].UpdateVelocity (bodies, Universe.physicsTimeStep);
+            bodies[i].UpdateVelocity (acceleration, Universe.physicsTimeStep * Universe.timeCoefficient);
         }
 
         for (int i = 0; i < bodies.Length; i++) {
-            bodies[i].UpdatePosition (Universe.physicsTimeStep);
+            bodies[i].UpdatePosition (Universe.physicsTimeStep * Universe.timeCoefficient);
         }
 
     }

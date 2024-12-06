@@ -7,6 +7,7 @@ public class Ship : GravityObject {
     public Transform hatch;
     public float hatchAngle;
     public Transform camViewPoint;
+    public CameraBehavior camControl;
     public Transform pilotSeatPoint;
     public LayerMask groundedMask;
 
@@ -51,6 +52,52 @@ public class Ship : GravityObject {
     }
 
     void Update () {
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Debug.Log("switch camera");
+            Camera map_cam;
+            Transform existingCamera = transform.Find("Map Camera");
+            if (existingCamera != null)
+            {
+                map_cam = existingCamera.GetComponent<Camera>();
+            }
+            else
+            {
+                // 创建一个新摄像机并将其添加到 GravityObject 下
+                map_cam = new GameObject("Map Camera").AddComponent<Camera>();
+            }
+            map_cam.enabled = false;
+
+            // 设置摄像机的位置，位于 GravityObject 的 z 轴 +2500
+            map_cam.transform.position = this.transform.position + new Vector3(0, 0, -2500);
+
+            // 设置摄像机的旋转方向，使其视角为 z 轴向下
+            map_cam.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            map_cam.farClipPlane = 10000f;
+            map_cam.nearClipPlane = 0.1f;
+            map_cam.orthographic = true;
+            map_cam.orthographicSize = 100;
+            
+            map_cam.tag = "MainCamera";
+
+            Camera ship_cam = camViewPoint.GetComponentInChildren<Camera>();
+            if (ship_cam.enabled == true)
+            {
+                ship_cam.enabled = false;
+                map_cam.enabled = true;     
+                camControl.set_zoom();
+                camControl.enabled = true;
+                //Cursor.visible = true;
+            }
+            else
+            {
+                ship_cam.enabled = true;
+                map_cam.enabled = false;
+                //Cursor.visible = false;
+            }
+        }
         if (shipIsPiloted) {
             HandleMovement ();
         }
@@ -142,6 +189,8 @@ public class Ship : GravityObject {
         pilot.gameObject.SetActive (false);
         hatchOpen = false;
 
+        camControl = new GameObject("Camera Controller").AddComponent<CameraBehavior>();
+        camControl.enabled = false;
     }
 
     void StopPilotingShip () {
