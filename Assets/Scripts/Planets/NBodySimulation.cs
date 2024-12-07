@@ -9,11 +9,11 @@ public class NBodySimulation : MonoBehaviour {
     void Awake () {
 
         bodies = FindObjectsOfType<CelestialBody> ();
-        Time.fixedDeltaTime = Universe.physicsTimeStep;
-        Debug.Log ("Setting fixedDeltaTime to: " + Universe.physicsTimeStep);
     }
 
     void FixedUpdate () {
+        if (Clock.speed == 0)
+            return;
         for (int i = 0; i < bodies.Length; i++) {
             Vector3 acceleration = CalculateAcceleration (bodies[i].Position, bodies[i]);
             bodies[i].UpdateVelocity (acceleration, Universe.physicsTimeStep * Universe.timeCoefficient);
