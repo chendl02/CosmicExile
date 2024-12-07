@@ -1,108 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 
 public class Initial : MonoBehaviour
 {
-    public GameObject drugPrefab;
-    public int numDrugs = 50;
-    public LayerMask terrainLayer;
-
-    public Collider terrainCollider;
-    private string filePath = "/Users/censiyuan/Desktop/cs576/final_project/positions.txt";
+    public GameObject drugPrefab; // Drug 的预制件
+    public int numDrugs = 200;     // 随机生成的 Drug 数量
+    public float planetRadius = 184f; // 球体半径固定为 184
 
     void Start()
     {
-        if (terrainCollider == null)
+        if (drugPrefab == null)
         {
-            Debug.LogError("Terrain Collider is not assigned!");
+            Debug.LogError("Drug Prefab is not assigned!");
             return;
         }
 
-        PrepareFile();
         SpawnDrugs();
-    }
-
-    void PrepareFile()
-    {
-        if (File.Exists(filePath))
-        {
-            File.WriteAllText(filePath, string.Empty);
-        }
-        else
-        {
-            Debug.Log($"File path does not exist. Creating file at: {filePath}");
-        }
     }
 
     void SpawnDrugs()
     {
-        HashSet<Vector3> usedPositions = new HashSet<Vector3>();
-        List<Vector3> generatedPositions = new List<Vector3>();
-
         for (int i = 0; i < numDrugs; i++)
         {
-            Vector3 randomPosition = GetRandomSurfacePoint();
+            // 根据固定半径生成表面点
+            Vector3 randomPosition = GetRandomSurfacePoint(planetRadius);
+            Debug.Log($"Generated position of DRUG_{i}: {randomPosition}");
 
-            if (randomPosition != Vector3.zero && !usedPositions.Contains(randomPosition))
-            {
-                GameObject drug = Instantiate(drugPrefab, randomPosition, Quaternion.identity);
-                drug.name = "DRUG_" + i;
-                usedPositions.Add(randomPosition);
-                generatedPositions.Add(randomPosition);
+            // 动态实例化 Prefab
+            GameObject drug = Instantiate(drugPrefab, randomPosition, Quaternion.identity);
+            drug.name = "DRUG_" + i;
 
-                Debug.Log($"Generated DRUG_{i} at position: {randomPosition}");
-            }
-            else
-            {
-                Debug.LogWarning($"Failed to find a valid position for drug {i}");
-            }
+            // 设置对象朝向地心
+            drug.transform.LookAt(Vector3.zero);
         }
-
-        Debug.Log("Starting to write positions to file...");
-        WritePositionsToFile(generatedPositions);
     }
 
-    Vector3 GetRandomSurfacePoint()
+    Vector3 GetRandomSurfacePoint(float radius)
     {
-        Bounds bounds = terrainCollider.bounds;
+        // 生成随机单位方向向量
+        Vector3 randomDirection = Random.onUnitSphere;
 
-        Debug.Log($"Terrain Bounds: Min = {bounds.min}, Max = {bounds.max}");
+        // 根据固定半径计算表面点
+        Vector3 surfacePoint = randomDirection * radius;
 
-        for (int attempts = 0; attempts < 10; attempts++)
-        {
-            float x = Random.Range(bounds.min.x, bounds.max.x);
-            float z = Random.Range(bounds.min.z, bounds.max.z);
-
-            Vector3 startPoint = new Vector3(x, bounds.max.y + 10f, z);
-
-            if (Physics.Raycast(startPoint, Vector3.down, out RaycastHit hit, bounds.size.y * 2f, terrainLayer))
-            {
-                Debug.Log($"Raycast hit at: {hit.point}");
-                return hit.point + Vector3.up * 0.5f;
-            }
-        }
-
-        Debug.LogWarning("Failed to find a valid surface point");
-        return Vector3.zero;
-    }
-
-    void WritePositionsToFile(List<Vector3> positions)
-    {
-        if (positions.Count == 0)
-        {
-            Debug.LogWarning("No positions to write to file");
-            return;
-        }
-
-        using (StreamWriter writer = new StreamWriter(filePath, true))
-        {
-            foreach (var pos in positions)
-            {
-                writer.WriteLine($"{pos.x}, {pos.y}, {pos.z}");
-            }
-        }
-        Debug.Log($"Positions saved to {filePath}");
+        return surfacePoint;
     }
 }

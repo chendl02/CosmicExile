@@ -7,7 +7,7 @@ public class AstronautController : MonoBehaviour
     public Animator anim;                 // 动画控制器
 
     public float mouseSensitivity = 2f;   // 鼠标灵敏度
-    public float moveSpeed = 3f;          // 移动速度
+    public float moveSpeed = 100f;          // 移动速度
     public float turnSpeed = 100f;        // 角色转向速度
     public int forceConst = 4;            // 跳跃力度
 
