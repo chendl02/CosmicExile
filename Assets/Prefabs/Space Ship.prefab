@@ -450,7 +450,7 @@ MonoBehaviour:
   rotSpeed: 5
   rollSpeed: 30
   rotSmoothSpeed: 10
-  lockCursor: 1
+  lockCursor: 0
   flightControls: {fileID: 5200995693793189970}
 --- !u!54 &820172706665060550
 Rigidbody:

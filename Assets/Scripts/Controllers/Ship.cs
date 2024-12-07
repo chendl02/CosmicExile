@@ -45,10 +45,13 @@ public class Ship : GravityObject {
         targetRot = transform.rotation;
         smoothedRot = transform.rotation;
 
-        if (lockCursor) {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
+        // if (lockCursor) {
+        //     Cursor.lockState = CursorLockMode.Locked;
+        //     Cursor.visible = false;
+        // }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     void Update () {
@@ -108,7 +111,7 @@ public class Ship : GravityObject {
     }
 
     void HandleMovement () {
-        DebugHelper.HandleEditorInput (lockCursor);
+        // DebugHelper.HandleEditorInput (lockCursor);
         // Thruster input
         int thrustInputX = GetInputAxis (leftKey, rightKey);
         int thrustInputY = GetInputAxis (descendKey, ascendKey);

@@ -9,6 +9,8 @@ public class NBodySimulation : MonoBehaviour {
     void Awake () {
 
         bodies = FindObjectsOfType<CelestialBody> ();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void FixedUpdate () {
@@ -22,6 +24,8 @@ public class NBodySimulation : MonoBehaviour {
         for (int i = 0; i < bodies.Length; i++) {
             bodies[i].UpdatePosition (Universe.physicsTimeStep * Universe.timeCoefficient);
         }
+        Cursor.visible = true;
+        //Cursor.lockState = CursorLockMode.None;
 
     }
 

@@ -20391,7 +20391,7 @@ MonoBehaviour:
   vSmoothTime: 0.1
   airSmoothTime: 0.5
   stickToGroundForce: 0.5
-  lockCursor: 1
+  lockCursor: 0
   mass: 70
   mouseSensitivity: 10
   pitchMinMax: {x: -80, y: 85}

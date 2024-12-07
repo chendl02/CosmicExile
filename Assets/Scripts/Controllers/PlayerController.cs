@@ -49,10 +49,12 @@ public class PlayerController : GravityObject {
         spaceship = FindObjectOfType<Ship> ();
         InitRigidbody ();
 
-        if (lockCursor) {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
+        //if (lockCursor) {
+        //    Cursor.lockState = CursorLockMode.Locked;
+        //    Cursor.visible = false;
+        //}
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     void InitRigidbody () {
@@ -68,7 +70,7 @@ public class PlayerController : GravityObject {
     }
 
     void HandleMovement () {
-        DebugHelper.HandleEditorInput (lockCursor);
+        //DebugHelper.HandleEditorInput (lockCursor);
         // Look input
         yaw += Input.GetAxisRaw ("Mouse X") * mouseSensitivity;
         pitch -= Input.GetAxisRaw ("Mouse Y") * mouseSensitivity;
