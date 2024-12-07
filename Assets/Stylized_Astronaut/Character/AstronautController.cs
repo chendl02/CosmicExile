@@ -1,122 +1,117 @@
-/*******************************************************************************************
-* Author: German L.G Fica
-* Websites: http://germanfica.xyz
-* Description: Basic character controller to walk around a planet.
-*******************************************************************************************/
 using UnityEngine;
-using System.Collections;
-
-
 
 public class AstronautController : MonoBehaviour
 {
-    public Rigidbody rig;
-    RaycastHit hit;
-    public bool freezeRotation = true;
+    public Rigidbody rig;                  // 角色的刚体
+    public Transform cameraTransform;     // 摄像机的 Transform
+    public Animator anim;                 // 动画控制器
 
-    public int forceConst = 4;
-    private bool canJump;
+    public float mouseSensitivity = 2f;   // 鼠标灵敏度
+    public float moveSpeed = 3f;          // 移动速度
+    public float turnSpeed = 100f;        // 角色转向速度
+    public int forceConst = 4;            // 跳跃力度
 
-    private bool onground;
+    private float cameraPitch = 0f;       // 摄像机俯仰角
+    private bool canJump;                 // 是否可以跳跃
+    private bool onGround;                // 是否在地面上
 
-    public Animator anim; // Animator 引用
-
-    public string groundTag = "Planet"; // 检测的地面物体标签
+    public string groundTag = "Planet";   // 用于检测地面的标签
 
     void Start()
     {
-        Ini();
+        Cursor.lockState = CursorLockMode.Locked; // 锁定鼠标光标
+        Cursor.visible = false;                  // 隐藏鼠标光标
+        rig.useGravity = false;                  // 禁用重力
     }
 
     void Update()
     {
-        // Raycast (doesn't affect gameplay)
-        if (Physics.Raycast(transform.position, -transform.up, out hit))
-        {
-            Debug.DrawLine(transform.position, hit.point, Color.cyan);
-        }
-        // Jump Action
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            canJump = true;
-        }
+        HandleMouseLook(); // 鼠标控制摄像机
+        HandleInput();     // 跳跃和动画控制
     }
 
     void FixedUpdate()
     {
-        Move();
-        Jump();
+        Move();            // 角色前后移动
+        RotateCharacter(); // A/D 键控制角色水平转向
+        Jump();            // 跳跃逻辑
     }
 
-    /* Some initializations
-        */
-    private void Ini()
+    /* 鼠标控制摄像机 */
+    private void HandleMouseLook()
     {
-        rig.useGravity = false; // Disables Gravity
-        if (freezeRotation)
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        // 更新摄像机俯仰角
+        cameraPitch -= mouseY;
+        cameraPitch = Mathf.Clamp(cameraPitch, -90f, 90f);
+
+        // 更新摄像机旋转
+        cameraTransform.localRotation = Quaternion.Euler(cameraPitch, 0, 0);
+
+        // 鼠标水平滑动独立控制摄像机视角，不影响角色
+        cameraTransform.parent.Rotate(Vector3.up * mouseX);
+    }
+
+    /* 跳跃和动画控制 */
+    private void HandleInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && onGround)
         {
-            rig.constraints = RigidbodyConstraints.FreezeRotation;
+            canJump = true;
+        }
+
+        // 更新动画
+        if (Input.GetKey("w") || Input.GetKey("s"))
+        {
+            anim.SetInteger("AnimationPar", 1);
         }
         else
         {
-            rig.constraints = RigidbodyConstraints.None;
+            anim.SetInteger("AnimationPar", 0);
         }
     }
 
-    /* Character jump
-        */
-    private void Jump()
-    {
-        if (canJump&&onground)
-        {
-            canJump = false;
-            // AddForce (useless)
-            //rig.AddForce(0, forceConst, 0, ForceMode.Impulse);
-            // AddForceAtPosition (useless too)
-            //rig.AddForceAtPosition(new Vector3(0, 0, forceConst), rig.transform.position, ForceMode.Impulse);
-            // AddRelativeForce (successful)
-            rig.AddRelativeForce(0, forceConst, 0, ForceMode.Impulse);
-        }
-    }
-
-    /* Character movement
-        */
+    /* 角色前后移动 */
     private void Move()
     {
-        var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-        if (Input.GetKey ("w")||Input.GetKey ("s")) {
-				anim.SetInteger ("AnimationPar", 1);
-			}  else {
-				anim.SetInteger ("AnimationPar", 0);
-			}
-
-        var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
-
-        transform.Rotate(0, x, 0);
-        transform.Translate(0, 0, z);
-        //transform.Translate(0, 0, 0.5f);
+        float moveZ = Input.GetAxis("Vertical") * moveSpeed * Time.fixedDeltaTime;
+        Vector3 moveDirection = transform.forward * moveZ; // 前后移动基于角色的朝向
+        rig.MovePosition(rig.position + moveDirection);
     }
 
+    /* A/D 键控制角色水平转向 */
+    private void RotateCharacter()
+    {
+        float turn = Input.GetAxis("Horizontal") * turnSpeed * Time.fixedDeltaTime;
+        transform.Rotate(0, turn, 0); // A/D 键控制角色水平旋转
+    }
+
+    /* 跳跃逻辑 */
+    private void Jump()
+    {
+        if (canJump)
+        {
+            canJump = false;
+            rig.AddForce(Vector3.up * forceConst, ForceMode.Impulse);
+        }
+    }
+
+    /* 碰撞检测 */
     private void OnCollisionEnter(Collision collision)
     {
-        // 检测与哪个物体碰撞
-        if (collision.gameObject.name == "Mountain_Sea")
+        if (collision.gameObject.CompareTag(groundTag))
         {
-            Debug.Log("与目标物体发生碰撞！");
-            onground = true;
+            onGround = true;
         }
     }
+
     private void OnCollisionExit(Collision collision)
     {
-        // 检查离开的物体是否是 "Planet"
-        if (collision.gameObject.name == "Mountain_Sea")
+        if (collision.gameObject.CompareTag(groundTag))
         {
-            onground = false;
-            Debug.Log("离开 Planet，人物不在地面上");
+            onGround = false;
         }
-    }
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(10, 10, 200, 20), "On Ground: " + onground);
     }
 }

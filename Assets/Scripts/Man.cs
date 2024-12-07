@@ -1,157 +1,50 @@
-// using UnityEngine;
-// using System.Collections;
-// public class PlayerController : MonoBehaviour
-// {
-//     public Rigidbody rig;
-//     RaycastHit hit;
-//     public bool freezeRotation = true;
-
-//     public int forceConst = 4;
-//     private bool canJump;
-
-//     void Start()
-//     {
-//         Ini();
-//     }
-
-//     void Update()
-//     {
-//         // Raycast (doesn't affect gameplay)
-//         if (Physics.Raycast(transform.position, -transform.up, out hit))
-//         {
-//             Debug.DrawLine(transform.position, hit.point, Color.cyan);
-//         }
-//         // Jump Action
-//         if (Input.GetKeyUp(KeyCode.Space))
-//         {
-//             canJump = true;
-//         }
-//     }
-
-//     void FixedUpdate()
-//     {
-//         Move();
-//         Jump();
-//     }
-
-//     /* Some initializations
-//         */
-//     private void Ini()
-//     {
-//         rig.useGravity = false; // Disables Gravity
-//         if (freezeRotation)
-//         {
-//             rig.constraints = RigidbodyConstraints.FreezeRotation;
-//         }
-//         else
-//         {
-//             rig.constraints = RigidbodyConstraints.None;
-//         }
-//     }
-
-//     /* Character jump
-//         */
-//     private void Jump()
-//     {
-//         if (canJump)
-//         {
-//             canJump = false;
-//             // AddForce (useless)
-//             //rig.AddForce(0, forceConst, 0, ForceMode.Impulse);
-//             // AddForceAtPosition (useless too)
-//             //rig.AddForceAtPosition(new Vector3(0, 0, forceConst), rig.transform.position, ForceMode.Impulse);
-//             // AddRelativeForce (successful)
-//             rig.AddRelativeForce(0, forceConst, 0, ForceMode.Impulse);
-//         }
-//     }
-
-//     /* Character movement
-//         */
-//     private void Move()
-//     {
-//         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-//         var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
-
-//         transform.Rotate(0, x, 0);
-//         transform.Translate(0, 0, z);
-//     }
-// }
 using UnityEngine;
-using System.Collections;
 
 public class TruckController : MonoBehaviour
 {
-    public Rigidbody rig;
-    public Transform cameraTransform; // 摄像机的 Transform
+    public Rigidbody rig;                  // 角色刚体
+    public Transform cameraTransform;     // 摄像机的 Transform
+    public LayerMask groundLayer;         // 用于检测地面的层级
 
-    //public Transform sphereCenter; // 球体的 Transform
-    public float mouseSensitivity = 100f; // 鼠标灵敏度
+    public float mouseSensitivity = 200f; // 鼠标灵敏度
     public float verticalLookLimit = 80f; // 限制垂直旋转角度
-    private float verticalRotation = 0f; // 当前摄像机的垂直旋转角度
+    public float moveSpeed = 5f;          // 移动速度
+    public float turnSpeed = 100f;        // 角色转向速度
+    public float jumpForce = 5f;          // 跳跃力度
 
-    RaycastHit hit;
-    public bool freezeRotation = true;
-    public int forceConst = 4;
-    private bool canJump;
+    private float verticalRotation = 0f;  // 摄像机垂直旋转角度
+    private float horizontalRotation = 0f; // 摄像机水平旋转角度
+    private bool canJump;                 // 是否可以跳跃
 
     void Start()
     {
         Ini();
-        // 隐藏并锁定鼠标光标
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked; // 隐藏并锁定鼠标光标
         Cursor.visible = false;
     }
 
     void Update()
     {
-        //RotateTowardsSphereCenter(); // 让 Y 轴指向球心
-        
-        //MouseControl(); // 处理鼠标输入
+        MouseControl();  // 鼠标控制视角
+        CheckGround();   // 检查是否接触地面
 
-        // Raycast (doesn't affect gameplay)
-        if (Physics.Raycast(transform.position, -transform.up, out hit))
+        // 跳跃输入检测
+        if (Input.GetKeyDown(KeyCode.Space) && canJump)
         {
-            Debug.DrawLine(transform.position, hit.point, Color.cyan);
-        }
-
-        // Jump Action
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            canJump = true;
+            Jump();
         }
     }
 
-    /* 让 Player 的 Y 轴指向球心 */
-    // private void RotateTowardsSphereCenter()
-    // {
-    //     if (sphereCenter == null) return;
-
-    //     // 计算指向球心的方向向量
-    //     Vector3 directionToCenter = (sphereCenter.position - transform.position).normalized;
-
-    //     // 更新旋转：让 Y 轴指向球心
-    //     Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, directionToCenter);
-    //     transform.rotation = targetRotation * Quaternion.Euler(0, transform.eulerAngles.y, 0);
-    // }
-
     void FixedUpdate()
     {
-        Move();
-        Jump();
+        Move(); // 处理移动逻辑
     }
 
     /* 初始化 */
     private void Ini()
     {
-        rig.useGravity = false; // Disables Gravity
-        if (freezeRotation)
-        {
-            rig.constraints = RigidbodyConstraints.FreezeRotation;
-        }
-        else
-        {
-            rig.constraints = RigidbodyConstraints.None;
-        }
+        rig.useGravity = true; // 启用重力
+        rig.constraints = RigidbodyConstraints.FreezeRotation; // 冻结刚体的旋转
     }
 
     /* 鼠标控制逻辑 */
@@ -161,34 +54,37 @@ public class TruckController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        // 水平旋转 Player
-        transform.Rotate(0, mouseX, 0);
+        // 水平旋转摄像机（不影响角色）
+        horizontalRotation += mouseX;
+        cameraTransform.localRotation = Quaternion.Euler(0, horizontalRotation, 0);
 
-        // 垂直旋转摄像机（限制角度范围）
+        // 垂直旋转摄像机
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, -verticalLookLimit, verticalLookLimit);
+        cameraTransform.localRotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0);
+    }
 
-        // 更新摄像机旋转
-        cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+    /* 检测是否接触地面 */
+    private void CheckGround()
+    {
+        canJump = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
     }
 
     /* 跳跃逻辑 */
     private void Jump()
     {
-        if (canJump)
-        {
-            canJump = false;
-            rig.AddRelativeForce(0, forceConst, 0, ForceMode.Impulse);
-        }
+        rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    /* 移动逻辑 */
+    /* 移动和转向逻辑 */
     private void Move()
     {
-        var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-        var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
+        // 前后移动
+        float moveZ = Input.GetAxis("Vertical") * moveSpeed * Time.fixedDeltaTime;
+        rig.MovePosition(rig.position + transform.forward * moveZ);
 
-        transform.Rotate(0, x, 0);
-        transform.Translate(0, 0, z);
+        // 左右转向由 A/D 控制
+        float turn = Input.GetAxis("Horizontal") * turnSpeed * Time.fixedDeltaTime;
+        transform.Rotate(0, turn, 0);
     }
 }

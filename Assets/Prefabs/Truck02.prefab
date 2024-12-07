@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rig: {fileID: 5045916607682831917}
-  cameraTransform: {fileID: 0}
+  cameraTransform: {fileID: 1375872865521378886}
   mouseSensitivity: 100
   verticalLookLimit: 80
   freezeRotation: 1
