@@ -3,7 +3,7 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 [RequireComponent (typeof (Rigidbody))]
-public class CelestialBody : GravityObject {
+public class CelestialBody : OrbitalMotion {
 
 
     //distance(10^9 m)
@@ -28,8 +28,9 @@ public class CelestialBody : GravityObject {
         rb = GetComponent<Rigidbody> ();
         //rb.mass = mass;
         velocity = initialVelocity;
+        this.transform.position = GetRealPosition(0);
     }
-
+    /*
     protected override void Start()
     {
         base.Start();
@@ -55,8 +56,12 @@ public class CelestialBody : GravityObject {
     public void UpdatePosition (float timeStep) {
         rb.MovePosition (rb.position +  velocity * timeStep / Universe.distanceCoefficint);
 
-    }
+    }*/
 
+    public void UpdatePosition()
+    {
+        rb.MovePosition(GetRealPosition(Clock.time));
+    }
     void OnValidate () {
         meshHolder = transform.GetChild (0);
         meshHolder.localScale = Vector3.one * radius;

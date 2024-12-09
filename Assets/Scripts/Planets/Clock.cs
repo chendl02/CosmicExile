@@ -7,7 +7,7 @@ public class Clock : MonoBehaviour
 {
     // Start is called before the first frame update
     public Text time_text;
-    public float time;
+    public static float time;
     public static float speed = 1.0f;
 
     public Button x1Button;
@@ -75,6 +75,7 @@ public class Clock : MonoBehaviour
         x5Button.onClick.AddListener(() => OnButtonClick(x5Button, 5.0f));
         x10Button.onClick.AddListener(() => OnButtonClick(x10Button, 10.0f));
         pauseButton.onClick.AddListener(() => OnButtonClick(pauseButton, 0.0f));
+        OnButtonClick(x1Button, 1.0f);
     }
 
     void Update()

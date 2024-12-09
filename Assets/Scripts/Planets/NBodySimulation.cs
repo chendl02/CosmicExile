@@ -16,6 +16,7 @@ public class NBodySimulation : MonoBehaviour {
     void FixedUpdate () {
         if (Clock.speed == 0)
             return;
+        /*
         for (int i = 0; i < bodies.Length; i++) {
             Vector3 acceleration = CalculateAcceleration (bodies[i].Position, bodies[i]);
             bodies[i].UpdateVelocity (acceleration, Universe.physicsTimeStep * Universe.timeCoefficient);
@@ -23,7 +24,13 @@ public class NBodySimulation : MonoBehaviour {
 
         for (int i = 0; i < bodies.Length; i++) {
             bodies[i].UpdatePosition (Universe.physicsTimeStep * Universe.timeCoefficient);
+        }*/
+
+        for (int i = 0; i < bodies.Length; i++)
+        {
+            bodies[i].UpdatePosition();
         }
+
         Cursor.visible = true;
         //Cursor.lockState = CursorLockMode.None;
 
