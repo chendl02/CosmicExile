@@ -7,7 +7,7 @@ public class Clock : MonoBehaviour
 {
     // Start is called before the first frame update
     public Text time_text;
-    public static float time;
+    public static float dayTime;
     public static float speed = 1.0f;
 
     public Button x1Button;
@@ -28,8 +28,8 @@ public class Clock : MonoBehaviour
     {
         if (Clock.speed == 0)
             return;
-        time += Universe.physicsTimeStep * Universe.timeCoefficient / 3600.0f / 24.0f;
-        time_text.text = time.ToString("F0") + " Days";
+        dayTime += Universe.physicsTimeStep * Universe.timeCoefficient / 3600.0f / 24.0f;
+        time_text.text = dayTime.ToString("F0") + " Days";
     }
 
     void SetSpeed(float newSpeed)

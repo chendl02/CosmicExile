@@ -11,8 +11,6 @@ public class CelestialBody : OrbitalMotion {
     //acceleration(m/s^2)
     //velocity(m/s)
 
-    //10^36kg/10^18 m =10^18kg
-
     public float radius;
     public float surfaceGravity;
     public Vector3 initialVelocity;
@@ -60,7 +58,7 @@ public class CelestialBody : OrbitalMotion {
 
     public void UpdatePosition()
     {
-        rb.MovePosition(GetRealPosition(Clock.time));
+        rb.MovePosition(GetRealPosition(Clock.dayTime));
     }
     void OnValidate () {
         meshHolder = transform.GetChild (0);

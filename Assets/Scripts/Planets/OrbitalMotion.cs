@@ -23,13 +23,13 @@ public class OrbitalMotion : MonoBehaviour
     public Color lineColor;
     public LineRenderer lineRenderer; // 轨道的 LineRenderer
     public float lineWidth = 1.0f;
-    private int segments = 1000;       // 轨道的分段数
+    private int segments = 10000;       // 轨道的分段数
 
 
     // 计算在轨道上的位置
-    public Vector2 GetOrbitalPosition(float time)
+    public Vector2 GetOrbitalPosition(float dayTime)
     {
-        float meanAnomaly = (2 * Mathf.PI / period) * (time % period); // 平近点角 (M)
+        float meanAnomaly = (2 * Mathf.PI / period) * (dayTime % period); // 平近点角 (M)
         float eccentricAnomaly = SolveKepler(meanAnomaly, eccentricity); // 偏近点角 (E)
 
         // 参数方程
@@ -53,10 +53,10 @@ public class OrbitalMotion : MonoBehaviour
         return E;
     }
 
-    public Vector3 GetRealPosition(float time)
+    public Vector3 GetRealPosition(float dayTime)
     {
         // 获取二维轨道坐标
-        Vector2 orbitalPosition = GetOrbitalPosition(time);
+        Vector2 orbitalPosition = GetOrbitalPosition(dayTime);
         float x = orbitalPosition.x;
         float y = orbitalPosition.y;
 

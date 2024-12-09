@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Ship : GravityObject {
 
+    public Vector3 initVelocity;
+    public MotionData motionData;
+
     public Transform hatch;
     public float hatchAngle;
     public Transform camViewPoint;
@@ -44,6 +47,8 @@ public class Ship : GravityObject {
         InitRigidbody ();
         targetRot = transform.rotation;
         smoothedRot = transform.rotation;
+        motionData.Position = rb.position;
+        motionData.Velocity = initVelocity;
 
         // if (lockCursor) {
         //     Cursor.lockState = CursorLockMode.Locked;
@@ -138,6 +143,13 @@ public class Ship : GravityObject {
     }
 
     void FixedUpdate () {
+        if (Clock.speed == 0)
+            return;
+
+        motionData = NBodySimulation.RK4(motionData, Clock.dayTime, Universe.physicsTimeStep * Universe.timeCoefficient);
+        rb.MovePosition(motionData.Position);
+
+        /*
         // Gravity
         Vector3 gravity = NBodySimulation.CalculateAcceleration (rb.position);
         rb.AddForce (gravity, ForceMode.Acceleration);
@@ -149,6 +161,7 @@ public class Ship : GravityObject {
         if (numCollisionTouches == 0) {
             rb.MoveRotation (smoothedRot);
         }
+        */
     }
 
     int GetInputAxis (KeyCode negativeAxis, KeyCode positiveAxis) {

@@ -43,7 +43,7 @@ public class CameraBehavior : MonoBehaviour
                 camera.orthographicSize -= scroll * zoomSpeed * camera.orthographicSize; // ������������
                 camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, minZoom, maxZoom);
 
-                Debug.Log(camera.orthographicSize);
+                //Debug.Log(camera.orthographicSize);
 
                 // �����͸�����
                 // camera.fieldOfView -= scroll * zoomSpeed;
