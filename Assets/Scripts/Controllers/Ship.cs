@@ -15,8 +15,12 @@ public class Ship : GravityObject {
     public Transform pilotSeatPoint;
     public LayerMask groundedMask;
 
+    public Camera shipCam;
+    private GameObject mapCamObject;
+    private Camera mapCam;
+
     [Header ("Handling")]
-    public float thrustStrength = 20;
+    public float thrustStrength = 50;
     public float rotSpeed = 5;
     public float rollSpeed = 30;
     public float rotSmoothSpeed = 10;
@@ -30,8 +34,8 @@ public class Ship : GravityObject {
     Quaternion smoothedRot;
 
     Vector3 thrusterInput;
-    PlayerController pilot;
-    bool shipIsPiloted;
+    //PlayerController pilot;
+    //bool shipIsPiloted;
     int numCollisionTouches;
     bool hatchOpen;
 
@@ -63,6 +67,13 @@ public class Ship : GravityObject {
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+
+        shipCam.transform.parent = camViewPoint;
+
+
+        camControl = new GameObject("Camera Controller").AddComponent<CameraBehavior>();
+        camControl.enabled = false;
     }
 
     void Update () {
@@ -70,38 +81,31 @@ public class Ship : GravityObject {
         if (Input.GetKeyDown(KeyCode.M))
         {
             Debug.Log("switch camera");
-            Camera map_cam;
-            Transform existingCamera = transform.Find("Map Camera");
-            if (existingCamera != null)
+           
+            if (shipCam.enabled == true)
             {
-                map_cam = existingCamera.GetComponent<Camera>();
-            }
-            else
-            {
-                // 创建一个新摄像机并将其添加到 GravityObject 下
-                map_cam = new GameObject("Map Camera").AddComponent<Camera>();
-            }
-            map_cam.enabled = false;
 
-            // 设置摄像机的位置，位于 GravityObject 的 z 轴 +2500
-            map_cam.transform.position = this.transform.position + new Vector3(0, 0, -2500);
 
-            // 设置摄像机的旋转方向，使其视角为 z 轴向下
-            map_cam.transform.rotation = Quaternion.Euler(0, 0, 0);
+                mapCamObject = new GameObject("Map Camera");
+                mapCam = mapCamObject.AddComponent<Camera>();
+                mapCam.enabled = false;
 
-            map_cam.farClipPlane = 10000f;
-            map_cam.nearClipPlane = 0.1f;
-            map_cam.orthographic = true;
-            map_cam.orthographicSize = 100;
-            
-            map_cam.tag = "MainCamera";
+                // 设置摄像机的位置，位于 GravityObject 的 z 轴 +2500
+                mapCam.transform.position = this.transform.position + new Vector3(0, 0, -2500);
 
-            Camera ship_cam = camViewPoint.GetComponentInChildren<Camera>();
-            if (ship_cam.enabled == true)
-            {
+                // 设置摄像机的旋转方向，使其视角为 z 轴向下
+                mapCam.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+                mapCam.farClipPlane = 10000f;
+                mapCam.nearClipPlane = 0.1f;
+                mapCam.orthographic = true;
+                mapCam.orthographicSize = 100;
+
+                mapCam.tag = "MainCamera";
+
                 mapCamEnable = true;
-                ship_cam.enabled = false;
-                map_cam.enabled = true;     
+                shipCam.enabled = false;
+                mapCam.enabled = true;     
                 camControl.set_zoom();
                 camControl.enabled = true;
                 //Cursor.visible = true;
@@ -109,18 +113,18 @@ public class Ship : GravityObject {
             else
             {
                 mapCamEnable = false;
-                ship_cam.enabled = true;
-                map_cam.enabled = false;
+                shipCam.enabled = true;
+                Destroy(mapCamObject);
+
                 //Cursor.visible = false;
             }
         }
-        if (shipIsPiloted) {
-            HandleMovement ();
-        }
+        
+        HandleMovement ();
 
         // Animate hatch
-        float hatchTargetAngle = (hatchOpen) ? hatchAngle : 0;
-        hatch.localEulerAngles = Vector3.right * Mathf.LerpAngle (hatch.localEulerAngles.x, hatchTargetAngle, Time.deltaTime);
+        //float hatchTargetAngle = (hatchOpen) ? hatchAngle : 0;
+        //hatch.localEulerAngles = Vector3.right * Mathf.LerpAngle (hatch.localEulerAngles.x, hatchTargetAngle, Time.deltaTime);
     }
 
     void HandleMovement () {
@@ -154,9 +158,18 @@ public class Ship : GravityObject {
         if (Clock.speed == 0)
             return;
 
-        // Thrusters
-        Vector3 thrustDir = transform.TransformVector(thrusterInput);
-        motionData.Velocity += thrustDir * thrustStrength;
+        if (!mapCamEnable)
+        {
+            // Thrusters
+            Vector3 thrustDir = transform.TransformVector(thrusterInput);
+            motionData.Velocity += thrustDir * thrustStrength;
+
+            // Rotate
+            if (numCollisionTouches == 0)
+            {
+                rb.MoveRotation(smoothedRot);
+            }
+        }
 
 
         // Gravity
@@ -170,14 +183,8 @@ public class Ship : GravityObject {
 
 
 
-        // Rotate
-        if (!mapCamEnable)
-        {
-            if (numCollisionTouches == 0)
-            {
-                rb.MoveRotation(smoothedRot);
-            }
-        }
+        
+        
 
 
         positionText.text = $"Position: {motionData.Position}";
@@ -205,6 +212,7 @@ public class Ship : GravityObject {
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
     }
 
+    /*
     public void ToggleHatch () {
         hatchOpen = !hatchOpen;
     }
@@ -216,7 +224,9 @@ public class Ship : GravityObject {
             PilotShip ();
         }
     }
+    */
 
+    /*
     public void PilotShip () {
         pilot = FindObjectOfType<PlayerController> ();
         shipIsPiloted = true;
@@ -226,10 +236,10 @@ public class Ship : GravityObject {
         pilot.gameObject.SetActive (false);
         hatchOpen = false;
 
-        camControl = new GameObject("Camera Controller").AddComponent<CameraBehavior>();
-        camControl.enabled = false;
+        
     }
-
+    */
+    /*
     void StopPilotingShip () {
         shipIsPiloted = false;
         pilot.transform.position = pilotSeatPoint.position;
@@ -237,7 +247,7 @@ public class Ship : GravityObject {
         pilot.Rigidbody.velocity = rb.velocity;
         pilot.gameObject.SetActive (true);
         pilot.ExitFromSpaceship ();
-    }
+    }*/
 
     void OnCollisionEnter (Collision other) {
         if (groundedMask == (groundedMask | (1 << other.gameObject.layer))) {
@@ -257,20 +267,20 @@ public class Ship : GravityObject {
 
     public bool ShowHUD {
         get {
-            return shipIsPiloted;
+            return true;
         }
     }
     public bool HatchOpen {
         get {
-            return hatchOpen;
+            return false;
         }
     }
 
-    public bool IsPiloted {
+    /*public bool IsPiloted {
         get {
             return shipIsPiloted;
         }
-    }
+    }*/
 
     public Rigidbody Rigidbody {
         get {
