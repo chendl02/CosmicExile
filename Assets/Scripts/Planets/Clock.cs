@@ -10,6 +10,8 @@ public class Clock : MonoBehaviour
     public static float dayTime;
     public static float speed = 1.0f;
 
+    private static float previousSpeed = 1.0f;
+
     public Button x1Button;
     public Button x2Button;
     public Button x5Button;
@@ -99,6 +101,23 @@ public class Clock : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             OnButtonClick(pauseButton, 0.0f);
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            pressPause();
+        }
+    }
+
+    public void pressPause()
+    {
+        if (speed == 0.0f)
+        {
+            SetSpeed(previousSpeed);
+        }
+        else
+        {
+            previousSpeed = speed;
+            SetSpeed(0.0f);
         }
     }
 

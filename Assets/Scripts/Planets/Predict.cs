@@ -1,28 +1,39 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Predict : MonoBehaviour
 {
     public Toggle toggle;
+    public Slider slider;
+    public GameObject sliderObject;
 
-    private int initPredictDays = 1000;
+    public static int initPredictDays = 100;
 
-    public const int dayLimit = 10000;
+    public const int dayLimit = 1000;
     public const float deltaTime = Universe.physicsTimeStep * Universe.timeCoefficient;
     public Color lineColor;
     public LineRenderer lineRenderer; // 轨道的 LineRenderer
     public float lineWidth = 1.0f;
     private int segments = 10000;       // 轨道的分段数
-    private Vector3[] trajectory;
+
+    private Queue<Vector3> trajectory;
+
+    private int day;
+    private float dayTimeBegin;
+    private float dayTimeEnd;
+    private MotionData motionDataEnd;
 
     // Start is called before the first frame update
     void Start()
     {
         toggle.isOn = false;
+        sliderObject.SetActive(false);
 
-        trajectory = new Vector3[dayLimit + 1];
+        trajectory = new Queue<Vector3>();
 
         toggle.onValueChanged.AddListener(togglePredict);
 
@@ -62,8 +73,8 @@ public class Predict : MonoBehaviour
     {
         float dayTimeNow = Clock.dayTime;
         float dayTime = dayTimeNow;
-        int day = 0;
-        trajectory[0] = data.Position;
+        day = 1;
+        trajectory.Clear();
         while(dayTime < dayTimeNow + dayLimit)
         {
             data = NBodySimulation.RK4(data, dayTime, deltaTime);
@@ -71,31 +82,41 @@ public class Predict : MonoBehaviour
             if (Mathf.Floor(dayTime - dayTimeNow) > day)
             {
                 day += 1;
-                trajectory[day] = data.Position;
+                trajectory.Enqueue(data.Position);
             }
         }
+        dayTimeBegin = dayTimeNow;
+        dayTimeEnd = dayTime;
+        motionDataEnd = data;
     }
 
-    void setRenderer(int days)
+    public void setRenderer(int days)
     {
-        lineRenderer.positionCount = days + 1;
-        Vector3[] points = new Vector3[days + 1];
-        System.Array.Copy(trajectory, points, days + 1);
-        lineRenderer.SetPositions(points);
+        lineRenderer.positionCount = days;
+        lineRenderer.SetPositions(trajectory.Take(days).ToArray());
     }
 
     void togglePredict(bool isOn)
     {
-        if(isOn)
+        EventSystem.current.SetSelectedGameObject(null);
+        if (isOn)
         {
+            if (Clock.speed != 0)
+            {
+                Clock clock = FindObjectOfType<Clock>();
+                clock.pressPause();
+            }
+
             Ship ship = FindObjectOfType<Ship>();
             UpdateTrajectory(ship.motionData);
             setRenderer(initPredictDays);
             lineRenderer.enabled = true;
+            sliderObject.SetActive(true);
         }
         else
         {
             lineRenderer.enabled = false;
+            sliderObject.SetActive(false);
         }
     }
 
@@ -103,5 +124,22 @@ public class Predict : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void FixedUpdate()
+    {
+        if (Clock.speed == 0)
+            return;
+        if (lineRenderer.enabled == false)
+            return;
+        if (Mathf.Floor(dayTimeEnd - dayTimeBegin) > day)
+        {
+            day += 1;
+            trajectory.Enqueue(motionDataEnd.Position);
+            trajectory.Dequeue();
+            setRenderer(lineRenderer.positionCount);
+        }
+        motionDataEnd = NBodySimulation.RK4(motionDataEnd, dayTimeEnd, deltaTime);
+        dayTimeEnd += deltaTime / 3600 / 24;
     }
 }
