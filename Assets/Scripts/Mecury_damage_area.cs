@@ -35,7 +35,7 @@ public class PlaneDistanceCalculator : MonoBehaviour
         float distance = Mathf.Abs(a * characterPosition.x + b * characterPosition.y + c * characterPosition.z + d)
                          / Mathf.Sqrt(a * a + b * b + c * c);
 
-        //Debug.Log($"Distance to plane: {distance}");
+        Debug.Log($"Distance to plane: {distance}");
 
         // 测试：按 J 键减少 10 点血量
         if (distance>20.0f)
