@@ -16,8 +16,9 @@ public class GameSetUp : MonoBehaviour {
         FadeFromBlack();
         //scene setup
         Ship ship = FindObjectOfType<Ship> ();
-        PlayerController player = FindObjectOfType<PlayerController> ();
+        //PlayerController player = FindObjectOfType<PlayerController> ();
 
+        /*
         if (startCondition == StartCondition.InShip) {
             ship.PilotShip ();
             ship.flightControls.ForcePlayerInInteractionZone ();
@@ -31,6 +32,7 @@ public class GameSetUp : MonoBehaviour {
                 ship.ToggleHatch ();
             }
         }
+        */
     }
     private IEnumerator FadeFromBlack()
     {

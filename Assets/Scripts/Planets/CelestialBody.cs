@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 [RequireComponent (typeof (Rigidbody))]
-public class CelestialBody : GravityObject {
+public class CelestialBody : OrbitalMotion {
 
 
     //distance(10^9 m)
@@ -11,25 +11,74 @@ public class CelestialBody : GravityObject {
     //acceleration(m/s^2)
     //velocity(m/s)
 
-    //10^36kg/10^18 m =10^18kg
-
     public float radius;
     public float surfaceGravity;
     public Vector3 initialVelocity;
     public string bodyName = "Unnamed";
-    Transform meshHolder;
+    public Transform meshHolder;
     public float gravitationalConstant = 6.674e-11f;
 
     public Vector3 velocity { get; private set; }
     public float mass;
     Rigidbody rb;
 
+    private bool enableVirtualMesh = false;
+    private Transform virtualMesh;
+
     void Awake () {
         rb = GetComponent<Rigidbody> ();
         //rb.mass = mass;
         velocity = initialVelocity;
+        this.transform.position = GetRealPosition(0);
+
+
+        // 创建一个 meshHolder 的副本
+        if (enableVirtualMesh)
+        {
+            virtualMesh = Instantiate(meshHolder, meshHolder.position, meshHolder.rotation);
+
+            // 移除 Sphere Collider
+            SphereCollider sphereCollider = virtualMesh.GetComponent<SphereCollider>();
+            if (sphereCollider != null)
+            {
+                Destroy(sphereCollider);
+            }
+
+            // 设置 virtualMesh 为未启用状态
+            virtualMesh.gameObject.SetActive(false);
+        }
+
     }
 
+    public void ActivateVirtualMesh(Vector3 position)
+    {
+        if (!enableVirtualMesh)
+            return;
+        if (virtualMesh != null)
+        {
+            virtualMesh.gameObject.SetActive(true); // 启用
+            virtualMesh.position = position; // 设置绝对位置
+        }
+        else
+        {
+            Debug.LogError("Virtual Mesh 未正确初始化！");
+        }
+    }
+
+    public void DeactivateVirtualMesh()
+    {
+        if (!enableVirtualMesh)
+            return;
+        if (virtualMesh != null)
+        {
+            virtualMesh.gameObject.SetActive(false); // 禁用
+        }
+        else
+        {
+            Debug.LogError("Virtual Mesh 未正确初始化！");
+        }
+    }
+    /*
     protected override void Start()
     {
         base.Start();
@@ -55,8 +104,12 @@ public class CelestialBody : GravityObject {
     public void UpdatePosition (float timeStep) {
         rb.MovePosition (rb.position +  velocity * timeStep / Universe.distanceCoefficint);
 
-    }
+    }*/
 
+    public void UpdatePosition()
+    {
+        rb.MovePosition(GetRealPosition(Clock.dayTime));
+    }
     void OnValidate () {
         meshHolder = transform.GetChild (0);
         meshHolder.localScale = Vector3.one * radius;

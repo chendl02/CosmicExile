@@ -30,7 +30,7 @@ public class HealthManager : MonoBehaviour
     {
         currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
         OnHealthChanged?.Invoke(currentHealth); // 通知血量改变
-        if (currentHealth == 0)
+        if (currentHealth <= 0)
         {
             HandleDeath(); // 血量为0时处理死亡
         }

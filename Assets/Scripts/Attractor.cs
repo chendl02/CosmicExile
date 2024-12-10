@@ -100,7 +100,7 @@ public class Attractor : MonoBehaviour
         if (m_Rigidbody != null)
         {
             m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-            m_Rigidbody.useGravity = false; // Disable Unity's default gravity
+            m_Rigidbody.useGravity = true; // Disable Unity's default gravity
         }
     }
 
