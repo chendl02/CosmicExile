@@ -722,7 +722,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthScrollbar: {fileID: 436587936}
-  healthManager: {fileID: 0}
 --- !u!114 &436587939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1169,7 +1168,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthScrollbar: {fileID: 436587936}
-  healthManager: {fileID: 992868673}
 --- !u!114 &992868672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1177,12 +1175,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 992868669}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7ed3f8f25a074ee584c215947c5c6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthManager: {fileID: 992868673}
+  maxHealth: 100
 --- !u!114 &992868673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1809,7 +1807,7 @@ PrefabInstance:
     - target: {fileID: 5045916607682831917, guid: f646cd79376e64b458bcff16adc8421c,
         type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5394809757708955119, guid: f646cd79376e64b458bcff16adc8421c,
         type: 3}
@@ -1987,6 +1985,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301718559518240376, guid: a3b2f2ce30ad94332aa1fd82172787af,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8518432181250420814, guid: a3b2f2ce30ad94332aa1fd82172787af,
         type: 3}
