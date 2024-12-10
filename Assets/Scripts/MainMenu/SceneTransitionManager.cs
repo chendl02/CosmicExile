@@ -9,7 +9,10 @@ public class SceneTransitionManager : MonoBehaviour
     public string sceneToLoad;
     public CanvasGroup canvasGroup;   
     public Text loadingText; 
-    public Button startButton;       
+    public Button startButton;   
+    public Button aboutButton;       
+    public Button quitButton;       
+    public Button settingsButton;           
 
     private void Start()
     {
@@ -30,6 +33,9 @@ public class SceneTransitionManager : MonoBehaviour
     private IEnumerator HandleSceneTransition(string sceneName)
     {
         startButton.interactable = false;
+        aboutButton.interactable = false;
+        quitButton.interactable = false;
+        settingsButton.interactable = false;
 
         yield return StartCoroutine(FadeToBlack());
 
