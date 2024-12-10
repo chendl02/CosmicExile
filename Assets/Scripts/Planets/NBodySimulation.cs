@@ -90,6 +90,43 @@ public class NBodySimulation : MonoBehaviour {
 
         return acceleration;
     }
+
+    public static void ActivateVirtualMesh(float dayTime)
+    {
+        foreach (var body in Instance.bodies)
+        {
+            body.ActivateVirtualMesh(body.GetRealPosition(dayTime));
+        }
+    }
+    public static void DeactivateVirtualMesh()
+    {
+        foreach (var body in Instance.bodies)
+        {
+            body.DeactivateVirtualMesh();
+        }
+    }
+    public static void DrawPredict(int days)
+    {
+        foreach (var body in Instance.bodies)
+        {
+            body.DrawPredict(days);
+        }
+    }
+
+    public static void UpdatePredict(float dayTime)
+    {
+        foreach (var body in Instance.bodies)
+        {
+            body.updatePredict(dayTime);
+        }
+    }
+    public static void DrawOrbit()
+    {
+        foreach (var body in Instance.bodies)
+        {
+            body.DrawOrbit();
+        }
+    }
     /*
     public static Vector3 CalculateAcceleration (Vector3 point, CelestialBody ignoreBody = null) {
         Vector3 acceleration = Vector3.zero;

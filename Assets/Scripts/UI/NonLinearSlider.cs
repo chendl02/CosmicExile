@@ -10,7 +10,7 @@ public class NonLinearSlider : MonoBehaviour
 
     private int minValue = 10; // 滑动条的最小值
     private int maxValue = 1000; // 滑动条的最大值
-    private int previousValidValue = Predict.initPredictDays;
+    public static int previousValidValue = Predict.initPredictDays;
 
     private Predict predict; // 用于存储父对象上的 Predict 实例
 

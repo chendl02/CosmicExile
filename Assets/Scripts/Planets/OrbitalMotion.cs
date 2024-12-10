@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,10 @@ public class OrbitalMotion : MonoBehaviour
     public LineRenderer lineRenderer; // 轨道的 LineRenderer
     public float lineWidth = 1.0f;
     private int segments = 10000;       // 轨道的分段数
+    private Vector3[] orbitPoints;
+
+
+    private Queue<Vector3> trajectory;
 
 
     // 计算在轨道上的位置
@@ -80,22 +85,52 @@ public class OrbitalMotion : MonoBehaviour
     }
 
 
-    void DrawOrbit()
+    public void DrawOrbit()
     {
+        trajectory.Clear();
         // 计算轨道上的点
-        Vector3[] points = new Vector3[segments + 1];
-        for (int i = 0; i < segments; i++)
+        if (orbitPoints == null)
         {
-            points[i] = GetRealPosition(i * period / segments);
+            orbitPoints = new Vector3[segments + 1];
+            for (int i = 0; i < segments; i++)
+            {
+                orbitPoints[i] = GetRealPosition(i * period / segments);
+            }
+            orbitPoints[segments] = orbitPoints[0]; // 闭合点
         }
-        points[segments] = points[0]; // 闭合点
 
         // 设置 LineRenderer 的点
-        lineRenderer.SetPositions(points);
+        lineRenderer.positionCount = segments + 1; // 分段数 + 闭合点
+        lineRenderer.loop = true; // 闭合轨道
+        lineRenderer.SetPositions(orbitPoints);
+        
+    }
+
+    public void DrawPredict(int days)
+    {
+        if (trajectory.Count == 0)
+        {
+            for (int i = 1; i <= Predict.dayLimit; i++)
+            {
+                trajectory.Enqueue(GetRealPosition(Clock.dayTime + i));
+            }
+        }
+        lineRenderer.positionCount = days; // 分段数 + 闭合点
+        lineRenderer.loop = false; // 闭合轨道
+        lineRenderer.SetPositions(trajectory.Take(days).ToArray());
+    }
+
+    public void updatePredict(float dayTime)
+    {
+        trajectory.Enqueue(GetRealPosition(dayTime));
+        trajectory.Dequeue();
+        DrawPredict(lineRenderer.positionCount);
     }
 
     void Start()
     {
+        trajectory = new Queue<Vector3>();
+
         initPos = GetRealPosition(0);
         initDistance = initPos.magnitude;
 
@@ -128,8 +163,7 @@ public class OrbitalMotion : MonoBehaviour
         
 
         // 设置 LineRenderer 的参数
-        lineRenderer.positionCount = segments + 1; // 分段数 + 闭合点
-        lineRenderer.loop = true; // 闭合轨道
+        
         lineRenderer.startWidth = lineWidth; // 轨道宽度
         lineRenderer.endWidth = lineWidth;
 

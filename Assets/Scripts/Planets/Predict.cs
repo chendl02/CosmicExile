@@ -18,7 +18,6 @@ public class Predict : MonoBehaviour
     public Color lineColor;
     public LineRenderer lineRenderer; // 轨道的 LineRenderer
     public float lineWidth = 1.0f;
-    private int segments = 10000;       // 轨道的分段数
 
     private Queue<Vector3> trajectory;
 
@@ -75,16 +74,17 @@ public class Predict : MonoBehaviour
         float dayTime = dayTimeNow;
         day = 1;
         trajectory.Clear();
-        while(dayTime < dayTimeNow + dayLimit)
+        do
         {
             data = NBodySimulation.RK4(data, dayTime, deltaTime);
             dayTime += deltaTime / 3600 / 24;
-            if (Mathf.Floor(dayTime - dayTimeNow) > day)
+            if (Mathf.Floor(dayTime - dayTimeNow) >= day)
             {
                 day += 1;
                 trajectory.Enqueue(data.Position);
             }
         }
+        while (dayTime <= dayTimeNow + dayLimit);
         dayTimeBegin = dayTimeNow;
         dayTimeEnd = dayTime;
         motionDataEnd = data;
@@ -94,6 +94,8 @@ public class Predict : MonoBehaviour
     {
         lineRenderer.positionCount = days;
         lineRenderer.SetPositions(trajectory.Take(days).ToArray());
+        NBodySimulation.ActivateVirtualMesh(Clock.dayTime + days);
+        NBodySimulation.DrawPredict(days);
     }
 
     void togglePredict(bool isOn)
@@ -109,7 +111,7 @@ public class Predict : MonoBehaviour
 
             Ship ship = FindObjectOfType<Ship>();
             UpdateTrajectory(ship.motionData);
-            setRenderer(initPredictDays);
+            setRenderer(NonLinearSlider.previousValidValue);
             lineRenderer.enabled = true;
             sliderObject.SetActive(true);
         }
@@ -117,6 +119,8 @@ public class Predict : MonoBehaviour
         {
             lineRenderer.enabled = false;
             sliderObject.SetActive(false);
+            NBodySimulation.DeactivateVirtualMesh();
+            NBodySimulation.DrawOrbit();
         }
     }
 
@@ -138,6 +142,7 @@ public class Predict : MonoBehaviour
             trajectory.Enqueue(motionDataEnd.Position);
             trajectory.Dequeue();
             setRenderer(lineRenderer.positionCount);
+            NBodySimulation.UpdatePredict(dayTimeEnd);
         }
         motionDataEnd = NBodySimulation.RK4(motionDataEnd, dayTimeEnd, deltaTime);
         dayTimeEnd += deltaTime / 3600 / 24;
