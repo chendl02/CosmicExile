@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Ship : GravityObject {
 
@@ -42,6 +43,11 @@ public class Ship : GravityObject {
     KeyCode backwardKey = KeyCode.S;
     KeyCode leftKey = KeyCode.A;
     KeyCode rightKey = KeyCode.D;
+
+    public TextMeshProUGUI positionText;
+    public TextMeshProUGUI velocityText;
+
+    private bool mapCamEnable = false;
 
     void Awake () {
         InitRigidbody ();
@@ -93,6 +99,7 @@ public class Ship : GravityObject {
             Camera ship_cam = camViewPoint.GetComponentInChildren<Camera>();
             if (ship_cam.enabled == true)
             {
+                mapCamEnable = true;
                 ship_cam.enabled = false;
                 map_cam.enabled = true;     
                 camControl.set_zoom();
@@ -101,6 +108,7 @@ public class Ship : GravityObject {
             }
             else
             {
+                mapCamEnable = false;
                 ship_cam.enabled = true;
                 map_cam.enabled = false;
                 //Cursor.visible = false;
@@ -146,22 +154,35 @@ public class Ship : GravityObject {
         if (Clock.speed == 0)
             return;
 
+        // Thrusters
+        Vector3 thrustDir = transform.TransformVector(thrusterInput);
+        motionData.Velocity += thrustDir * thrustStrength;
+
+
+        // Gravity
         motionData = NBodySimulation.RK4(motionData, Clock.dayTime, Universe.physicsTimeStep * Universe.timeCoefficient);
         rb.MovePosition(motionData.Position);
 
-        /*
-        // Gravity
-        Vector3 gravity = NBodySimulation.CalculateAcceleration (rb.position);
-        rb.AddForce (gravity, ForceMode.Acceleration);
 
-        // Thrusters
-        Vector3 thrustDir = transform.TransformVector (thrusterInput);
-        rb.AddForce (thrustDir * thrustStrength, ForceMode.Acceleration);
 
-        if (numCollisionTouches == 0) {
-            rb.MoveRotation (smoothedRot);
+        //Vector3 gravity = NBodySimulation.CalculateAcceleration (rb.position);
+        //rb.AddForce (gravity, ForceMode.Acceleration);
+
+
+
+        // Rotate
+        if (!mapCamEnable)
+        {
+            if (numCollisionTouches == 0)
+            {
+                rb.MoveRotation(smoothedRot);
+            }
         }
-        */
+
+
+        positionText.text = $"Position: {motionData.Position}";
+        velocityText.text = $"Velocity: {motionData.Velocity}";
+
     }
 
     int GetInputAxis (KeyCode negativeAxis, KeyCode positiveAxis) {
