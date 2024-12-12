@@ -47,6 +47,14 @@ public class CableSystemVenus : MonoBehaviour
 
     void Update()
     {
+        GameObject playerObject = GameObject.Find("Player");
+        float distance = Vector3.Distance(currentCable.startPoint.position, playerObject.transform.position);
+        if (distance > 5000f)
+        {
+            currentCable.lineRenderer.enabled = false;
+            return;
+        }
+        else { currentCable.lineRenderer.enabled = true; }
         if (Input.GetKeyDown("p"))
         {
             //store all fixed
@@ -68,7 +76,7 @@ public class CableSystemVenus : MonoBehaviour
             currentCable.lineRenderer.material = lineMaterial;
             //Destroy(temp.gameObject);
         }
-        GameObject playerObject = GameObject.Find("Player");
+        
         if (playerObject != null)
         {
             currentCable.endPoint = playerObject.transform;

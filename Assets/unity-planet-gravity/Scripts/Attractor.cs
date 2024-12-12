@@ -22,6 +22,8 @@ namespace xyz.germanfica.unity.planet.gravity
          */
         public void Attract(Transform body)
         {
+            float distance = Vector3.Distance(body.position, transform.position);
+            if (distance > 5000f) { return; }
             Vector3 gravityUp = (body.position - transform.position).normalized;
             Vector3 bodyUp = body.up;
             body.GetComponent<Rigidbody>().AddForce(gravityUp * gravity);

@@ -713,7 +713,6 @@ GameObject:
   - component: {fileID: 3084476436675236748}
   - component: {fileID: 4949905974643274306}
   - component: {fileID: 4806319835578796741}
-  - component: {fileID: 2640628478009865064}
   - component: {fileID: 8518432181250420814}
   - component: {fileID: 2425726620915747692}
   - component: {fileID: 3746678556537801722}
@@ -790,21 +789,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.25, z: -0.1}
---- !u!114 &2640628478009865064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5301718559518240376}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c7b5abfedd4e741bef70712caf60fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 7
-  turnSpeed: 300
-  gravity: 20
 --- !u!54 &8518432181250420814
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -845,9 +829,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rig: {fileID: 8518432181250420814}
-  freezeRotation: 1
-  forceConst: 4
+  cameraTransform: {fileID: 0}
   anim: {fileID: 4949905974643274306}
+  mouseSensitivity: 2
+  moveSpeed: 100
+  turnSpeed: 100
+  forceConst: 4
   groundTag: Planet
 --- !u!114 &3746678556537801722
 MonoBehaviour:

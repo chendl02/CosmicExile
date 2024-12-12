@@ -120,22 +120,26 @@ public class Attractor : MonoBehaviour
 
         // 计算物体与 Sphere 中心的距离
         float distance = Vector3.Distance(sphere.position, transform.position);
-
-        // 防止距离为 0 导致力无限大
-        distance = Mathf.Max(distance, 0.1f);
-
-        // 计算引力大小：F = G / r^2
-        float forceMagnitude = gravity / (distance * distance);
-
-        // 施加引力
-        m_Rigidbody.AddForce(directionToCenter * forceMagnitude, ForceMode.Acceleration);
-
-        //Player.AddForce(directionToCenter * forceMagnitude, ForceMode.Acceleration);
-        // 同步旋转，使物体的 Y 轴对准球心
-        if(if_allow_rotate){
-            AlignRotation(directionToCenter);
+        if (distance > 1000f) {
+            return;
         }
-        
+
+        else {
+            // 防止距离为 0 导致力无限大
+            distance = Mathf.Max(distance, 0.1f);
+
+            // 计算引力大小：F = G / r^2
+            float forceMagnitude = gravity / (distance * distance);
+
+            // 施加引力
+            m_Rigidbody.AddForce(directionToCenter * forceMagnitude, ForceMode.Acceleration);
+
+            //Player.AddForce(directionToCenter * forceMagnitude, ForceMode.Acceleration);
+            // 同步旋转，使物体的 Y 轴对准球心
+            if (if_allow_rotate) {
+                AlignRotation(directionToCenter);
+            }
+        }
     }
 
     // Add this attractor to the global list

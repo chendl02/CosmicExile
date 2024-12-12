@@ -50,9 +50,12 @@ void FixedUpdate()
         firePoint = transform;
         firePoint.position += transform.forward * 1f;
         // 创建一个会发光的球体
+        GameObject enemySystem = GameObject.Find("EnemySystem");
         GameObject bullet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         bullet.transform.position = firePoint.position;
         bullet.transform.localScale = new Vector3(1, 1, 1);
+        bullet.name = "Fireball";
+        bullet.transform.parent = enemySystem.transform;
 
         // 添加发光效果
         Renderer renderer = bullet.GetComponent<Renderer>();
@@ -67,11 +70,14 @@ void FixedUpdate()
         Rigidbody rb = bullet.AddComponent<Rigidbody>();
         rb.velocity = (player.position - firePoint.position).normalized * 20f; // 设置子弹速度
 
-        //Collider bulletCollider = bullet.GetComponent<Collider>();
-        //bulletCollider.enabled = false; 
-        //StartCoroutine(EnableBulletCollision(bulletCollider));
-
-        Destroy(bullet, 30f);
+        //rb.useGravity = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        Collider bulletCollider = bullet.GetComponent<Collider>(); 
+        if (bulletCollider == null)
+        {
+            bulletCollider = bullet.AddComponent<SphereCollider>(); // 添加 SphereCollider
+             }
+            Destroy(bullet, 30f);
     }
     IEnumerator<WaitForSeconds> EnableBulletCollision(Collider bulletCollider)
     {
