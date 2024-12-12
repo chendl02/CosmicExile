@@ -14,6 +14,8 @@ public class SceneSwitcher : MonoBehaviour
     void Update()
     {
         // 计算玩家与目标点的距离
+        GameObject launchingPad = GameObject.Find("Launching Pad01"); 
+        if (launchingPad != null) { targetPosition = launchingPad.transform.position; Debug.Log("Launching Pad01 Position: " + targetPosition); }
         float distance = Vector3.Distance(player.position, targetPosition);
 
         if (distance <= triggerDistance)
