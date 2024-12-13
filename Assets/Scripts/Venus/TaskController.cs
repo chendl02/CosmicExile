@@ -118,7 +118,7 @@ public class TaskController : MonoBehaviour
         sceneManager.isTextOnlyMode = false;
         sceneManager.modeChange = changeModeAfterText;
         textObject.text = "";
-        currentState = TaskState.Task2;
+        currentState = TaskState.Task1;
     }
 
     void Update()
