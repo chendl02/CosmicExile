@@ -31,11 +31,14 @@ void FixedUpdate()
         if (distanceToPlayer < detectionRange)
         {
             // ×·×ÙÍæ¼Ò
-            Vector3 direction = (player.position - transform.position).normalized;
-            transform.position += direction * moveSpeed * Time.deltaTime;
-            transform.position = GetPointOnSphereSurface(transform.position);
-            transform.LookAt(player);
-            transform.Rotate(0, 180, 0);
+            if (distanceToPlayer >= 2f)
+            {
+                Vector3 direction = (player.position - transform.position).normalized;
+                transform.position += direction * moveSpeed * Time.deltaTime;
+                transform.position = GetPointOnSphereSurface(transform.position);
+                transform.LookAt(player);
+                transform.Rotate(0, 180, 0);
+            }
             // ³¯Íæ¼Ò·¢Éä×Óµ¯
             if (Time.time >= nextFireTime)
             {

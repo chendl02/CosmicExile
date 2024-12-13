@@ -11,10 +11,14 @@ public class CableSystemVenus : MonoBehaviour
     public int count=0;
     public Material lineMaterial;
     public Material lineMaterialFixed;
+    public AstronautControllerVenus Player;
+    public TaskController taskController;
 
     void Start()
     {
         GameObject rocketObject = GameObject.Find("Rocket.01");
+        Player = GameObject.Find("Astronaut").GetComponent<AstronautControllerVenus>();
+        taskController = GameObject.Find("Canvas").GetComponent<TaskController>();
         if (rocketObject != null)
         {
             currentCable = new Cable("currentCable", rocketObject.transform);
@@ -55,10 +59,14 @@ public class CableSystemVenus : MonoBehaviour
             return;
         }
         else { currentCable.lineRenderer.enabled = true; }
-        if (Input.GetKeyDown("p"))
+        if (Input.GetKeyDown("q"))
         {
+            if (taskController.currentCableNum < 10)
+            {
+                taskController.AddMessage("<color=orange>Warning</color>: No Enough Cable Frame!!");
+                return;
+            }
             //store all fixed
-            Debug.Log("Trigger");
             if (currentCable == null)
             {
                 Debug.LogError("ERROR!!! currentCable is not initialized.");
@@ -74,7 +82,21 @@ public class CableSystemVenus : MonoBehaviour
             temp.position = cableList[cableList.Count - 1].endPoint.position;
             currentCable = new Cable("newCable", temp);
             currentCable.lineRenderer.material = lineMaterial;
-            //Destroy(temp.gameObject);
+            if (taskController.currentCableNum >= 10)
+            {
+                taskController.currentCableNum -= 10;
+                taskController.AddMessage("<color=Green>Message</color>: Successfully Place Cable!!");
+                if (!Player.enterThunderArea)
+                {
+                    taskController.AddMessage("<color=Orange>Warning</color>: You Should Place It in Thunder Area!!");
+                    taskController.AddMessage("<color=Yellow>Hint</color>: Back to Twin Venus to Collect Cable Frame.");
+                }
+                else
+                {
+                    Player.currentThunderArea.connected = true;
+                    taskController.AddMessage("<color=Green>Message</color>: Successfully Connect the Area");
+                }
+            }
         }
         
         if (playerObject != null)
