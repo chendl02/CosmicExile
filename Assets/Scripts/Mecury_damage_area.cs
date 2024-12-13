@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
 
 public class PlaneDistanceCalculator : MonoBehaviour
 {
@@ -6,20 +9,93 @@ public class PlaneDistanceCalculator : MonoBehaviour
     public Transform character;     // 人物的 Transform
 
     [SerializeField] private int maxHealth = 100; // 最大血量
-    private int currentHealth; // 当前血量
+    public int currentHealth; // 当前血量
+
+    public float triggerValue = 20.0f;
+    public Image redOverlay;
+
+    public TextMeshProUGUI warningText;
+
+    private HealthManager healthManager;
+
+   
 
    void Start()
     {
         // 初始化当前血量
         currentHealth = maxHealth;
+        warningText.gameObject.SetActive(false);
+        redOverlay.color = new Color(1, 0, 0, 0);
+
+        healthManager = FindObjectOfType<HealthManager>(); // 获取全局 HealthManager
+
+        //InvokeRepeating("CheckDistance", 1f, 1f);  
     }
 
     void Update()
     {
         // 光线的方向（法向量）
+        // Vector3 lightDirection = -lightSource.forward.normalized;
+
+        // // 平面上的点（Z 轴上的点）
+        // Vector3 pointOnPlane = new Vector3(0, 0, 0);
+
+        // // 平面参数：a, b, c, d
+        // float a = lightDirection.x;
+        // float b = lightDirection.y;
+        // float c = lightDirection.z;
+        // float d = -(a * pointOnPlane.x + b * pointOnPlane.y + c * pointOnPlane.z);
+
+        // // 人物的位置
+        // Vector3 characterPosition = character.position;
+
+        // 点到平面的距离公式
+        // float distance = Mathf.Abs(a * characterPosition.x + b * characterPosition.y + c * characterPosition.z + d)
+        //                  / Mathf.Sqrt(a * a + b * b + c * c);
+        // float distance = (a * characterPosition.x + b * characterPosition.y + c * characterPosition.z + d)
+        //                  / Mathf.Sqrt(a * a + b * b + c * c);
+
+        // Debug.Log($"Distance to plane: {distance}");
+
+        // 测试：按 J 键减少 10 点血量
+        // if (distance>20.0f)
+        // {
+        //     Debug.Log($"Distance to plane: {distance}");
+        //     ReduceHealth(10);
+        // }
+
+        // 测试：按 H 键增加 10 点血量
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+           ReduceHealth(10);
+        }
+
+        // if (distance > Distance)
+        // {
+        //     redOverlay.gameObject.SetActive(true);
+        //     redOverlay.color = new Color(1, 0, 0, 0.5f); // 半透明红色
+        //     warningText.gameObject.SetActive(true);
+        //     warningText.text = "You are suffering from high temperature. Stay farther from sunlight.";
+        // }
+        // else if(distance < - triggerValue){
+        //     redOverlay.gameObject.SetActive(true);
+        //     redOverlay.color = new Color(0, 0, 1, 0.5f);
+        //     warningText.gameObject.SetActive(true);
+        //     warningText.text = "You are suffering from low temperature. Stay closer to sunlight.";
+        // }
+        // else
+        // {
+        //     redOverlay.color = new Color(1, 0, 0, 0);
+        //     warningText.gameObject.SetActive(false);
+        // }
+
+    }
+
+    public void CheckDistance()
+    {
+        // 光线的方向（法向量）
         Vector3 lightDirection = -lightSource.forward.normalized;
 
-        // 平面上的点（Z 轴上的点）
         Vector3 pointOnPlane = new Vector3(0, 0, 0);
 
         // 平面参数：a, b, c, d
@@ -30,48 +106,46 @@ public class PlaneDistanceCalculator : MonoBehaviour
 
         // 人物的位置
         Vector3 characterPosition = character.position;
-
-        // 点到平面的距离公式
-        float distance = Mathf.Abs(a * characterPosition.x + b * characterPosition.y + c * characterPosition.z + d)
+        
+        float distance = (a * characterPosition.x + b * characterPosition.y + c * characterPosition.z + d)
                          / Mathf.Sqrt(a * a + b * b + c * c);
 
-        Debug.Log($"Distance to plane: {distance}");
+        Debug.Log("distance: " + distance);
 
-        // 测试：按 J 键减少 10 点血量
-        if (distance>20.0f)
+        if (distance > triggerValue)
         {
-            Debug.Log($"Distance to plane: {distance}");
-            ReduceHealth(10);
+            redOverlay.gameObject.SetActive(true);
+            redOverlay.color = new Color(1, 0, 0, 0.5f); // 半透明红色
+            warningText.gameObject.SetActive(true);
+            warningText.text = "You are suffering from high temperature. Stay farther from sunlight.";
+            ReduceHealth(5);
         }
-
-        // 测试：按 H 键增加 10 点血量
-        if (Input.GetKeyDown(KeyCode.H))
+        else if(distance < - triggerValue){
+            redOverlay.gameObject.SetActive(true);
+            redOverlay.color = new Color(0, 0, 1, 0.5f);
+            warningText.gameObject.SetActive(true);
+            warningText.text = "You are suffering from low temperature. Stay closer to sunlight.";
+            ReduceHealth(5);
+        }
+        else
         {
-            AddHealth(10);
+            redOverlay.color = new Color(1, 0, 0, 0);
+            warningText.gameObject.SetActive(false);
         }
-
-
     }
 
     // 减少血量
     public void ReduceHealth(int amount)
     {
-        currentHealth -= amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // 确保血量不低于 0
-        Debug.Log($"Health reduced by {amount}. Current health: {currentHealth}");
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+        healthManager.ReduceHealth(10);
+        Debug.Log($"Health reduced by {amount}. Current health: {healthManager.GetCurrentHealth()}");
     }
 
     // 增加血量
     public void AddHealth(int amount)
     {
-        currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // 确保血量不超过最大值
-        Debug.Log($"Health increased by {amount}. Current health: {currentHealth}");
+        healthManager.AddHealth(10);
+        Debug.Log($"Health increased by {amount}. Current health: {healthManager.GetCurrentHealth()}");
     }
 
     // 玩家碰到其他物体时减少血量
