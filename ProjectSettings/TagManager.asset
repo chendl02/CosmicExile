@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Planet
   - Storm
+  - fireball
   layers:
   - Default
   - TransparentFX
