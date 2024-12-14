@@ -16,6 +16,8 @@ public class LineRendererHandler
     {
         foreach (var instance in instances)
         {
+            if (instance == null)
+                continue;
             instance.SetLineWidth(orthographicSize * widthCoefficient);
         }
     }
@@ -24,6 +26,8 @@ public class LineRendererHandler
     {
         foreach (var instance in instances)
         {
+            if (instance == null)
+                continue;
             instance.SetLineWidth(defaultWidth);
         }
     }
@@ -44,6 +48,12 @@ public class LineRendererHandler
         }
 
         InitializeLineRenderer();
+    }
+
+    ~LineRendererHandler()
+    {
+        // ÊÖ¶¯ÒÆ³ýÊµÀý
+        instances.Remove(this);
     }
 
     private void InitializeLineRenderer()

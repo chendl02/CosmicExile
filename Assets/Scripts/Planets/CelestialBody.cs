@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 [RequireComponent (typeof (Rigidbody))]
 public class CelestialBody : OrbitalMotion {
 
