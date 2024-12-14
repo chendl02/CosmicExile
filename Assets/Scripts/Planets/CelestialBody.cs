@@ -27,6 +27,8 @@ public class CelestialBody : OrbitalMotion {
     private bool enableVirtualMesh = false;
     private Transform virtualMesh;
 
+    public bool inner;
+
     void Awake () {
         rb = GetComponent<Rigidbody> ();
         //rb.mass = mass;

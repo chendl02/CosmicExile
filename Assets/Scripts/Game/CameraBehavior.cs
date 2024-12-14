@@ -11,6 +11,11 @@ public class CameraBehavior : MonoBehaviour
     public float minZoom = 5f;   // 缩放的最小值
     public float maxZoom = 50f;  // 缩放的最大值
 
+
+    private float hideCoefficient = 50f;
+    private float showInner = 1500f;
+
+
     Camera mapCam;
     GameObject mapCamObject;
 
@@ -52,7 +57,7 @@ public class CameraBehavior : MonoBehaviour
             // 添加Text组件
             Text textComponent = textObject.AddComponent<Text>();
             textComponent.text = planet.name;
-            textComponent.fontSize = 20;
+            textComponent.fontSize = 24;
             textFont = Resources.Load<Font>("Consolas");
             textComponent.font = textFont;
             textComponent.color = Color.white;
@@ -123,7 +128,7 @@ public class CameraBehavior : MonoBehaviour
             //foreach (Text child in labels.GetComponentsInChildren<Text>())
             foreach (GameObject child in labelList)
             {
-                Debug.Log("update");
+                //Debug.Log("update");
                 GameObject planet = GameObject.Find(child.name.Replace("_Label", ""));
                 if (planet != null)
                 {
@@ -131,6 +136,19 @@ public class CameraBehavior : MonoBehaviour
                     Vector3 vector = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
                     rectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(planet.transform.position) - vector;
                 }
+
+                CelestialBody body = planet.GetComponent<CelestialBody>();
+
+                if (body.inner)
+                {
+                    child.SetActive(camera.orthographicSize <= showInner && camera.orthographicSize >= body.radius * hideCoefficient);
+                }
+                else
+                {
+                    child.SetActive(camera.orthographicSize >= body.radius * hideCoefficient);
+                }
+
+                
             }
         }
     }
