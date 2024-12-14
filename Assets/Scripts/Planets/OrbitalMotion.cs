@@ -26,7 +26,7 @@ public class OrbitalMotion : MonoBehaviour
     public float lineWidth = 1.0f;
     private int segments = 10000;       // 轨道的分段数
     private Vector3[] orbitPoints;
-
+    private float emissionIntensity = 1.0f;
 
     private Queue<Vector3> trajectory;
 
@@ -161,6 +161,9 @@ public class OrbitalMotion : MonoBehaviour
             lineRenderer.sharedMaterial = new Material(Shader.Find("Unlit/Color"));
         }
         lineRenderer.sharedMaterial.color = lineColor;
+        // 设置发光效果
+        lineRenderer.sharedMaterial.EnableKeyword("_EMISSION");
+        lineRenderer.sharedMaterial.SetColor("_EmissionColor", lineColor * emissionIntensity);
 #else
         // 在运行时可以安全地使用 material
         if (lineRenderer.material == null)
@@ -168,11 +171,14 @@ public class OrbitalMotion : MonoBehaviour
             lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
         }
         lineRenderer.material.color = lineColor;
+        // 设置发光效果
+        lineRenderer.material.EnableKeyword("_EMISSION");
+        lineRenderer.material.SetColor("_EmissionColor", lineColor * emissionIntensity);
 #endif
-        
+
 
         // 设置 LineRenderer 的参数
-        
+
         lineRenderer.startWidth = lineWidth; // 轨道宽度
         lineRenderer.endWidth = lineWidth;
 

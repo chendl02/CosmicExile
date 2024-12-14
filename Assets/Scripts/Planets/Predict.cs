@@ -18,6 +18,7 @@ public class Predict : MonoBehaviour
     public Color lineColor;
     public LineRenderer lineRenderer; // 轨道的 LineRenderer
     public float lineWidth = 1.0f;
+    private float emissionIntensity = 1.0f;
 
     private Queue<Vector3> trajectory;
 
@@ -53,6 +54,8 @@ public class Predict : MonoBehaviour
             lineRenderer.sharedMaterial = new Material(Shader.Find("Unlit/Color"));
         }
         lineRenderer.sharedMaterial.color = lineColor;
+        lineRenderer.sharedMaterial.EnableKeyword("_EMISSION");
+        lineRenderer.sharedMaterial.SetColor("_EmissionColor", lineColor * emissionIntensity);
 #else
         // 在运行时可以安全地使用 material
         if (lineRenderer.material == null)
@@ -60,11 +63,13 @@ public class Predict : MonoBehaviour
             lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
         }
         lineRenderer.material.color = lineColor;
+        lineRenderer.material.EnableKeyword("_EMISSION");
+        lineRenderer.material.SetColor("_EmissionColor", lineColor * emissionIntensity);
 #endif
 
 
         // 设置 LineRenderer 的参数
-        
+
         lineRenderer.startWidth = lineWidth; // 轨道宽度
         lineRenderer.endWidth = lineWidth;
     }
@@ -150,13 +155,13 @@ public class Predict : MonoBehaviour
             trajectory.Enqueue(motionDataEnd.Position);
             trajectory.Dequeue();
             setRenderer(NonLinearSlider.previousValidValue);
-            NBodySimulation.UpdatePredict(dayTimeEnd);
+            
         }
         if (hour >= 24)
         {
             hour = 0;
             day += 1;
-            
+            NBodySimulation.UpdatePredict(dayTimeEnd);
         }
         motionDataEnd = NBodySimulation.RK4(motionDataEnd, dayTimeEnd, deltaTime);
         dayTimeEnd += deltaTime / 3600 / 24;
