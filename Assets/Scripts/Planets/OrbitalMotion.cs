@@ -22,11 +22,12 @@ public class OrbitalMotion : MonoBehaviour
 
     public bool enableDrawer = true;
     public Color lineColor;
-    public LineRenderer lineRenderer; // 轨道的 LineRenderer
-    public float lineWidth = 1.0f;
+
+    private LineRendererHandler lineHandler;
+
+
     private int segments = 10000;       // 轨道的分段数
     private Vector3[] orbitPoints;
-    private float emissionIntensity = 1.0f;
 
     private Queue<Vector3> trajectory;
 
@@ -108,10 +109,8 @@ public class OrbitalMotion : MonoBehaviour
             orbitPoints[segments] = orbitPoints[0]; // 闭合点
         }
 
-        // 设置 LineRenderer 的点
-        lineRenderer.positionCount = segments + 1; // 分段数 + 闭合点
-        lineRenderer.loop = true; // 闭合轨道
-        lineRenderer.SetPositions(orbitPoints);
+        lineHandler.SetPositions(orbitPoints);
+        lineHandler.SetLoop(true);
         
     }
 
@@ -124,16 +123,15 @@ public class OrbitalMotion : MonoBehaviour
                 trajectory.Enqueue(GetRealPosition(Clock.dayTime + i));
             }
         }
-        lineRenderer.positionCount = days; // 分段数 + 闭合点
-        lineRenderer.loop = false; // 闭合轨道
-        lineRenderer.SetPositions(trajectory.Take(days).ToArray());
+        lineHandler.SetPositions(trajectory.Take(days).ToArray());
+        lineHandler.SetLoop(false);
     }
 
     public void updatePredict(float dayTime)
     {
         trajectory.Enqueue(GetRealPosition(dayTime));
         trajectory.Dequeue();
-        DrawPredict(lineRenderer.positionCount);
+        DrawPredict(NonLinearSlider.previousValidValue);
     }
 
     void Start()
@@ -146,41 +144,8 @@ public class OrbitalMotion : MonoBehaviour
         farPos = GetRealPosition(period / 2);
         farDistance = farPos.magnitude;
 
-        // 确保有 LineRenderer
-        if (lineRenderer == null)
-        {
-            lineRenderer = gameObject.AddComponent<LineRenderer>();
-        }
-
-        lineRenderer.enabled = enableDrawer;
-
-#if UNITY_EDITOR
-        // 在编辑模式下使用 sharedMaterial 避免材质实例泄漏
-        if (lineRenderer.sharedMaterial == null)
-        {
-            lineRenderer.sharedMaterial = new Material(Shader.Find("Unlit/Color"));
-        }
-        lineRenderer.sharedMaterial.color = lineColor;
-        // 设置发光效果
-        lineRenderer.sharedMaterial.EnableKeyword("_EMISSION");
-        lineRenderer.sharedMaterial.SetColor("_EmissionColor", lineColor * emissionIntensity);
-#else
-        // 在运行时可以安全地使用 material
-        if (lineRenderer.material == null)
-        {
-            lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
-        }
-        lineRenderer.material.color = lineColor;
-        // 设置发光效果
-        lineRenderer.material.EnableKeyword("_EMISSION");
-        lineRenderer.material.SetColor("_EmissionColor", lineColor * emissionIntensity);
-#endif
-
-
-        // 设置 LineRenderer 的参数
-
-        lineRenderer.startWidth = lineWidth; // 轨道宽度
-        lineRenderer.endWidth = lineWidth;
+        lineHandler = new LineRendererHandler(gameObject, lineColor);
+        lineHandler.Enable(enableDrawer);
 
         DrawOrbit();
     }

@@ -6,14 +6,14 @@ using Unity.VisualScripting;
 
 public class CameraBehavior : MonoBehaviour
 {
-    public float zoomSpeed = 1f; // 缩放速度
-    public float moveSpeed = 1f; // WSAD移动速度
-    public float minZoom = 5f;   // 缩放的最小值
-    public float maxZoom = 50f;  // 缩放的最大值
+    public const float zoomSpeed = 1f; // 缩放速度
+    public const float moveSpeed = 1f; // WSAD移动速度
+    public const float minZoom = 5f;   // 缩放的最小值
+    public const float maxZoom = 5000f;  // 缩放的最大值
 
 
-    private float hideCoefficient = 50f;
-    private float showInner = 1500f;
+    private const float hideCoefficient = 50f;
+    private const float showInner = 1500f;
 
 
     Camera mapCam;
@@ -44,7 +44,6 @@ public class CameraBehavior : MonoBehaviour
 
         // 设置摄像机的标签为 MainCamera
         mapCam.tag = "MainCamera";
-        set_zoom();
 
         labelList = new List<GameObject>();
 
@@ -79,20 +78,6 @@ public class CameraBehavior : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    public void set_zoom()
-    {
-        Camera camera = Camera.main;
-        if (camera == null)
-        {
-            Debug.LogError("no main camera");
-        }
-        if (camera != null)
-        {
-            minZoom = camera.orthographicSize / 10;
-            maxZoom = camera.orthographicSize * 100;
-        }
-    }
     void Update()
     {
         Camera camera = Camera.main;
@@ -108,11 +93,8 @@ public class CameraBehavior : MonoBehaviour
                 camera.orthographicSize -= scroll * zoomSpeed * camera.orthographicSize; // ������������
                 camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, minZoom, maxZoom);
 
-                //Debug.Log(camera.orthographicSize);
+                LineRendererHandler.setWidthMap(camera.orthographicSize);
 
-                // �����͸�����
-                // camera.fieldOfView -= scroll * zoomSpeed;
-                // camera.fieldOfView = Mathf.Clamp(camera.fieldOfView, minZoom, maxZoom);
             }
 
             // WSAD�ƶ�
@@ -159,5 +141,7 @@ public class CameraBehavior : MonoBehaviour
         {
             Destroy(child);
         }
+
+        LineRendererHandler.setWidthDefault();
     }
 }
