@@ -77,7 +77,7 @@ public class Clock : MonoBehaviour
         x5Button.onClick.AddListener(() => OnButtonClick(x5Button, 5.0f));
         x10Button.onClick.AddListener(() => OnButtonClick(x10Button, 10.0f));
         pauseButton.onClick.AddListener(() => OnButtonClick(pauseButton, 0.0f));
-        OnButtonClick(x1Button, 1.0f);
+        OnButtonClick(pauseButton, 0.0f);
     }
 
     void Update()

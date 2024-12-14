@@ -22,6 +22,7 @@ public class Predict : MonoBehaviour
     private Queue<Vector3> trajectory;
 
     private int day;
+    private int hour;
     private float dayTimeBegin;
     private float dayTimeEnd;
     private MotionData motionDataEnd;
@@ -72,19 +73,25 @@ public class Predict : MonoBehaviour
     {
         float dayTimeNow = Clock.dayTime;
         float dayTime = dayTimeNow;
-        day = 1;
+        day = 0;
+        hour = 2;
         trajectory.Clear();
         do
         {
             data = NBodySimulation.RK4(data, dayTime, deltaTime);
             dayTime += deltaTime / 3600 / 24;
-            if (Mathf.Floor(dayTime - dayTimeNow) >= day)
+            if (Mathf.Floor((dayTime - dayTimeNow - day)*24) >= hour)
             {
-                day += 1;
+                hour += 1;
                 trajectory.Enqueue(data.Position);
             }
+            if (hour >= 24)
+            {
+                hour = 0;
+                day += 1;
+            }
         }
-        while (dayTime <= dayTimeNow + dayLimit);
+        while (dayTime <= dayTimeNow + dayLimit + 1);
         dayTimeBegin = dayTimeNow;
         dayTimeEnd = dayTime;
         motionDataEnd = data;
@@ -92,8 +99,9 @@ public class Predict : MonoBehaviour
 
     public void setRenderer(int days)
     {
-        lineRenderer.positionCount = days;
-        lineRenderer.SetPositions(trajectory.Take(days).ToArray());
+        int hours = days * 24;
+        lineRenderer.positionCount = hours;
+        lineRenderer.SetPositions(trajectory.Take(hours).ToArray());
         NBodySimulation.ActivateVirtualMesh(Clock.dayTime + days);
         NBodySimulation.DrawPredict(days);
     }
@@ -136,13 +144,19 @@ public class Predict : MonoBehaviour
             return;
         if (lineRenderer.enabled == false)
             return;
-        if (Mathf.Floor(dayTimeEnd - dayTimeBegin) > day)
+        if (Mathf.Floor((dayTimeEnd - dayTimeBegin - day)*24) > hour)
         {
-            day += 1;
+            hour += 1;
             trajectory.Enqueue(motionDataEnd.Position);
             trajectory.Dequeue();
-            setRenderer(lineRenderer.positionCount);
+            setRenderer(NonLinearSlider.previousValidValue);
             NBodySimulation.UpdatePredict(dayTimeEnd);
+        }
+        if (hour >= 24)
+        {
+            hour = 0;
+            day += 1;
+            
         }
         motionDataEnd = NBodySimulation.RK4(motionDataEnd, dayTimeEnd, deltaTime);
         dayTimeEnd += deltaTime / 3600 / 24;

@@ -30,6 +30,8 @@ public class OrbitalMotion : MonoBehaviour
 
     private Queue<Vector3> trajectory;
 
+    public CelestialBody orbitBody = null;
+
 
     // 计算在轨道上的位置
     public Vector2 GetOrbitalPosition(float dayTime)
@@ -37,9 +39,13 @@ public class OrbitalMotion : MonoBehaviour
         float meanAnomaly = (2 * Mathf.PI / period) * (dayTime % period); // 平近点角 (M)
         float eccentricAnomaly = SolveKepler(meanAnomaly, eccentricity); // 偏近点角 (E)
 
+        float fixedSemiMajorAxis = semiMajorAxis;
+
+        if (orbitBody != null)
+            fixedSemiMajorAxis += orbitBody.radius * 2;
         // 参数方程
-        float x = semiMajorAxis * (Mathf.Cos(eccentricAnomaly) - eccentricity);
-        float y = semiMajorAxis * Mathf.Sqrt(1 - eccentricity * eccentricity) * Mathf.Sin(eccentricAnomaly);
+        float x = fixedSemiMajorAxis * (Mathf.Cos(eccentricAnomaly) - eccentricity);
+        float y = fixedSemiMajorAxis * Mathf.Sqrt(1 - eccentricity * eccentricity) * Mathf.Sin(eccentricAnomaly);
 
         return new Vector2(x, y);
     }
@@ -80,8 +86,11 @@ public class OrbitalMotion : MonoBehaviour
 
         float rotatedX = -Y;
         float rotatedY = X;
-
-        return new Vector3(rotatedX, rotatedY, Z);
+        
+        if (orbitBody != null)
+            return orbitBody.Position + new Vector3(rotatedX, rotatedY, Z);
+        else
+            return new Vector3(rotatedX, rotatedY, Z);
     }
 
 

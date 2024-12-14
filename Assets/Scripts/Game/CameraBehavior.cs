@@ -24,7 +24,7 @@ public class CameraBehavior : MonoBehaviour
         }
         if (camera != null)
         {
-            minZoom = camera.orthographicSize / 5;
+            minZoom = camera.orthographicSize / 20;
             maxZoom = camera.orthographicSize * 100;
         }
     }
