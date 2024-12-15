@@ -16,6 +16,19 @@ public class TaskHandler : MonoBehaviour
 
     private bool showdescription = false;
 
+    public AudioSource audioSource; // 引用 AudioSource 组件
+    public AudioClip soundEffect;  // 需要播放的音效
+
+
+    void Start()
+    {
+        // 确保 AudioSource 引用正确
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
+    }
+
     void Update()
     {
         // 获取当前控制角色的状态
@@ -77,6 +90,7 @@ public class TaskHandler : MonoBehaviour
     void CompleteTask()
     {
         Debug.Log("Successfully get water!");
+        PlaySound();
         mission_update.gameObject.SetActive(true);
         mission_update.text = "Successfully get water! Go back to rocket.";
 
@@ -85,5 +99,17 @@ public class TaskHandler : MonoBehaviour
         // - 更改任务状态
         // - 激活下一阶段目标
         // - 播放音效或动画
+    }
+
+    void PlaySound()
+    {
+        if (audioSource != null && soundEffect != null)
+        {
+            audioSource.PlayOneShot(soundEffect); // 播放一次音效
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource or AudioClip is missing!");
+        }
     }
 }

@@ -20,6 +20,9 @@ public class PlaneDistanceCalculator : MonoBehaviour
 
     public VehicleSwitch vehicleSwitch; // 引用角色切换脚本
 
+    public AudioSource audioSource; // 引用 AudioSource 组件
+    public AudioClip soundEffect;  // 需要播放的音效
+
    
 
    void Start()
@@ -32,6 +35,12 @@ public class PlaneDistanceCalculator : MonoBehaviour
         healthManager = FindObjectOfType<HealthManager>(); // 获取全局 HealthManager
 
         InvokeRepeating("CheckDistance", 1f, 1f);  
+
+        // 确保 AudioSource 引用正确
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -122,6 +131,7 @@ public class PlaneDistanceCalculator : MonoBehaviour
             warningText.gameObject.SetActive(true);
             warningText.text = "You are suffering from high temperature. Stay farther from sunlight or inside truck.";
             ReduceHealth(5);
+            PlaySound();
         }
         else if(distance < - triggerValue && !isControllingTruck){
             redOverlay.gameObject.SetActive(true);
@@ -129,6 +139,7 @@ public class PlaneDistanceCalculator : MonoBehaviour
             warningText.gameObject.SetActive(true);
             warningText.text = "You are suffering from low temperature. Stay closer to sunlight or inside truck.";
             ReduceHealth(5);
+            PlaySound();
         }
         else if(isControllingTruck)
         {
@@ -183,5 +194,17 @@ public class PlaneDistanceCalculator : MonoBehaviour
     public int GetCurrentHealth()
     {
         return currentHealth;
+    }
+
+    void PlaySound()
+    {
+        if (audioSource != null && soundEffect != null)
+        {
+            audioSource.PlayOneShot(soundEffect); // 播放一次音效
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource or AudioClip is missing!");
+        }
     }
 }
