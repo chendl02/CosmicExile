@@ -3,8 +3,8 @@ using UnityEngine;
 public class VirusMovement : MonoBehaviour
 {
     public float moveSpeed = 8f;         // 病毒移动速度
-    public float detectionRange = 30f;   // 病毒检测玩家的范围
-    public float predictionTime = 1f;    // 预测玩家位置的时间（秒）
+    public float detectionRange = 50f;   // 病毒检测玩家的范围
+    public float predictionTime = 0.5f;    // 预测玩家位置的时间（秒）
     public float planetRadius = 184f;    // 球体半径
     public Vector3 planetCenter = Vector3.zero; // 球心位置
 

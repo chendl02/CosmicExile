@@ -1554,7 +1554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drugPrefab: {fileID: 1752992853893934, guid: b24a09259ec34a44186fdcb616993efe, type: 3}
-  numDrugs: 200
+  numDrugs: 500
   planetRadius: 184
 --- !u!114 &1367230194
 MonoBehaviour:
@@ -1586,9 +1586,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5276082b3d1de4d3d984bd00f3a792d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introText: {fileID: 0}
-  displayDuration: 8
-  fadeDuration: 2
+  introText: {fileID: 1974476729}
+  displayDuration: 5
+  fadeDuration: 4
 --- !u!4 &1422706392 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4171269649180171444, guid: a3b2f2ce30ad94332aa1fd82172787af,
@@ -2142,6 +2142,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3813381820637990577, guid: f646cd79376e64b458bcff16adc8421c,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5045916607682831917, guid: f646cd79376e64b458bcff16adc8421c,
+        type: 3}
+      propertyPath: m_Mass
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 5045916607682831917, guid: f646cd79376e64b458bcff16adc8421c,
         type: 3}
       propertyPath: m_UseGravity
@@ -2403,6 +2413,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2425726620915747692, guid: a3b2f2ce30ad94332aa1fd82172787af,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2425726620915747692, guid: a3b2f2ce30ad94332aa1fd82172787af,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2425726620915747692, guid: a3b2f2ce30ad94332aa1fd82172787af,
         type: 3}
