@@ -84,7 +84,7 @@ public class MarsInitial : MonoBehaviour
             Vector3 adjustedPosition = MoveTowardsCenter(randomPosition, 1f);
             GameObject sandstorm = Instantiate(sandstormPrefab, adjustedPosition, Quaternion.identity);
             sandstorm.name = "SANDSTORM_" + i;
-            sandstorm.tag = "Sandstorm";
+            sandstorm.tag = "MarsStorm";
             sandstorm.transform.up = randomPosition.normalized;
             sandstorm.transform.Rotate(0, Random.Range(0f, 360f), 0);
         }

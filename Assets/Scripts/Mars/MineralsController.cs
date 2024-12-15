@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MineralsController : MonoBehaviour
 {
-    private MineralsUI mineralsUI; 
+    public MineralsUI mineralsUI; 
     private MarsAstronautController astronautController;
 
     void Start()

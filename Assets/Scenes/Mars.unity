@@ -770,6 +770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deaacdb908a90f24797342101bb42be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mineralsUI: {fileID: 0}
 --- !u!1 &436587935
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,41 +1324,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2078988761}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &654594349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654594348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dc445384a80b2c4f86abc223f163ffe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!136 &654594352
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654594348}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.83
-  m_Height: 1.91
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.33, z: 0}
 --- !u!1 &906977447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,6 +1577,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RedEmeny
       objectReference: {fileID: 0}
+    - target: {fileID: 7153141402127884706, guid: a4ec793513574cd49719c4055b630e2b,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyA
+      objectReference: {fileID: 0}
     - target: {fileID: 7498142190150400792, guid: a4ec793513574cd49719c4055b630e2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1661,7 +1632,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8035681660144644490, guid: a4ec793513574cd49719c4055b630e2b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7723065969036367729, guid: a4ec793513574cd49719c4055b630e2b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1688,6 +1665,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dc445384a80b2c4f86abc223f163ffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageAmount: 20
+  detectionRangePlayer: 5
+  detectionRangeEnemy: 10
+  stopDistance: 3
+  chaseSpeedPlayer: 5
+  chaseSpeedPlayerAggressive: 10
+  wanderSpeed: 2
 --- !u!1 &992868669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,6 +1808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deaacdb908a90f24797342101bb42be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mineralsUI: {fileID: 0}
 --- !u!1 &1127918888
 GameObject:
   m_ObjectHideFlags: 0
@@ -2120,6 +2105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MineralsProgressBar: {fileID: 1522503088}
+  collectedMinerals: 0
 --- !u!1 &1215979725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2567,6 +2553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MineralsProgressBar: {fileID: 1522503088}
+  collectedMinerals: 0
 --- !u!114 &1522503088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3135,6 +3122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1750100170}
   - component: {fileID: 1750100169}
+  - component: {fileID: 1750100171}
   m_Layer: 0
   m_Name: Return_to_Space
   m_TagString: Untagged
@@ -3149,7 +3137,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1750100168}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cc8dcae191b74cfb89d4bb88662581d, type: 3}
   m_Name: 
@@ -3173,6 +3161,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1750100171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750100168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d57a9a1e2b4b24887b886e0920e41a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 37290603}
+  targetPosition: {x: 0, y: 184, z: 0}
+  triggerDistance: 5
+  targetSceneName: Solar System
+  mineralsUI: {fileID: 1522503087}
 --- !u!1001 &1813950177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3621,6 +3626,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreenEmeny
       objectReference: {fileID: 0}
+    - target: {fileID: 1524411113276028, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
+      propertyPath: m_TagString
+      value: EnemyB
+      objectReference: {fileID: 0}
     - target: {fileID: 4544219117696442, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.241
@@ -3661,18 +3670,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95706204029656638, guid: e2aafa8770d34a9591b41bedf4e318ba,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 95706204029656638, guid: e2aafa8770d34a9591b41bedf4e318ba,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1524411113276028, guid: e2aafa8770d34a9591b41bedf4e318ba,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 654594349}
-    - targetCorrespondingSourceObject: {fileID: 1524411113276028, guid: e2aafa8770d34a9591b41bedf4e318ba,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 654594352}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
 --- !u!1 &2082901300
 GameObject:

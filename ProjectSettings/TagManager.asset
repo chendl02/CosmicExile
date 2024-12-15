@@ -14,6 +14,8 @@ TagManager:
   - Iron
   - Uranium
   - MarsStorm
+  - EnemyA
+  - EnemyB
   layers:
   - Default
   - TransparentFX

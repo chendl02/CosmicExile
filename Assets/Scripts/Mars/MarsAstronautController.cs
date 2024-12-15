@@ -151,5 +151,16 @@ public class MarsAstronautController : MonoBehaviour
                 Debug.LogWarning("No HealthManager found!");
             }
         }
+        if (isInsideCar)
+        {
+            if (healthManager != null)
+            {
+                healthManager.AddHealth(2); 
+            }
+            else
+            {
+                Debug.LogWarning("No HealthManager found!");
+            }
+        }
     }
 }
