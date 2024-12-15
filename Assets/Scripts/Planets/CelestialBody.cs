@@ -11,6 +11,11 @@ public class CelestialBody : OrbitalMotion {
     //acceleration(m/s^2)
     //velocity(m/s)
 
+    public float siderealRotationPeriod;
+
+    public float axialTilt;
+
+
     public float radius;
     public float surfaceGravity;
     //public Vector3 initialVelocity;
@@ -53,6 +58,20 @@ public class CelestialBody : OrbitalMotion {
             virtualMesh.gameObject.SetActive(false);
         }
 
+        transform.rotation = Quaternion.Euler(-90, axialTilt, rb.rotation.eulerAngles.z);
+
+    }
+
+    void FixedUpdate()
+    {
+        if (Clock.speed == 0)
+            return;
+        // Calculate rotation speed (degrees per hour)
+        float rotationSpeed = 360f / siderealRotationPeriod;
+
+        // Apply rotation
+        Quaternion deltaRotation = Quaternion.Euler(0, -rotationSpeed * (Universe.physicsTimeStep * Universe.timeCoefficient / 3600.0f), 0);
+        rb.rotation = rb.rotation * deltaRotation;
     }
 
     public void ActivateVirtualMesh(Vector3 position)
@@ -83,33 +102,6 @@ public class CelestialBody : OrbitalMotion {
             Debug.LogError("Virtual Mesh 未正确初始化！");
         }
     }
-    /*
-    protected override void Start()
-    {
-        base.Start();
-        //gravityCamera.orthographicSize = radius * 5;
-    }
-
-    public void UpdateVelocity (CelestialBody[] allBodies, float timeStep) {
-        foreach (var otherBody in allBodies) {
-            if (otherBody != this) {
-                float sqrDst = (otherBody.rb.position - rb.position).sqrMagnitude;
-                Vector3 forceDir = (otherBody.rb.position - rb.position).normalized;
-
-                Vector3 acceleration = forceDir * gravitationalConstant * otherBody.mass / sqrDst;
-                velocity += acceleration * timeStep;
-            }
-        }
-    }
-
-    public void UpdateVelocity (Vector3 acceleration, float timeStep) {
-        velocity +=  acceleration * timeStep;
-    }
-
-    public void UpdatePosition (float timeStep) {
-        rb.MovePosition (rb.position +  velocity * timeStep / Universe.distanceCoefficint);
-
-    }*/
 
     public void UpdatePosition()
     {

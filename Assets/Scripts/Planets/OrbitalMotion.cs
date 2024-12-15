@@ -42,8 +42,8 @@ public class OrbitalMotion : MonoBehaviour
 
         float fixedSemiMajorAxis = semiMajorAxis;
 
-        if (orbitBody != null)
-            fixedSemiMajorAxis += orbitBody.radius * 2;
+        //if (orbitBody != null)
+        //    fixedSemiMajorAxis += orbitBody.radius * 2;
         // 参数方程
         float x = fixedSemiMajorAxis * (Mathf.Cos(eccentricAnomaly) - eccentricity);
         float y = fixedSemiMajorAxis * Mathf.Sqrt(1 - eccentricity * eccentricity) * Mathf.Sin(eccentricAnomaly);
