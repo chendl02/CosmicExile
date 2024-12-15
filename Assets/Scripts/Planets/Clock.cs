@@ -103,6 +103,12 @@ public class Clock : MonoBehaviour
         {
             pressPause();
         }
+
+        //just for test
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            StageController.loadStage(1);
+        }
     }
 
     public void pressPause()
