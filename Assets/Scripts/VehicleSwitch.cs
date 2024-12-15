@@ -88,5 +88,16 @@ public class VehicleSwitch : MonoBehaviour
         astronautCamera.enabled = false;
         truckCamera.enabled = true;
     }
+    public bool IsControllingTruck()
+    {
+        return isControllingTruck;
+    }
+
+    public Vector3 getAstronautPosition(){
+        return astronaut.transform.position;
+    }
+    public Vector3 getTruckPosition(){
+        return truck.transform.position;
+    }
 }
 

@@ -40,11 +40,10 @@ public class TruckController : MonoBehaviour
         Move(); // 处理移动逻辑
     }
 
-    /* 初始化 */
     private void Ini()
     {
-        rig.useGravity = true; // 启用重力
-        rig.constraints = RigidbodyConstraints.FreezeRotation; // 冻结刚体的旋转
+        rig.useGravity = true; 
+        rig.constraints = RigidbodyConstraints.FreezeRotation; 
     }
 
     /* 鼠标控制逻辑 */
