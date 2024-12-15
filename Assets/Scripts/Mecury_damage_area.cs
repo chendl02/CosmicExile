@@ -18,6 +18,8 @@ public class PlaneDistanceCalculator : MonoBehaviour
 
     private HealthManager healthManager;
 
+    public VehicleSwitch vehicleSwitch; // 引用角色切换脚本
+
    
 
    void Start()
@@ -29,7 +31,7 @@ public class PlaneDistanceCalculator : MonoBehaviour
 
         healthManager = FindObjectOfType<HealthManager>(); // 获取全局 HealthManager
 
-        //InvokeRepeating("CheckDistance", 1f, 1f);  
+        InvokeRepeating("CheckDistance", 1f, 1f);  
     }
 
     void Update()
@@ -93,6 +95,7 @@ public class PlaneDistanceCalculator : MonoBehaviour
 
     public void CheckDistance()
     {
+        bool isControllingTruck = vehicleSwitch.IsControllingTruck();
         // 光线的方向（法向量）
         Vector3 lightDirection = -lightSource.forward.normalized;
 
@@ -112,23 +115,28 @@ public class PlaneDistanceCalculator : MonoBehaviour
 
         Debug.Log("distance: " + distance);
 
-        if (distance > triggerValue)
+        if (distance > triggerValue && !isControllingTruck)
         {
             redOverlay.gameObject.SetActive(true);
             redOverlay.color = new Color(1, 0, 0, 0.5f); // 半透明红色
             warningText.gameObject.SetActive(true);
-            warningText.text = "You are suffering from high temperature. Stay farther from sunlight.";
+            warningText.text = "You are suffering from high temperature. Stay farther from sunlight or inside truck.";
             ReduceHealth(5);
         }
-        else if(distance < - triggerValue){
+        else if(distance < - triggerValue && !isControllingTruck){
             redOverlay.gameObject.SetActive(true);
             redOverlay.color = new Color(0, 0, 1, 0.5f);
             warningText.gameObject.SetActive(true);
-            warningText.text = "You are suffering from low temperature. Stay closer to sunlight.";
+            warningText.text = "You are suffering from low temperature. Stay closer to sunlight or inside truck.";
             ReduceHealth(5);
         }
-        else
+        else if(isControllingTruck)
         {
+            redOverlay.color = new Color(1, 0, 0, 0);
+            warningText.gameObject.SetActive(false);
+            AddHealth(5);
+        }
+        else{
             redOverlay.color = new Color(1, 0, 0, 0);
             warningText.gameObject.SetActive(false);
         }
