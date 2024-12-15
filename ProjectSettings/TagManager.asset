@@ -11,6 +11,11 @@ TagManager:
   - Panel
   - Moon
   - Sun
+  - Iron
+  - Uranium
+  - MarsStorm
+  - EnemyA
+  - EnemyB
   layers:
   - Default
   - TransparentFX
@@ -18,7 +23,7 @@ TagManager:
   - Planet
   - Water
   - UI
-  - 
+  - Earth
   - 
   - Post Processing
   - Ship
