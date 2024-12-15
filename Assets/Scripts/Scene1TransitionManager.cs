@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class Scene1TransitionManager : MonoBehaviour
 {
     public GameObject spaceShip; // Space Ship对象
-    public float transitionRadius = 0f; // 切换场景的半径
+    public float transitionRadius = 1f; // 切换场景的半径
     public float fadeDuration = 0.1f; // 黑屏持续时间
 
     private bool isTransitioning = false;
@@ -18,12 +18,13 @@ public class Scene1TransitionManager : MonoBehaviour
     void Start()
     {
         // 找到所有叫做PlanetMesh的物品
+        transitionRadius = 1f;
         fadeDuration = 0.1f;
         planetMeshes = new List<GameObject>();
         //planetMeshes = GameObject.FindGameObjectsWithTag("Planet");
         planetMeshes.Add(GameObject.Find("Moon"));
         planetMeshes.Add(GameObject.Find("Venus"));
-        planetMeshes.Add(GameObject.Find("Earth"));
+        //planetMeshes.Add(GameObject.Find("Earth"));
         planetMeshes.Add(GameObject.Find("Mars"));
         spaceShip = GameObject.Find("Space Ship");
         // 创建一个CanvasGroup用于黑屏效果
@@ -42,7 +43,7 @@ public class Scene1TransitionManager : MonoBehaviour
             {
                 CelestialBody celestialBody = planet.GetComponent<CelestialBody>();
                 Debug.Log("distance:"+Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
-                if (Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position) <= celestialBody.radius+1)
+                if (Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position) <= celestialBody.radius+transitionRadius)
                 {
                     Debug.Log("distance:" + Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
                     if (celestialBody.name == "Moon") { StartCoroutine(FadeAndSwitchScene("Lunar")); }
