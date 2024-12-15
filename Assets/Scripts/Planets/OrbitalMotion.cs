@@ -22,13 +22,16 @@ public class OrbitalMotion : MonoBehaviour
 
     public bool enableDrawer = true;
     public Color lineColor;
-    public LineRenderer lineRenderer; // 轨道的 LineRenderer
-    public float lineWidth = 1.0f;
+
+    private LineRendererHandler lineHandler;
+
+
     private int segments = 10000;       // 轨道的分段数
     private Vector3[] orbitPoints;
 
-
     private Queue<Vector3> trajectory;
+
+    public CelestialBody orbitBody = null;
 
 
     // 计算在轨道上的位置
@@ -37,9 +40,13 @@ public class OrbitalMotion : MonoBehaviour
         float meanAnomaly = (2 * Mathf.PI / period) * (dayTime % period); // 平近点角 (M)
         float eccentricAnomaly = SolveKepler(meanAnomaly, eccentricity); // 偏近点角 (E)
 
+        float fixedSemiMajorAxis = semiMajorAxis;
+
+        if (orbitBody != null)
+            fixedSemiMajorAxis += orbitBody.radius * 2;
         // 参数方程
-        float x = semiMajorAxis * (Mathf.Cos(eccentricAnomaly) - eccentricity);
-        float y = semiMajorAxis * Mathf.Sqrt(1 - eccentricity * eccentricity) * Mathf.Sin(eccentricAnomaly);
+        float x = fixedSemiMajorAxis * (Mathf.Cos(eccentricAnomaly) - eccentricity);
+        float y = fixedSemiMajorAxis * Mathf.Sqrt(1 - eccentricity * eccentricity) * Mathf.Sin(eccentricAnomaly);
 
         return new Vector2(x, y);
     }
@@ -80,8 +87,11 @@ public class OrbitalMotion : MonoBehaviour
 
         float rotatedX = -Y;
         float rotatedY = X;
-
-        return new Vector3(rotatedX, rotatedY, Z);
+        
+        if (orbitBody != null)
+            return orbitBody.Position + new Vector3(rotatedX, rotatedY, Z);
+        else
+            return new Vector3(rotatedX, rotatedY, Z);
     }
 
 
@@ -99,10 +109,8 @@ public class OrbitalMotion : MonoBehaviour
             orbitPoints[segments] = orbitPoints[0]; // 闭合点
         }
 
-        // 设置 LineRenderer 的点
-        lineRenderer.positionCount = segments + 1; // 分段数 + 闭合点
-        lineRenderer.loop = true; // 闭合轨道
-        lineRenderer.SetPositions(orbitPoints);
+        lineHandler.SetPositions(orbitPoints);
+        lineHandler.SetLoop(true);
         
     }
 
@@ -115,16 +123,15 @@ public class OrbitalMotion : MonoBehaviour
                 trajectory.Enqueue(GetRealPosition(Clock.dayTime + i));
             }
         }
-        lineRenderer.positionCount = days; // 分段数 + 闭合点
-        lineRenderer.loop = false; // 闭合轨道
-        lineRenderer.SetPositions(trajectory.Take(days).ToArray());
+        lineHandler.SetPositions(trajectory.Take(days).ToArray());
+        lineHandler.SetLoop(false);
     }
 
     public void updatePredict(float dayTime)
     {
         trajectory.Enqueue(GetRealPosition(dayTime));
         trajectory.Dequeue();
-        DrawPredict(lineRenderer.positionCount);
+        DrawPredict(NonLinearSlider.previousValidValue);
     }
 
     void Start()
@@ -137,35 +144,8 @@ public class OrbitalMotion : MonoBehaviour
         farPos = GetRealPosition(period / 2);
         farDistance = farPos.magnitude;
 
-        // 确保有 LineRenderer
-        if (lineRenderer == null)
-        {
-            lineRenderer = gameObject.AddComponent<LineRenderer>();
-        }
-
-        lineRenderer.enabled = enableDrawer;
-
-#if UNITY_EDITOR
-        // 在编辑模式下使用 sharedMaterial 避免材质实例泄漏
-        if (lineRenderer.sharedMaterial == null)
-        {
-            lineRenderer.sharedMaterial = new Material(Shader.Find("Unlit/Color"));
-        }
-        lineRenderer.sharedMaterial.color = lineColor;
-#else
-        // 在运行时可以安全地使用 material
-        if (lineRenderer.material == null)
-        {
-            lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
-        }
-        lineRenderer.material.color = lineColor;
-#endif
-        
-
-        // 设置 LineRenderer 的参数
-        
-        lineRenderer.startWidth = lineWidth; // 轨道宽度
-        lineRenderer.endWidth = lineWidth;
+        lineHandler = new LineRendererHandler(gameObject, lineColor);
+        lineHandler.Enable(enableDrawer);
 
         DrawOrbit();
     }

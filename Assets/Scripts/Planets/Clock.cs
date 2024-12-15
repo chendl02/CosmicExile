@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,13 +52,11 @@ public class Clock : MonoBehaviour
             var colors = button.colors;
             if (button == clickedButton)
             {
-                // ����Ϊ����״̬��ɫ
                 colors.normalColor = colors.pressedColor;
             }
             else
             {
-                // ����Ϊ����״̬��ɫ
-                colors.normalColor = Color.white; // ����Ĭ����ɫΪ��ɫ
+                colors.normalColor = Color.white;
             }
             button.colors = colors;
         }
@@ -67,8 +66,6 @@ public class Clock : MonoBehaviour
         SetButtonState(clickedButton);
         SetSpeed(newSpeed);
     }
-
-
     void Start()
     {
         buttons = new Button[] { x1Button, x2Button, x5Button, x10Button, pauseButton };
@@ -77,7 +74,7 @@ public class Clock : MonoBehaviour
         x5Button.onClick.AddListener(() => OnButtonClick(x5Button, 5.0f));
         x10Button.onClick.AddListener(() => OnButtonClick(x10Button, 10.0f));
         pauseButton.onClick.AddListener(() => OnButtonClick(pauseButton, 0.0f));
-        OnButtonClick(x1Button, 1.0f);
+        OnButtonClick(pauseButton, 0.0f);
     }
 
     void Update()

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 [RequireComponent (typeof (Rigidbody))]
 public class CelestialBody : OrbitalMotion {
 
@@ -13,11 +13,13 @@ public class CelestialBody : OrbitalMotion {
 
     public float radius;
     public float surfaceGravity;
-    public Vector3 initialVelocity;
+    //public Vector3 initialVelocity;
     public string bodyName = "Unnamed";
     public Transform meshHolder;
     public float gravitationalConstant = 6.674e-11f;
 
+
+    public Vector3 initVelocity;
     public Vector3 velocity { get; private set; }
     public float mass;
     Rigidbody rb;
@@ -25,10 +27,13 @@ public class CelestialBody : OrbitalMotion {
     private bool enableVirtualMesh = false;
     private Transform virtualMesh;
 
+    public bool inner;
+
     void Awake () {
         rb = GetComponent<Rigidbody> ();
         //rb.mass = mass;
-        velocity = initialVelocity;
+        float t = Universe.physicsTimeStep * Universe.timeCoefficient / 3600.0f / 24.0f;
+        initVelocity = (GetRealPosition(t) - GetRealPosition(0)) / t * (1e+9f / 3600 / 24);
         this.transform.position = GetRealPosition(0);
 
 
@@ -112,7 +117,7 @@ public class CelestialBody : OrbitalMotion {
     }
     void OnValidate () {
         meshHolder = transform.GetChild (0);
-        meshHolder.localScale = Vector3.one * radius;
+        meshHolder.localScale = Vector3.one * radius * 2;
         gameObject.name = bodyName;
     }
 
@@ -124,7 +129,7 @@ public class CelestialBody : OrbitalMotion {
 
     public Vector3 Position {
         get {
-            return rb.position;
+            return transform.position;
         }
     }
 

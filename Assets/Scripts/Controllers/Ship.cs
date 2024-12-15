@@ -11,13 +11,11 @@ public class Ship : GravityObject {
     public Transform hatch;
     public float hatchAngle;
     public Transform camViewPoint;
-    public CameraBehavior camControl;
     public Transform pilotSeatPoint;
     public LayerMask groundedMask;
 
     public Camera shipCam;
     private GameObject mapCamObject;
-    private Camera mapCam;
 
     [Header ("Handling")]
     public float thrustStrength = 50;
@@ -51,8 +49,6 @@ public class Ship : GravityObject {
     public TextMeshProUGUI positionText;
     public TextMeshProUGUI velocityText;
 
-    private bool mapCamEnable = false;
-
     void Awake () {
         InitRigidbody ();
         targetRot = transform.rotation;
@@ -70,10 +66,6 @@ public class Ship : GravityObject {
 
 
         shipCam.transform.parent = camViewPoint;
-
-
-        camControl = new GameObject("Camera Controller").AddComponent<CameraBehavior>();
-        camControl.enabled = false;
     }
 
     void Update () {
@@ -84,39 +76,17 @@ public class Ship : GravityObject {
            
             if (shipCam.enabled == true)
             {
-
-
-                mapCamObject = new GameObject("Map Camera");
-                mapCam = mapCamObject.AddComponent<Camera>();
-                mapCam.enabled = false;
-
-                // 设置摄像机的位置，位于 GravityObject 的 z 轴 +2500
-                mapCam.transform.position = this.transform.position + new Vector3(0, 0, -2500);
-
-                // 设置摄像机的旋转方向，使其视角为 z 轴向下
-                mapCam.transform.rotation = Quaternion.Euler(0, 0, 0);
-
-                mapCam.farClipPlane = 10000f;
-                mapCam.nearClipPlane = 0.1f;
-                mapCam.orthographic = true;
-                mapCam.orthographicSize = 100;
-
-                mapCam.tag = "MainCamera";
-
-                mapCamEnable = true;
                 shipCam.enabled = false;
-                mapCam.enabled = true;     
-                camControl.set_zoom();
-                camControl.enabled = true;
-                //Cursor.visible = true;
+                mapCamObject = new GameObject("Map Camera");
+                CameraBehavior cameraBehavior = mapCamObject.AddComponent<CameraBehavior>();
+                cameraBehavior.Initialize(motionData.Position);
+                
             }
             else
             {
-                mapCamEnable = false;
-                shipCam.enabled = true;
                 Destroy(mapCamObject);
-
-                //Cursor.visible = false;
+                shipCam.enabled = true;
+                
             }
         }
         
@@ -158,7 +128,7 @@ public class Ship : GravityObject {
         if (Clock.speed == 0)
             return;
 
-        if (!mapCamEnable)
+        if (shipCam.enabled)
         {
             // Thrusters
             Vector3 thrustDir = transform.TransformVector(thrusterInput);

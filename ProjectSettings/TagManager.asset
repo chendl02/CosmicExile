@@ -9,6 +9,11 @@ TagManager:
   - fireball
   - ThunderArea
   - Panel
+  - Moon
+  - Sun
+  - Iron
+  - Uranium
+  - MarsStorm
   layers:
   - Default
   - TransparentFX
