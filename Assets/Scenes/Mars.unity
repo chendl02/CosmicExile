@@ -3750,6 +3750,71 @@ MonoBehaviour:
   triggerDistance: 5
   targetSceneName: Solar System
   mineralsUI: {fileID: 1522503087}
+--- !u!1 &1762147740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1762147743}
+  - component: {fileID: 1762147742}
+  - component: {fileID: 1762147741}
+  m_Layer: 0
+  m_Name: SceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1762147741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762147740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dd8d8eb365b5ee458e182e5d7080e80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTextOnlyMode: 0
+  modeChange: 0
+  taskText: {fileID: 0}
+  subTaskText: {fileID: 0}
+--- !u!114 &1762147742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762147740}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6866e00c141570e40969d417b9841f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTextOnlyMode: 0
+  modeChange: 0
+  taskText: {fileID: 0}
+  subTaskText: {fileID: 0}
+--- !u!4 &1762147743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762147740}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 301.5, y: 105.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1813950177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4931,3 +4996,4 @@ SceneRoots:
   - {fileID: 5955753320626589490}
   - {fileID: 1189766163}
   - {fileID: 2078988761}
+  - {fileID: 1762147743}

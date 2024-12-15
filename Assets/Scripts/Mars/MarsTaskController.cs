@@ -47,8 +47,7 @@ public class MarsTaskController : MonoBehaviour
         else
         {
             currentState = TaskState.NotStarted;
-            string startText = """Welcome to <color=red>Mars</color>! \nYour task is to collect Ore materials, <color=red>Iron and Uranium</color>. Beware of uranium radiation that can harm you.
-            Try to avoid the aliens on the planet! \n Also, be careful not to get caught in a sandstorm. \nIf you are ready, press <color=red>'Enter'</color> to start game!""";
+            string startText = "Welcome to <color=red>Mars</color>! \nYour task is to collect Ore materials, <color=red>Iron and Uranium</color>. Beware of uranium radiation that can harm you. \n Try to avoid the aliens on the planet! \n Also, be careful not to get caught in a sandstorm. \nIf you are ready, press <color=red>'Enter'</color> to start game!";
             StartCoroutine(ShowText(taskText, startText, false));
         }
         // GameObject[] thunderAreas = GameObject.FindGameObjectsWithTag("ThunderArea");
