@@ -3,7 +3,7 @@ using UnityEngine;
 public class VirusMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;         // 移动速度
-    public float detectionRange = 10f;  // 检测范围
+    public float detectionRange = 30f;  // 检测范围
     public float planetRadius = 184f;   // 球体半径
     public Vector3 planetCenter = Vector3.zero; // 球心位置（默认原点）
 
