@@ -7,6 +7,13 @@ TagManager:
   - Planet
   - Storm
   - fireball
+  - ThunderArea
+  - Panel
+  - Moon
+  - Sun
+  - Iron
+  - Uranium
+  - MarsStorm
   layers:
   - Default
   - TransparentFX

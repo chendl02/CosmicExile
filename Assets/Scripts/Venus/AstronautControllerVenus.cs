@@ -17,13 +17,17 @@ public class AstronautControllerVenus : MonoBehaviour
 
     public string groundTag = "Planet";   // 用于检测地面的标签
     private HealthManager healthManager;
+    public float speed;
+    public Vector3 position;
+    public bool enterThunderArea;
+    public ThunderArea currentThunderArea;
 
-
-        
-        void Start()
+    void Start()
     {
+        enterThunderArea = false;
         rig.useGravity = false;                  // 禁用重力
         healthManager = FindObjectOfType<HealthManager>();
+        currentThunderArea = null;
     }
 
     void Update()
@@ -32,6 +36,7 @@ public class AstronautControllerVenus : MonoBehaviour
         Cursor.visible = true;                 
         HandleMouseLook(); // 鼠标控制摄像机
         HandleInput();     // 跳跃和动画控制
+        position = rig.position;
     }
 
     void FixedUpdate()
@@ -58,7 +63,6 @@ public class AstronautControllerVenus : MonoBehaviour
         cameraTransform.parent.Rotate(Vector3.up * mouseX);
     }
 
-    /* 跳跃和动画控制 */
     private void HandleInput()
     {
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
@@ -81,6 +85,8 @@ public class AstronautControllerVenus : MonoBehaviour
     private void Move()
     {
         float moveZ = Input.GetAxis("Vertical") * moveSpeed * Time.fixedDeltaTime;
+        Vector3 overallVelocity = rig.velocity; 
+        speed = overallVelocity.magnitude;
         Vector3 moveDirection = transform.forward * moveZ; // 前后移动基于角色的朝向
         rig.MovePosition(rig.position + moveDirection);
     }
@@ -111,7 +117,7 @@ public class AstronautControllerVenus : MonoBehaviour
         }
         if (collision.gameObject.name == "Fireball")
         {
-            healthManager.ReduceHealth(10);
+            healthManager.ReduceHealth(5);
             //Destroy(collision.gameObject);
         }
                 
