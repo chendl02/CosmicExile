@@ -20,7 +20,7 @@ public class MarsTaskController : MonoBehaviour
     public Text objectText;
     public Text messageText;
     public TaskState currentState;
-    public SceneTextManager sceneManager;
+    public MarsSceneTextManager sceneManager;
     public MarsAstronautController Player;
     public string tempText;
     public int currentCableNum;
@@ -41,7 +41,7 @@ public class MarsTaskController : MonoBehaviour
         messageText = GameObject.Find("MessageText").GetComponent<Text>();
         Player = GameObject.Find("Astronaut").GetComponent<MarsAstronautController>();
         subTaskText.text = "";
-        sceneManager = GameObject.Find("SceneManager").GetComponent<SceneTextManager>();
+        sceneManager = GameObject.Find("SceneManager").GetComponent<MarsSceneTextManager>();
         if (taskText == null)
         { Debug.LogError("TaskText component not found!"); }
         else
