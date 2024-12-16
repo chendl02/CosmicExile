@@ -114,11 +114,13 @@ public class Clock : MonoBehaviour
         }
 
         //just for test
+        /*
         if (Input.GetKeyDown(KeyCode.H))
         {
             StageController.NextStage(4);
             StageController.LoadStage();
         }
+        */
     }
 
     public void pressPause()
