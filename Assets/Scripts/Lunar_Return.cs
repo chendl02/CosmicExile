@@ -91,7 +91,7 @@ public class Lunar_to_Space : MonoBehaviour
     // 切换场景
     void SwitchScene()
     {
-        StageController.NextStage(3);
+        StageController.NextStage(4);
         
         SceneManager.LoadScene(targetSceneName);
     }
