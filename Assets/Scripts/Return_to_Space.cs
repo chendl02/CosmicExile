@@ -96,16 +96,26 @@ public class Return_to_Space : MonoBehaviour
     {
         if (isPlayerNear)
         {
+            // 创建自定义 GUIStyle
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
+            labelStyle.fontSize = 32; // 设置字体大小
+            labelStyle.alignment = TextAnchor.MiddleCenter; // 设置文字居中对齐
+            labelStyle.normal.textColor = Color.black; // 设置文字颜色为黑色
+            // 计算提示框的位置和大小
+            Rect labelRect = new Rect(Screen.width / 2 - 200, Screen.height / 2 - 50, 400, 100);
+
+            // 根据条件显示不同的提示
             if (canEnterRocket)
             {
-                GUI.Label(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 20, 200, 40), "Press F to enter the rocket: " + targetSceneName);
+                GUI.Label(labelRect, "Press F to enter the rocket: " + targetSceneName, labelStyle);
             }
             else
             {
-                GUI.Label(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 20, 300, 40), "You need to collect enough parts and fuels to restart the rocket!");
+                GUI.Label(labelRect, "You need to collect enough parts and fuels to restart the rocket!", labelStyle);
             }
         }
     }
+
 
     // 在场景视图中显示目标点的辅助线
     void OnDrawGizmos()
