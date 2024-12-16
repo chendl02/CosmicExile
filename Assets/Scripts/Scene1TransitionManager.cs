@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Unity.VisualScripting;
 using System.Collections.Generic;
+using UnityEngine.Video;
 
 public class Scene1TransitionManager : MonoBehaviour
 {
@@ -11,9 +12,15 @@ public class Scene1TransitionManager : MonoBehaviour
     public float transitionRadius = 0.1f; // �л������İ뾶
     public float fadeDuration = 0.1f; // ��������ʱ��
 
+    public VideoPlayer videoPlayer;
+
+    private bool win = false;
+
     private bool isTransitioning = false;
     private CanvasGroup fadeCanvasGroup;
     private List<GameObject> planetMeshes;
+
+    GameObject ui;
 
     void Awake()
     {
@@ -44,12 +51,44 @@ public class Scene1TransitionManager : MonoBehaviour
         fadeCanvasGroup = fadeCanvas.AddComponent<CanvasGroup>();
         fadeCanvasGroup.alpha = 1f; // ��ʼ͸����Ϊ0����ȫ͸����
 
-        
+        videoPlayer.loopPointReached += OnVideoFinished;
+    }
+
+    void OnVideoFinished(VideoPlayer vp)
+    {
+        Debug.Log("Video playback completed!");
+        // 在这里添加播放完成后的逻辑
+        Camera.main.cullingMask = ~0;
+        ui.SetActive(true);
+        videoPlayer.gameObject.SetActive(false);
+
+    }
+
+
+    void Win()
+    {
+        Debug.Log("Video!");
+        Clock clock = FindObjectOfType<Clock>();
+        clock.pressPause();
+        int layerIndex = LayerMask.NameToLayer("VideoLayer");
+        Camera.main.cullingMask = 1 << layerIndex;
+        videoPlayer.targetCamera = Camera.main;
+        win = true;
+        ui = GameObject.Find("UI");
+        ui.SetActive(false);
+        videoPlayer.Play();
     }
 
     void Update()
     {
-        if (!isTransitioning)
+
+        //just for test
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Win();
+        }
+        
+        if (!isTransitioning && !win)
         {
             foreach (GameObject planet in planetMeshes)
             {
@@ -58,7 +97,8 @@ public class Scene1TransitionManager : MonoBehaviour
                 if (Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position) <= celestialBody.radius+transitionRadius)
                 {
                     Debug.Log("distance:" + Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
-                    if (celestialBody.name == "Moon") { StartCoroutine(FadeAndSwitchScene("Lunar")); }
+                    if (celestialBody.name == "Titan") { win = true;  videoPlayer.Play(); }
+                    else if (celestialBody.name == "Moon") { StartCoroutine(FadeAndSwitchScene("Lunar")); }
                     else { StartCoroutine(FadeAndSwitchScene(celestialBody.name)); }
                     break;
                 }
