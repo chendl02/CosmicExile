@@ -93,8 +93,12 @@ public class AstronautController : MonoBehaviour
     {
         if (canJump)
         {
+            GameObject innerPlanet = GameObject.Find("Mountain_Sea");
             canJump = false;
-            rig.AddForce(Vector3.up * forceConst, ForceMode.Impulse);
+            Vector3 directionToInnerPlanet = transform.position - innerPlanet.transform.position; 
+            Vector3 jumpDirection = directionToInnerPlanet.normalized;
+                                                        
+            rig.AddForce(jumpDirection * forceConst, ForceMode.Impulse);
         }
     }
 

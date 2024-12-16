@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Fuel_UI : MonoBehaviour
 {
-    [SerializeField] private Scrollbar fuelProgressBar; // 燃料进度条
+    [SerializeField] public Scrollbar fuelProgressBar; // 燃料进度条
     private int totalFuel = 10;          // 燃料总数量（改为10方便1/10计算）
     private int collectedFuel = 0;      // 当前已收集的燃料数量
 

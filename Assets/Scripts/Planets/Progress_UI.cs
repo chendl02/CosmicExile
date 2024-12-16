@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Progress_UI : MonoBehaviour
 {
-    [SerializeField] private Scrollbar progressBar; // 进度条
+    [SerializeField] public Scrollbar progressBar; // 进度条
     private int totalParts = 4;       // 总零件数量
     private int collectedParts = 0;   // 已收集的零件数量
 
