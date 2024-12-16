@@ -89,7 +89,7 @@ public class Venus_to_Space : MonoBehaviour
     // 切换场景
     void SwitchScene()
     {
-        StageController.NextStage();
+        StageController.NextStage(3);
         
         SceneManager.LoadScene(targetSceneName);
     }
