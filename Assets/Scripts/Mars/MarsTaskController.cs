@@ -129,7 +129,7 @@ public class MarsTaskController : MonoBehaviour
         // objectText.text = "Max Cable Capacity: <color=red>10</color>\n\nCable Frame Number:<color=red>" + currentCableNum + "</color>";
         // if (currentState == TaskState.Task1)
         // {
-        // subTaskText.text = "Now, Start the SubTask\nFind the Secret of Venus: Use Gravity To Reach 50f Speed\n" + "Current Speed:"+Player.speed;
+        subTaskText.text = "Now, Start the SubTask\nFind the Secret of Venus: Use Gravity To Reach 50f Speed\n";
         //     if (Player.speed > 50f) { ChangeState(currentState); }
         // }
         // if (currentState == TaskState.Task2)

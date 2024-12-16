@@ -881,6 +881,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mineralsUI: {fileID: 0}
+  mineralType: 
+  labelOffset: {x: 0, y: 2, z: 0}
 --- !u!1 &436587935
 GameObject:
   m_ObjectHideFlags: 0
@@ -2071,6 +2073,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mineralsUI: {fileID: 0}
+  mineralType: 
+  labelOffset: {x: 0, y: 2, z: 0}
 --- !u!1 &1127918888
 GameObject:
   m_ObjectHideFlags: 0
@@ -4850,6 +4854,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mass
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9177900822176984193, guid: a3b2f2ce30ad94332aa1fd82172787af,
+        type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 903336496179564055, guid: a3b2f2ce30ad94332aa1fd82172787af, type: 3}
