@@ -4,12 +4,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class Clock : MonoBehaviour
 {
     // Start is called before the first frame update
+    public const float startDay = 180.0f;
+
     public Text time_text;
-    public static float dayTime;
-    public static float speed = 1.0f;
+    public static float dayTime = 0;
+    public static float speed = 0.0f;
 
     private static float previousSpeed = 1.0f;
 
@@ -23,8 +26,15 @@ public class Clock : MonoBehaviour
 
     void Awake()
     {
-        Time.fixedDeltaTime = Universe.physicsTimeStep / speed;
-        Debug.Log("Setting fixedDeltaTime to: " + Universe.physicsTimeStep / speed);
+        //Debug.Log("23333");
+        dayTime = startDay;
+        buttons = new Button[] { x1Button, x2Button, x5Button, x10Button, pauseButton };
+        x1Button.onClick.AddListener(() => OnButtonClick(x1Button, 1.0f));
+        x2Button.onClick.AddListener(() => OnButtonClick(x2Button, 2.0f));
+        x5Button.onClick.AddListener(() => OnButtonClick(x5Button, 5.0f));
+        x10Button.onClick.AddListener(() => OnButtonClick(x10Button, 10.0f));
+        pauseButton.onClick.AddListener(() => OnButtonClick(pauseButton, 0.0f));
+        OnButtonClick(pauseButton, 0.0f);
     }
 
     void FixedUpdate()
@@ -65,16 +75,6 @@ public class Clock : MonoBehaviour
     {
         SetButtonState(clickedButton);
         SetSpeed(newSpeed);
-    }
-    void Start()
-    {
-        buttons = new Button[] { x1Button, x2Button, x5Button, x10Button, pauseButton };
-        x1Button.onClick.AddListener(() => OnButtonClick(x1Button, 1.0f));
-        x2Button.onClick.AddListener(() => OnButtonClick(x2Button, 2.0f));
-        x5Button.onClick.AddListener(() => OnButtonClick(x5Button, 5.0f));
-        x10Button.onClick.AddListener(() => OnButtonClick(x10Button, 10.0f));
-        pauseButton.onClick.AddListener(() => OnButtonClick(pauseButton, 0.0f));
-        OnButtonClick(pauseButton, 0.0f);
     }
 
     void Update()

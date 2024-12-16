@@ -44,7 +44,7 @@ public class Scene1TransitionManager : MonoBehaviour
                 //Debug.Log("distance:"+Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
                 if (Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position) <= celestialBody.radius+transitionRadius)
                 {
-                    //Debug.Log("distance:" + Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
+                    Debug.Log("distance:" + Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
                     if (celestialBody.name == "Moon") { StartCoroutine(FadeAndSwitchScene("Lunar")); }
                     else { StartCoroutine(FadeAndSwitchScene(celestialBody.name)); }
                     break;
