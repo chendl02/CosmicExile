@@ -22,6 +22,9 @@ public class MarsAstronautController : MonoBehaviour
     public bool isInsideCar;             //InCar Flag
     public bool isCarryingU = false;            
     private HealthManager healthManager;
+    public AudioSource carEngineSound;   
+    public AudioSource sandstormSound;    
+    public float sandstormMaxDistance = 100f;  
     void Start()
     {
         healthManager = FindObjectOfType<HealthManager>();
@@ -29,12 +32,22 @@ public class MarsAstronautController : MonoBehaviour
         Cursor.visible = false;  
         rig.useGravity = false;  
         InvokeRepeating("CheckHealth", 1f, 1f);
+        if (carEngineSound != null)
+        {
+            carEngineSound.loop = true; 
+        }
+        if (sandstormSound != null)
+        {
+            sandstormSound.loop = true;  
+        }
     }
 
     void Update()
     {
         HandleMouseLook(); 
-        HandleInput();     
+        HandleInput();  
+        UpdateCarEngineSound();   
+        UpdateSandstormSound();   
     }
 
     void FixedUpdate()
@@ -163,4 +176,52 @@ public class MarsAstronautController : MonoBehaviour
             }
         }
     }
+    private void UpdateCarEngineSound()
+    {
+        if (isInsideCar && carEngineSound != null)
+        {
+            float speed = rig.velocity.magnitude; 
+            if (speed > 0.1f)
+            {
+                if (!carEngineSound.isPlaying)
+                    carEngineSound.Play();
+                carEngineSound.pitch = Mathf.Lerp(1f, 2f, speed / 50f);
+            }
+            else
+            {
+                if (carEngineSound.isPlaying)
+                    carEngineSound.Stop();
+            }
+        }
+    }
+
+    private void UpdateSandstormSound()
+{
+    if (sandstormSound != null)
+    {
+        GameObject sandstormObject = GameObject.FindGameObjectWithTag("MarsStorm");
+        
+        if (sandstormObject != null)
+        {
+            float distanceToStorm = Vector3.Distance(transform.position, sandstormObject.transform.position);
+            
+            if (distanceToStorm < sandstormMaxDistance)
+            {
+                if (!sandstormSound.isPlaying)
+                    sandstormSound.Play();
+                sandstormSound.volume = 1 - (distanceToStorm / sandstormMaxDistance); 
+            }
+            else
+            {
+                if (sandstormSound.isPlaying)
+                    sandstormSound.Stop();
+            }
+        }
+        else
+        {
+            if (sandstormSound.isPlaying)
+                sandstormSound.Stop();
+        }
+    }
+}
 }
