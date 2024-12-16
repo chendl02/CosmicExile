@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Clock : MonoBehaviour
 {
     // Start is called before the first frame update
-    public const float startDay = 180.0f;
+    public const float startDay = 555.0f;
     
 
     public Text time_text;

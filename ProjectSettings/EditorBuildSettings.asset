@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Lunar.unity
     guid: 7f0b0fa9df3dc475c942a58e93033da4
+  - enabled: 1
+    path: Assets/Scenes/Mars.unity
+    guid: 29196e8a144c9a943a9ee6fd2d94f58c
   m_configObjects: {}
