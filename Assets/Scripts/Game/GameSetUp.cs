@@ -16,8 +16,11 @@ public class GameSetUp : MonoBehaviour {
         FadeFromBlack();
         //scene setup
         Ship ship = FindObjectOfType<Ship> ();
-        //PlayerController player = FindObjectOfType<PlayerController> ();
+        PlayerController player = FindObjectOfType<PlayerController> ();
 
+
+        ship.PilotShip();
+        ship.flightControls.ForcePlayerInInteractionZone();
         /*
         if (startCondition == StartCondition.InShip) {
             ship.PilotShip ();

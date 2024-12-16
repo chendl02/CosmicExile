@@ -15,7 +15,7 @@ public class Ship : GravityObject {
     public Transform pilotSeatPoint;
     public LayerMask groundedMask;
 
-    public Camera shipCam;
+    Camera shipCam;
     private GameObject mapCamObject;
 
     [Header ("Handling")]
@@ -28,13 +28,13 @@ public class Ship : GravityObject {
     [Header ("Interact")]
     public Interactable flightControls;
 
-    public Rigidbody rb;
+    Rigidbody rb;
     Quaternion targetRot;
     Quaternion smoothedRot;
 
     Vector3 thrusterInput;
-    //PlayerController pilot;
-    //bool shipIsPiloted;
+    PlayerController pilot;
+    bool shipIsPiloted;
     int numCollisionTouches;
     bool hatchOpen;
 
@@ -67,7 +67,7 @@ public class Ship : GravityObject {
         Cursor.visible = true;
 
 
-        shipCam.transform.parent = camViewPoint;
+        
     }
 
     void Update () {
@@ -201,7 +201,7 @@ public class Ship : GravityObject {
     }
     */
 
-    /*
+    
     public void PilotShip () {
         pilot = FindObjectOfType<PlayerController> ();
         shipIsPiloted = true;
@@ -210,10 +210,10 @@ public class Ship : GravityObject {
         pilot.Camera.transform.localRotation = Quaternion.identity;
         pilot.gameObject.SetActive (false);
         hatchOpen = false;
+        shipCam = pilot.Camera;
 
-        
     }
-    */
+    
     /*
     void StopPilotingShip () {
         shipIsPiloted = false;
