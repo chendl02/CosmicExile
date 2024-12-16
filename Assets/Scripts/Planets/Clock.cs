@@ -117,10 +117,11 @@ public class Clock : MonoBehaviour
         /*
         if (Input.GetKeyDown(KeyCode.H))
         {
-            StageController.NextStage(4);
+            StageController.NextStage(1);
             StageController.LoadStage();
         }
         */
+        
     }
 
     public void pressPause()

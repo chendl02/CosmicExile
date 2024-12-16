@@ -8,6 +8,7 @@ using UnityEngine.Video;
 
 public class Scene1TransitionManager : MonoBehaviour
 {
+
     public GameObject spaceShip; // Space Ship����
     public float transitionRadius = 0.1f; // �л������İ뾶
     public float fadeDuration = 0.1f; // ��������ʱ��
@@ -24,7 +25,7 @@ public class Scene1TransitionManager : MonoBehaviour
 
     void Awake()
     {
-        
+        videoPlayer.gameObject.SetActive(false);
         if (StageController.stageStart)
         {
             StageController.LoadStage();
@@ -76,6 +77,7 @@ public class Scene1TransitionManager : MonoBehaviour
         win = true;
         ui = GameObject.Find("UI");
         ui.SetActive(false);
+        videoPlayer.gameObject.SetActive(true);
         videoPlayer.Play();
     }
 
@@ -83,10 +85,13 @@ public class Scene1TransitionManager : MonoBehaviour
     {
 
         //just for test
-        if (Input.GetKeyDown(KeyCode.H))
+        /*
+        if (Input.GetKeyDown(KeyCode.F))
         {
             Win();
         }
+        */
+        
         
         if (!isTransitioning && !win)
         {
@@ -97,7 +102,7 @@ public class Scene1TransitionManager : MonoBehaviour
                 if (Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position) <= celestialBody.radius+transitionRadius)
                 {
                     Debug.Log("distance:" + Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
-                    if (celestialBody.name == "Titan") { win = true;  videoPlayer.Play(); }
+                    if (celestialBody.name == "Titan") { Win(); }
                     else if (celestialBody.name == "Moon") { StartCoroutine(FadeAndSwitchScene("Lunar")); }
                     else { StartCoroutine(FadeAndSwitchScene(celestialBody.name)); }
                     break;

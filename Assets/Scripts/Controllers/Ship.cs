@@ -91,8 +91,10 @@ public class Ship : GravityObject {
                 
             }
         }
-        
-        HandleMovement ();
+
+        if (Clock.speed == 0)
+            return;
+        HandleMovement();
 
         // Animate hatch
         //float hatchTargetAngle = (hatchOpen) ? hatchAngle : 0;
@@ -130,8 +132,9 @@ public class Ship : GravityObject {
         if (Clock.speed == 0)
             return;
 
+
         if (shipCam.enabled)
-        {
+        { 
             // Thrusters
             Vector3 thrustDir = transform.TransformVector(thrusterInput);
             motionData.Velocity += thrustDir * thrustStrength;
