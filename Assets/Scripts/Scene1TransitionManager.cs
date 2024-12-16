@@ -33,6 +33,7 @@ public class Scene1TransitionManager : MonoBehaviour
         planetMeshes.Add(GameObject.Find("Venus"));
         //planetMeshes.Add(GameObject.Find("Earth"));
         planetMeshes.Add(GameObject.Find("Mars"));
+        planetMeshes.Add(GameObject.Find("Titan"));
         spaceShip = GameObject.Find("Space Ship");
         // ����һ��CanvasGroup���ں���Ч��
         GameObject fadeCanvas = new GameObject("FadeCanvas");
