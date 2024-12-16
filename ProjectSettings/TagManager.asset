@@ -16,6 +16,7 @@ TagManager:
   - MarsStorm
   - EnemyA
   - EnemyB
+  - Ship
   layers:
   - Default
   - TransparentFX

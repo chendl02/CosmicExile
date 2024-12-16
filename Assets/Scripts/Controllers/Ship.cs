@@ -81,7 +81,7 @@ public class Ship : GravityObject {
                 shipCam.enabled = false;
                 mapCamObject = new GameObject("Map Camera");
                 CameraBehavior cameraBehavior = mapCamObject.AddComponent<CameraBehavior>();
-                cameraBehavior.Initialize(motionData.Position);
+                cameraBehavior.Initialize(this.transform);
                 
             }
             else
