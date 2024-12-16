@@ -155,7 +155,7 @@ public class MarsTaskController : MonoBehaviour
         //     finishTask = true;
         //     ChangeState(currentState);
         // }
-        if (MineralsProgressBar.size == 20)
+        if (MineralsProgressBar.size == (float)1)
         {
             subTaskText.text = "Conguadulations!!!, You Finished The Task!!!\nNow Spaceship is more powerful now!!!\n Go Back To the <color=red>SpaceShip</color>.\nAnd You Can Go Back to The Solar System.";
             // foreach (ThunderArea thunderArea in thunderAreaList)

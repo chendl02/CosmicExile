@@ -5,14 +5,14 @@ using UnityEngine.UI;
 public class MineralsUI : MonoBehaviour
 {
     [SerializeField] private Scrollbar MineralsProgressBar; 
-    public int collectedMinerals = 0; 
+    public int collectedMinerals = 18; 
     private int totalMinerals = 20;     
 
     void Start()
     {
         if (MineralsProgressBar != null)
         {
-            MineralsProgressBar.size = 0;
+            MineralsProgressBar.size = (float)collectedMinerals / totalMinerals;
         }
     }
 
@@ -39,6 +39,6 @@ public class MineralsUI : MonoBehaviour
     }
     public bool isDone()
     {
-        return collectedMinerals==totalMinerals;
+        return MineralsProgressBar.size == (float)1;
     }
 }
