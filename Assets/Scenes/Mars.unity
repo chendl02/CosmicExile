@@ -3811,7 +3811,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1750100170}
-  - component: {fileID: 1750100169}
   - component: {fileID: 1750100171}
   m_Layer: 0
   m_Name: Return_to_Space
@@ -3820,22 +3819,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1750100169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1750100168}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc8dcae191b74cfb89d4bb88662581d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 37290603}
-  targetPosition: {x: 0, y: 184, z: 0}
-  triggerDistance: 5
-  targetSceneName: Solar System
 --- !u!4 &1750100170
 Transform:
   m_ObjectHideFlags: 0
