@@ -15,6 +15,14 @@ public class Scene1TransitionManager : MonoBehaviour
     private CanvasGroup fadeCanvasGroup;
     private List<GameObject> planetMeshes;
 
+    void Awake()
+    {
+        if (StageController.stageStart)
+        {
+            StageController.LoadStage(1);
+        }
+    }
+
     void Start()
     {
         // �ҵ����н���PlanetMesh����Ʒ
@@ -32,6 +40,8 @@ public class Scene1TransitionManager : MonoBehaviour
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         fadeCanvasGroup = fadeCanvas.AddComponent<CanvasGroup>();
         fadeCanvasGroup.alpha = 1f; // ��ʼ͸����Ϊ0����ȫ͸����
+
+        
     }
 
     void Update()

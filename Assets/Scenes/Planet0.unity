@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 4d967331ca45f49598e42461e80bf24f, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1519,6 +1519,7 @@ GameObject:
   - component: {fileID: 1367230193}
   - component: {fileID: 1367230194}
   - component: {fileID: 1367230195}
+  - component: {fileID: 1367230196}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1589,6 +1590,22 @@ MonoBehaviour:
   introText: {fileID: 1974476729}
   displayDuration: 5
   fadeDuration: 4
+--- !u!114 &1367230196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367230191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06582ced791694608bccecee17c34f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  daySkybox: {fileID: 2100000, guid: 4d967331ca45f49598e42461e80bf24f, type: 2}
+  nightSkybox: {fileID: 2100000, guid: 26e8a6896ffa54aeea4ee908d8336af8, type: 2}
+  directionalLight: {fileID: 0}
+  dayDuration: 60
 --- !u!4 &1422706392 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4171269649180171444, guid: a3b2f2ce30ad94332aa1fd82172787af,

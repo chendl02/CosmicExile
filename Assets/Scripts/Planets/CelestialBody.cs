@@ -36,9 +36,9 @@ public class CelestialBody : OrbitalMotion {
 
     public bool inner;
 
-    void Awake () {
+    void Start() {
 
-
+        base.Start();
 
         //Debug.Log(Clock.dayTime);
         rb = GetComponent<Rigidbody> ();
