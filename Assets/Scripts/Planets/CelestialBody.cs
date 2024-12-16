@@ -11,6 +11,8 @@ public class CelestialBody : OrbitalMotion {
     //acceleration(m/s^2)
     //velocity(m/s)
 
+    public bool isMoon;
+
     public float siderealRotationPeriod;
 
     public float axialTilt;
@@ -34,12 +36,16 @@ public class CelestialBody : OrbitalMotion {
 
     public bool inner;
 
-    void Awake () {
+    void Start() {
+
+        base.Start();
+
+        //Debug.Log(Clock.dayTime);
         rb = GetComponent<Rigidbody> ();
         //rb.mass = mass;
         float t = Universe.physicsTimeStep * Universe.timeCoefficient / 3600.0f / 24.0f;
-        initVelocity = (GetRealPosition(t) - GetRealPosition(0)) / t * (1e+9f / 3600 / 24);
-        this.transform.position = GetRealPosition(0);
+        initVelocity = (GetRealPosition(t + Clock.startDay) - GetRealPosition(Clock.startDay)) / t * (1e+9f / 3600 / 24);
+        this.transform.position = GetRealPosition(Clock.startDay);
 
 
         // 创建一个 meshHolder 的副本
@@ -61,7 +67,6 @@ public class CelestialBody : OrbitalMotion {
         transform.rotation = Quaternion.Euler(-90, axialTilt, rb.rotation.eulerAngles.z);
 
     }
-
     void FixedUpdate()
     {
         if (Clock.speed == 0)

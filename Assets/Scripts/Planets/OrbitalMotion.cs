@@ -87,9 +87,9 @@ public class OrbitalMotion : MonoBehaviour
 
         float rotatedX = -Y;
         float rotatedY = X;
-        
+
         if (orbitBody != null)
-            return orbitBody.Position + new Vector3(rotatedX, rotatedY, Z);
+            return orbitBody.GetRealPosition(dayTime) + new Vector3(rotatedX, rotatedY, Z);
         else
             return new Vector3(rotatedX, rotatedY, Z);
     }
@@ -134,7 +134,7 @@ public class OrbitalMotion : MonoBehaviour
         DrawPredict(NonLinearSlider.previousValidValue);
     }
 
-    void Start()
+    public void Start()
     {
         trajectory = new Queue<Vector3>();
 

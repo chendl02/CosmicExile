@@ -6,6 +6,7 @@ using TMPro;
 public class Ship : GravityObject {
 
     public Vector3 initVelocity;
+    public Vector3 initPosition;
     public MotionData motionData;
 
     public Transform hatch;
@@ -27,7 +28,7 @@ public class Ship : GravityObject {
     [Header ("Interact")]
     public Interactable flightControls;
 
-    Rigidbody rb;
+    public Rigidbody rb;
     Quaternion targetRot;
     Quaternion smoothedRot;
 
@@ -49,11 +50,12 @@ public class Ship : GravityObject {
     public TextMeshProUGUI positionText;
     public TextMeshProUGUI velocityText;
 
-    void Awake () {
+    void Start () {
         InitRigidbody ();
         targetRot = transform.rotation;
         smoothedRot = transform.rotation;
-        motionData.Position = rb.position;
+        rb.MovePosition(initPosition);
+        motionData.Position = initPosition;
         motionData.Velocity = initVelocity;
 
         // if (lockCursor) {

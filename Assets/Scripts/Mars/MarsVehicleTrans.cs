@@ -20,7 +20,7 @@ public class MarsVehicleTrans : MonoBehaviour
         astronautController = astronaut.GetComponent<MarsAstronautController>();
         truckController = truck.GetComponent<TruckController>();
         astronautOffset = astronaut.transform.position - truck.transform.position;
-
+        truckController.enabled = false;
         EnableAstronautControl();
     }
 

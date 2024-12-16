@@ -10,9 +10,12 @@ public class MarsSceneTextManager : MonoBehaviour
     public bool modeChange;
     public Text taskText;
     public Text subTaskText;
-
+    public GameObject truck;      
+    private TruckController truckController;
+    
     void Awake()
     { 
+        truckController = truck.GetComponent<TruckController>();
         EventSystem[] eventSystems = FindObjectsOfType<EventSystem>();
         Debug.Log("EventSystem Number: " + eventSystems.Length); 
         for (int i = 1; i < eventSystems.Length; i++)
@@ -57,7 +60,7 @@ public class MarsSceneTextManager : MonoBehaviour
         MonoBehaviour[] allComponents = FindObjectsOfType<MonoBehaviour>();
         foreach (MonoBehaviour component in allComponents)
         {
-            if (component != this && component != taskText && component != subTaskText)
+            if (component != this && component != taskText && component != subTaskText &&component != truckController)
             {
                 component.enabled = true;
             }
