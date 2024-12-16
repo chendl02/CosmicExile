@@ -91,23 +91,39 @@ public class Lunar_to_Space : MonoBehaviour
     // 切换场景
     void SwitchScene()
     {
-        StageController.NextStage(4);
+        StageController.NextStage(2);
         
         SceneManager.LoadScene(targetSceneName);
     }
 
     // 显示 UI 提示
     void OnGUI()
+    // {
+    //     if (isPlayerNear)
+    //     {
+    //         if (canEnterRocket)
+    //         {
+    //             GUI.Label(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 20, 200, 40), "Press F to enter the rocket: " + targetSceneName);
+    //         }
+    //         else
+    //         {
+    //             GUI.Label(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 20, 300, 40), "You need to collect water to restart the rocket!");
+    //         }
+    //     }
+    // }
     {
+        GUIStyle labelStyle = new GUIStyle();
         if (isPlayerNear)
         {
+            labelStyle.fontSize = Screen.height / 20; // 动态字体大小
+            labelStyle.normal.textColor = Color.yellow;
             if (canEnterRocket)
             {
-                GUI.Label(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 20, 200, 40), "Press F to enter the rocket: " + targetSceneName);
+                GUI.Label(new Rect(Screen.width / 2 - 400, Screen.height / 2, 200, 40), "Press F to enter the rocket: " + targetSceneName, labelStyle);
             }
             else
             {
-                GUI.Label(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 20, 300, 40), "You need to collect water to restart the rocket!");
+                GUI.Label(new Rect(Screen.width / 2 - 400, Screen.height / 2, 200, 40), "You need to collect water to restart the rocket!", labelStyle);
             }
         }
     }
