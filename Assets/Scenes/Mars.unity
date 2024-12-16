@@ -2453,7 +2453,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1215979726}
-  - component: {fileID: 1215979727}
   - component: {fileID: 1215979728}
   m_Layer: 0
   m_Name: Astronaut_truck_convert
@@ -2477,23 +2476,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1215979727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215979725}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f02b52e740c42f8b9536278cd53e32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  astronaut: {fileID: 37290596}
-  truck: {fileID: 944115856}
-  astronautCamera: {fileID: 86143348}
-  truckCamera: {fileID: 582833074}
-  switchDistance: 5
 --- !u!114 &1215979728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3759,7 +3741,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1762147743}
-  - component: {fileID: 1762147742}
   - component: {fileID: 1762147741}
   m_Layer: 0
   m_Name: SceneManager
@@ -3780,26 +3761,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd8d8eb365b5ee458e182e5d7080e80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTextOnlyMode: 0
+  isTextOnlyMode: 1
   modeChange: 0
   taskText: {fileID: 0}
   subTaskText: {fileID: 0}
---- !u!114 &1762147742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1762147740}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6866e00c141570e40969d417b9841f3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isTextOnlyMode: 0
-  modeChange: 0
-  taskText: {fileID: 0}
-  subTaskText: {fileID: 0}
+  truck: {fileID: 944115856}
 --- !u!4 &1762147743
 Transform:
   m_ObjectHideFlags: 0
