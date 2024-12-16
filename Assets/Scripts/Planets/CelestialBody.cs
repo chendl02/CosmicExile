@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 [RequireComponent (typeof (Rigidbody))]
 public class CelestialBody : OrbitalMotion {
 
@@ -10,6 +10,8 @@ public class CelestialBody : OrbitalMotion {
     //mass(10^18 kg)
     //acceleration(m/s^2)
     //velocity(m/s)
+
+    public bool isMoon;
 
     public float siderealRotationPeriod;
 
@@ -35,11 +37,15 @@ public class CelestialBody : OrbitalMotion {
     public bool inner;
 
     void Awake () {
+
+
+
+        //Debug.Log(Clock.dayTime);
         rb = GetComponent<Rigidbody> ();
         //rb.mass = mass;
         float t = Universe.physicsTimeStep * Universe.timeCoefficient / 3600.0f / 24.0f;
-        initVelocity = (GetRealPosition(t) - GetRealPosition(0)) / t * (1e+9f / 3600 / 24);
-        this.transform.position = GetRealPosition(0);
+        initVelocity = (GetRealPosition(t + Clock.startDay) - GetRealPosition(Clock.startDay)) / t * (1e+9f / 3600 / 24);
+        this.transform.position = GetRealPosition(Clock.startDay);
 
 
         // 创建一个 meshHolder 的副本
@@ -61,7 +67,6 @@ public class CelestialBody : OrbitalMotion {
         transform.rotation = Quaternion.Euler(-90, axialTilt, rb.rotation.eulerAngles.z);
 
     }
-
     void FixedUpdate()
     {
         if (Clock.speed == 0)
