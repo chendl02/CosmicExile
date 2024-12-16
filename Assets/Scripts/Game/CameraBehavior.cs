@@ -23,6 +23,7 @@ public class CameraBehavior : MonoBehaviour
     public List<GameObject> labelList, labelList2;
 
     public Font textFont;
+    public GameObject canvas;
 
     // 构造函数，接收一个 position 参数，用于初始化摄像机
     public void Initialize(Transform cameraBase)
@@ -110,7 +111,7 @@ public class CameraBehavior : MonoBehaviour
     }
     void Start()
     {
-        
+        canvas = GameObject.Find("UI");
     }
 
     void Update()
@@ -152,9 +153,11 @@ public class CameraBehavior : MonoBehaviour
                 if (planet != null)
                 {
                     RectTransform rectTransform = child.GetComponent<RectTransform>();
-                    Vector3 vector = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-                    rectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(planet.transform.position) - vector;
+                    Vector3 vector = new Vector3(0.5f * Screen.width, 0.5f * Screen.height, 0f);
+                    rectTransform.anchoredPosition = (Camera.main.WorldToScreenPoint(planet.transform.position) - vector) * (canvas.GetComponent<RectTransform>().sizeDelta[1] / Screen.height);
                 }
+
+
 
                 CelestialBody body = planet.GetComponent<CelestialBody>();
 
@@ -166,8 +169,6 @@ public class CameraBehavior : MonoBehaviour
                 {
                     child.SetActive(camera.orthographicSize >= body.radius * hideCoefficient);
                 }
-
-
             }
 
 
@@ -179,7 +180,7 @@ public class CameraBehavior : MonoBehaviour
                 {
                     RectTransform rectTransform = child.GetComponent<RectTransform>();
                     Vector3 vector = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-                    rectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(ship.transform.position) - vector;
+                    rectTransform.anchoredPosition = (Camera.main.WorldToScreenPoint(ship.transform.position) - vector)*(canvas.GetComponent<RectTransform>().sizeDelta[1] / Screen.height);
                 }
 
                 child.SetActive(camera.orthographicSize > 5);
