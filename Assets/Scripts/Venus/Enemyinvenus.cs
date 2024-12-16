@@ -12,11 +12,12 @@ public class EnemyAI : MonoBehaviour
     private float nextFireTime = 0.1f; // 下一次发射时间
     public float sphereRadius = 184f;
     private Vector3 sphereCenter = Vector3.zero;
+    public AudioClip audioClip;
     void Start()
     {
         // 查找所有tag "fireball" 的预制体
         player = GameObject.Find("Player").transform;
-        
+        audioClip = Resources.Load<AudioClip>("bullet");
         detectionRange = 30f;
         moveSpeed = 5f;
     }
@@ -53,6 +54,11 @@ void FixedUpdate()
         firePoint = transform;
         firePoint.position += transform.forward * 1f;
         // 创建一个会发光的球体
+        GameObject audioObject = new GameObject("AudioObject"); 
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+        audioSource.clip = audioClip;
+        audioSource.Play();
+        Destroy(audioObject, audioClip.length);
         GameObject enemySystem = GameObject.Find("EnemySystem");
         GameObject bullet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         bullet.transform.position = firePoint.position;

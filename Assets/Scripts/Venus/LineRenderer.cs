@@ -13,12 +13,12 @@ public class CableSystemVenus : MonoBehaviour
     public Material lineMaterialFixed;
     public AstronautControllerVenus Player;
     public TaskController taskController;
-
+    public AudioClip audioClip;
     void Start()
     {
         GameObject rocketObject = GameObject.Find("Rocket.01");
         Player = GameObject.Find("Astronaut").GetComponent<AstronautControllerVenus>();
-        taskController = GameObject.Find("Canvas").GetComponent<TaskController>();
+        taskController = GameObject.Find("SceneManager").GetComponent<TaskController>();
         if (rocketObject != null)
         {
             currentCable = new Cable("currentCable", rocketObject.transform);
@@ -30,20 +30,21 @@ public class CableSystemVenus : MonoBehaviour
         count = 0;
         if (lineMaterial == null) { Debug.LogError("ERROR!!! Unable to load Sun material."); }
         currentCable.lineRenderer.material = lineMaterial;
+        audioClip = Resources.Load<AudioClip>("place_cable");
     }
 
     Vector3 GetPointOnSphereSurface(Vector3 point)
     {
-        // ¼ÆËãµãµ½ÇòÐÄµÄ¾àÀë
+        // ï¿½ï¿½ï¿½ï¿½ãµ½ï¿½ï¿½ï¿½ÄµÄ¾ï¿½ï¿½ï¿½
         float distance = Vector3.Distance(point, sphereCenter);
 
-        // Èç¹ûµãÔÚÇòÍâÃæ£¬·µ»ØÔ­µã
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½
         if (distance > sphereRadius)
         {
             return point;
         }
 
-        // Èç¹ûµãÔÚÇòÀïÃæ£¬¼ÆËãÇò±íÃæµÄµã
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½
         Vector3 direction = (point - sphereCenter).normalized;
         return sphereCenter + direction * sphereRadius;
     }
@@ -61,6 +62,11 @@ public class CableSystemVenus : MonoBehaviour
         else { currentCable.lineRenderer.enabled = true; }
         if (Input.GetKeyDown("q"))
         {
+            GameObject audioObject = new GameObject("AudioObject");
+            AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+            audioSource.clip = audioClip;
+            audioSource.Play();
+            Destroy(audioObject, audioClip.length);
             if (taskController.currentCableNum < 10)
             {
                 taskController.AddMessage("<color=orange>Warning</color>: No Enough Cable Frame!!");
@@ -84,6 +90,7 @@ public class CableSystemVenus : MonoBehaviour
             currentCable.lineRenderer.material = lineMaterial;
             if (taskController.currentCableNum >= 10)
             {
+
                 taskController.currentCableNum -= 10;
                 taskController.AddMessage("<color=Green>Message</color>: Successfully Place Cable!!");
                 if (!Player.enterThunderArea)

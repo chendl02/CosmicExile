@@ -29,7 +29,7 @@ public class ThunderArea : MonoBehaviour
 
     void OnPlayerEnterThunderArea()
     {
-        TaskController taskController = GameObject.Find("Canvas").GetComponent<TaskController>();
+        TaskController taskController = GameObject.Find("SceneManager").GetComponent<TaskController>();
         taskController.AddMessage("<color=Yellow>Hint</color>: Enter Thunder Area!! Place Cable Now");
         Player.currentThunderArea = gameObject.GetComponent<ThunderArea>();
 

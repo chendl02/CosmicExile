@@ -31,6 +31,7 @@ public class TaskController : MonoBehaviour
     public GameObject panel1;
     public GameObject panel2;
     public GameObject panel3;
+    public AudioClip audioClip;
 
     void Start()
     {
@@ -60,6 +61,7 @@ public class TaskController : MonoBehaviour
         panel1 = GameObject.Find("Panel1"); 
         panel2 = GameObject.Find("Panel2");
         panel3 = GameObject.Find("Panel3");
+        audioClip = Resources.Load<AudioClip>("success");
     }
     public void AddMessage(string message)
     {
@@ -133,24 +135,24 @@ public class TaskController : MonoBehaviour
             objectText.text = "Max Cable Capacity: <color=red>10</color>\n\nCable Frame Number:<color=red>" + currentCableNum + "</color>";
         if (currentState == TaskState.Task1)
         {
-            subTaskText.text = "Now, Start the SubTask\nFind the Secret of Venus: Use Gravity To Reach 50f Speed\n" + "Current Speed:"+Player.speed;
+            subTaskText.text = "<color=red>Task:\n</color>Now, Start the SubTask\nFind the Secret of Venus: Use Gravity To Reach 50f Speed\n" + "Current Speed:"+Player.speed;
             if (Player.speed > 50f) { ChangeState(currentState); }
         }
         if (currentState == TaskState.Task2)
         {
-            subTaskText.text = "Good Job!!!, Start the SubTask\nEnter the Twin Planet of Venus\n";
+            subTaskText.text = "<color=red>Task:\n</color>Good Job!!!, Start the SubTask\nEnter the Twin Planet of Venus\n";
             Transform TwinInnerTransform = GameObject.Find("TwinPlanet").transform;
             float distanceToTwin = Vector3.Distance(TwinInnerTransform.position, Player.position);
             if (distanceToTwin < 1000f) { ChangeState(currentState); }
         }
         if (currentState == TaskState.Task3)
         {
-            subTaskText.text = "Good Job!!!, Start the SubTask\nCollect 10 Cable Fragments on the Twin Planet\n";
+            subTaskText.text = "<color=red>Task:\n</color>Good Job!!!, Start the SubTask\nCollect 10 Cable Fragments on the Twin Planet\n";
             if (currentCableNum == 10) { ChangeState(currentState); }
         }
         if (currentState == TaskState.Task4)
         {
-            subTaskText.text = "Good Job!!!, You Finish All Begining Task!\nNow Go Back To Venus to Fight Against <color=red>Aliens</color>.\nAnd Place Cable to All the <color=red>Thunder Area</color>.";
+            subTaskText.text = "<color=red>Task:\n</color>Good Job!!!, You Finish All Begining Task!\nNow Go Back To Venus to Fight Against <color=red>Aliens</color>.\nAnd Place Cable to All the <color=red>Thunder Area</color>.";
             foreach (ThunderArea thunderArea in thunderAreaList)
             {
                 if (thunderArea.connected == false) { return; }
@@ -160,7 +162,7 @@ public class TaskController : MonoBehaviour
         }
         if (currentState == TaskState.Completed)
         {
-            subTaskText.text = "Conguadulations!!!, You Finish All Task!!!\nNow Spaceship is Full of Energy!!!\n Go Back To the <color=red>SpaceShip</color>.\nAnd You Can Go Back to The Solar System<color=red>Thunder Area</color>.";
+            subTaskText.text = "<color=red>Task:\n</color>Conguadulations!!!, You Finish All Task!!!\nNow Spaceship is Full of Energy!!!\n Go Back To the <color=red>SpaceShip</color>.\nAnd You Can Go Back to The Solar System<color=red>Thunder Area</color>.";
             foreach (ThunderArea thunderArea in thunderAreaList)
             {
                 if (thunderArea.connected == false) { return; }
@@ -180,6 +182,11 @@ public class TaskController : MonoBehaviour
     }
     void ChangeState(TaskState State)
     {
+        GameObject audioObject = new GameObject("AudioObject");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+        audioSource.clip = audioClip;
+        audioSource.Play();
+        Destroy(audioObject, audioClip.length);
         subTaskText.text = "";
         sceneManager.isTextOnlyMode = false;
         sceneManager.modeChange = true;
