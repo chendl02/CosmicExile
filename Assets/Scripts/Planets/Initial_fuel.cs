@@ -5,7 +5,7 @@ using UnityEngine;
 public class FuelSpawner : MonoBehaviour
 {
     public GameObject fuelPrefab;       // Fuel 的预制件
-    public int numFuels = 10;            // 生成的 Fuel 数量
+    public int numFuels = 100;            // 生成的 Fuel 数量
     public float planetRadius = 184f;   // 球体半径
     public float maxSpawnDistance = 300f; // Fuel 与玩家的最大生成距离
     public Vector3 playerPosition = new Vector3(0, 0, 0); // 玩家初始位置
