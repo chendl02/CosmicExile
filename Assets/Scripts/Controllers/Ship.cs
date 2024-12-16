@@ -5,8 +5,8 @@ using TMPro;
 
 public class Ship : GravityObject {
 
-    public Vector3 initVelocity;
     public Vector3 initPosition;
+    public Vector3 initVelocity;
     public MotionData motionData;
 
     public Transform hatch;

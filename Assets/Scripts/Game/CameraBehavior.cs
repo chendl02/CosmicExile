@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 
 public class CameraBehavior : MonoBehaviour
 {
-    public const float zoomSpeed = 1f; // 缩放速度
+    public const float zoomSpeed = 2f; // 缩放速度
     public const float moveSpeed = 1f; // WSAD移动速度
     public const float minZoom = 1f;   // 缩放的最小值
     public const float maxZoom = 5000f;  // 缩放的最大值
@@ -29,7 +29,7 @@ public class CameraBehavior : MonoBehaviour
     {
         mapCamObject = this.transform.gameObject;
         
-        Debug.Log(cameraBase.position);
+        //Debug.Log(cameraBase.position);
 
         mapCam = mapCamObject.AddComponent<Camera>();
 
@@ -43,7 +43,7 @@ public class CameraBehavior : MonoBehaviour
         mapCam.farClipPlane = 10000f;
         mapCam.nearClipPlane = 0.1f;
         mapCam.orthographic = true;
-        mapCam.orthographicSize = 50;
+        mapCam.orthographicSize = 10;
 
         // 设置摄像机的标签为 MainCamera
         mapCam.tag = "MainCamera";
