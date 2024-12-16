@@ -112,4 +112,8 @@ public class TaskHandler : MonoBehaviour
             Debug.LogWarning("AudioSource or AudioClip is missing!");
         }
     }
+
+    public bool isCompleted(){
+        return mission_completed;
+    }
 }

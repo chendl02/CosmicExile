@@ -65,5 +65,6 @@ public static class StageController
         Ship ship = GameObject.Find("Space Ship").GetComponent<Ship>();
         ship.initVelocity = spaceState.velocity;
         ship.initPosition = spaceState.position;
+        ship.motionData = new MotionData(spaceState.position, spaceState.velocity);
     }
 }

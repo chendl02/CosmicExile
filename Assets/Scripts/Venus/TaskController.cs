@@ -79,43 +79,43 @@ public class TaskController : MonoBehaviour
             {
                 string message = messageQueue.Dequeue();
                 messageText.text = message;
-                yield return new WaitForSeconds(5f); // ÏÔÊ¾5Ãë
-                messageText.text = ""; // Çå¿ÕÎÄ×Ö
+                yield return new WaitForSeconds(5f); // ï¿½ï¿½Ê¾5ï¿½ï¿½
+                messageText.text = ""; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             }
             else
             {
-                yield return null; // µÈ´ýÏÂÒ»Ö¡
+                yield return null; // ï¿½È´ï¿½ï¿½ï¿½Ò»Ö¡
             }
         }
     }
     IEnumerator ShowText(Text textObject, string fullText, bool changeModeAfterText)
     {
-        // ÎÄ×Ö»ºÂý³öÏÖ
+        // ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         sceneManager.isTextOnlyMode = true;
         sceneManager.modeChange = true;
         textObject.text = "";
         for (int i = 0; i < fullText.Length; i++)
         {
             textObject.text += fullText[i];
-            yield return new WaitForSeconds(0.04f); // Ã¿¸ö×Ö·û³öÏÖµÄ¼ä¸ôÊ±¼ä
+            yield return new WaitForSeconds(0.04f); // Ã¿ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ÖµÄ¼ï¿½ï¿½Ê±ï¿½ï¿½
         }
 
-        // Õ¹Ê¾10Ãë
+        // Õ¹Ê¾10ï¿½ï¿½
         // yield return new WaitForSeconds(10f);
 
         while (!Input.GetKeyDown(KeyCode.Return))
         {
-            yield return null; // µÈ´ýÏÂÒ»Ö¡
-        } // Íæ¼Ò°´ÏÂ»Ø³µ¼üºó´¥·¢µÄÂß¼­
+            yield return null; // ï¿½È´ï¿½ï¿½ï¿½Ò»Ö¡
+        } // ï¿½ï¿½Ò°ï¿½ï¿½Â»Ø³ï¿½ï¿½ï¿½ï¿½ó´¥·ï¿½ï¿½ï¿½ï¿½ß¼ï¿½
         OnEnterPressed(currentState);
 
-            // ÎÄ×Ö»ºÂýÏûÊ§
+            // ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½Ê§
             for (float alpha = 1f; alpha >= 0; alpha -= 0.2f)
         {
             Color color = taskText.color;
             color.a = alpha;
             textObject.color = color;
-            yield return new WaitForSeconds(0.1f); // Ã¿¸ö×Ö·ûÏûÊ§µÄ¼ä¸ôÊ±¼ä
+            yield return new WaitForSeconds(0.1f); // Ã¿ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ê§ï¿½Ä¼ï¿½ï¿½Ê±ï¿½ï¿½
         }
         sceneManager.isTextOnlyMode = false;
         sceneManager.modeChange = changeModeAfterText;
@@ -125,7 +125,7 @@ public class TaskController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.R))
         { 
             panel1.SetActive(!panelActive); 
             panel2.SetActive(!panelActive); 

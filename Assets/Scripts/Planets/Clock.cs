@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Clock : MonoBehaviour
 {
     // Start is called before the first frame update
-    public const float startDay = 555.0f;
+    public const float startDay = 0f;
     
 
     public Text time_text;
@@ -116,7 +116,7 @@ public class Clock : MonoBehaviour
         //just for test
         if (Input.GetKeyDown(KeyCode.H))
         {
-            StageController.NextStage(2);
+            StageController.NextStage(4);
             StageController.LoadStage();
         }
     }
