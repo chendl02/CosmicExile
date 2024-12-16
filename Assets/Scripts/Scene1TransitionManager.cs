@@ -17,10 +17,12 @@ public class Scene1TransitionManager : MonoBehaviour
 
     void Awake()
     {
+        
         if (StageController.stageStart)
         {
-            StageController.LoadStage(1);
+            StageController.LoadStage();
         }
+        
     }
 
     void Start()
