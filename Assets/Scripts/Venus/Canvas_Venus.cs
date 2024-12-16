@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Canvas : MonoBehaviour
+public class Canvas_Venus : MonoBehaviour
 {
     // Start is called before the first frame update
     public List<ThunderArea> thunderAreaList;
