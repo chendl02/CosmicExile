@@ -49,8 +49,8 @@ public class Lunar_to_Space : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 
-                // if (canEnterRocket)
-                if(true)
+                if (canEnterRocket)
+                //if(true)
                 {
                     SwitchScene();
                 }
