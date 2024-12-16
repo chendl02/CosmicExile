@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 public class Scene1TransitionManager : MonoBehaviour
 {
-    public GameObject spaceShip; // Space Ship¶ÔÏó
-    public float transitionRadius = 1f; // ÇÐ»»³¡¾°µÄ°ë¾¶
-    public float fadeDuration = 0.1f; // ºÚÆÁ³ÖÐøÊ±¼ä
+    public GameObject spaceShip; // Space Shipï¿½ï¿½ï¿½ï¿½
+    public float transitionRadius = 0.1f; // ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä°ë¾¶
+    public float fadeDuration = 0.1f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 
     private bool isTransitioning = false;
     private CanvasGroup fadeCanvasGroup;
@@ -17,8 +17,7 @@ public class Scene1TransitionManager : MonoBehaviour
 
     void Start()
     {
-        // ÕÒµ½ËùÓÐ½Ð×öPlanetMeshµÄÎïÆ·
-        transitionRadius = 1f;
+        // ï¿½Òµï¿½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½PlanetMeshï¿½ï¿½ï¿½ï¿½Æ·
         fadeDuration = 0.1f;
         planetMeshes = new List<GameObject>();
         //planetMeshes = GameObject.FindGameObjectsWithTag("Planet");
@@ -27,12 +26,12 @@ public class Scene1TransitionManager : MonoBehaviour
         //planetMeshes.Add(GameObject.Find("Earth"));
         planetMeshes.Add(GameObject.Find("Mars"));
         spaceShip = GameObject.Find("Space Ship");
-        // ´´½¨Ò»¸öCanvasGroupÓÃÓÚºÚÆÁÐ§¹û
+        // ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½CanvasGroupï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½Ð§ï¿½ï¿½
         GameObject fadeCanvas = new GameObject("FadeCanvas");
         Canvas canvas = fadeCanvas.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         fadeCanvasGroup = fadeCanvas.AddComponent<CanvasGroup>();
-        fadeCanvasGroup.alpha = 1f; // ³õÊ¼Í¸Ã÷¶ÈÎª0£¨ÍêÈ«Í¸Ã÷£©
+        fadeCanvasGroup.alpha = 1f; // ï¿½ï¿½Ê¼Í¸ï¿½ï¿½ï¿½ï¿½Îª0ï¿½ï¿½ï¿½ï¿½È«Í¸ï¿½ï¿½ï¿½ï¿½
     }
 
     void Update()
@@ -42,10 +41,10 @@ public class Scene1TransitionManager : MonoBehaviour
             foreach (GameObject planet in planetMeshes)
             {
                 CelestialBody celestialBody = planet.GetComponent<CelestialBody>();
-                Debug.Log("distance:"+Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
+                //Debug.Log("distance:"+Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
                 if (Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position) <= celestialBody.radius+transitionRadius)
                 {
-                    Debug.Log("distance:" + Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
+                    //Debug.Log("distance:" + Vector3.Distance(spaceShip.transform.position, celestialBody.transform.position));
                     if (celestialBody.name == "Moon") { StartCoroutine(FadeAndSwitchScene("Lunar")); }
                     else { StartCoroutine(FadeAndSwitchScene(celestialBody.name)); }
                     break;
@@ -66,7 +65,7 @@ public class Scene1TransitionManager : MonoBehaviour
             yield return null;
         }
 
-        SceneManager.LoadScene("Scenes/"+name); // Ìæ»»ÎªÄ¿±ê³¡¾°µÄÃû³Æ
+        SceneManager.LoadScene("Scenes/"+name); // ï¿½æ»»ÎªÄ¿ï¿½ê³¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         timer = 0f;
         while (timer < fadeDuration)

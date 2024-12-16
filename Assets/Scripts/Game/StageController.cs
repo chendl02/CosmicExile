@@ -43,6 +43,8 @@ public static class StageController
 
         Clock.dayTime = spaceState.dayTime;
 
-
+        Ship ship = GameObject.Find("Space Ship").GetComponent<Ship>();
+        ship.initVelocity = spaceState.velocity;
+        ship.motionData = new MotionData(spaceState.position, spaceState.velocity);
     }
 }
