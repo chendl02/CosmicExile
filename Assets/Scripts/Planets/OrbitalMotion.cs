@@ -134,7 +134,7 @@ public class OrbitalMotion : MonoBehaviour
         DrawPredict(NonLinearSlider.previousValidValue);
     }
 
-    void Start()
+    public void Start()
     {
         trajectory = new Queue<Vector3>();
 

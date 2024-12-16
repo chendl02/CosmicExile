@@ -4,7 +4,26 @@ using UnityEngine;
 
 public static class StageController
 {
-    public static void loadStage(int stage)
+    public static int stage = 0;
+    public static bool stageStart = false;
+    public static void NextStage()
+    {
+        stageStart = true;
+        stage += 1;
+    }
+
+    public static void NextStage(int nextStage)
+    {
+        stageStart = true;
+        stage = nextStage;
+    }
+
+    public static void LoadStage()
+    {
+        LoadStage(stage);
+    }
+
+    public static void LoadStage(int stage)
     {
         stage -= 1;
         // 找到当前场景中名为 "Stages" 的 GameObject
@@ -45,6 +64,6 @@ public static class StageController
 
         Ship ship = GameObject.Find("Space Ship").GetComponent<Ship>();
         ship.initVelocity = spaceState.velocity;
-        ship.motionData = new MotionData(spaceState.position, spaceState.velocity);
+        ship.initPosition = spaceState.position;
     }
 }

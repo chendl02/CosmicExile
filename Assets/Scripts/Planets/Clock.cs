@@ -9,6 +9,7 @@ public class Clock : MonoBehaviour
 {
     // Start is called before the first frame update
     public const float startDay = 180.0f;
+    
 
     public Text time_text;
     public static float dayTime = 0;
@@ -26,8 +27,16 @@ public class Clock : MonoBehaviour
 
     void Awake()
     {
+        
+    }
+
+    void Start()
+    {
         //Debug.Log("23333");
-        dayTime = startDay;
+        if (!StageController.stageStart)
+        { 
+            dayTime = startDay;
+        }
         buttons = new Button[] { x1Button, x2Button, x5Button, x10Button, pauseButton };
         x1Button.onClick.AddListener(() => OnButtonClick(x1Button, 1.0f));
         x2Button.onClick.AddListener(() => OnButtonClick(x2Button, 2.0f));
@@ -107,7 +116,8 @@ public class Clock : MonoBehaviour
         //just for test
         if (Input.GetKeyDown(KeyCode.H))
         {
-            StageController.loadStage(1);
+            StageController.NextStage(2);
+            StageController.LoadStage();
         }
     }
 
