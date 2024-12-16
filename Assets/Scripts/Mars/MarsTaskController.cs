@@ -22,6 +22,7 @@ public class MarsTaskController : MonoBehaviour
     public TaskState currentState;
     public MarsSceneTextManager sceneManager;
     public MarsAstronautController Player;
+    public Scrollbar MineralsProgressBar; 
     public string tempText;
     public int currentCableNum;
     // public List<ThunderArea> thunderAreaList = new List<ThunderArea>();
@@ -56,7 +57,7 @@ public class MarsTaskController : MonoBehaviour
         // {
         //     thunderAreaList.Add(thunderArea.GetComponent<ThunderArea>());
         // }
-        panelActive = true;
+        panelActive = false;
         panel1 = GameObject.Find("Panel1"); 
         panel2 = GameObject.Find("Panel2");
         panel3 = GameObject.Find("Panel3");
@@ -129,7 +130,7 @@ public class MarsTaskController : MonoBehaviour
         // objectText.text = "Max Cable Capacity: <color=red>10</color>\n\nCable Frame Number:<color=red>" + currentCableNum + "</color>";
         // if (currentState == TaskState.Task1)
         // {
-        // subTaskText.text = "Now, Start the SubTask\nFind the Secret of Venus: Use Gravity To Reach 50f Speed\n" + "Current Speed:"+Player.speed;
+        subTaskText.text = "Beware of the aliens that are attacking each other, if you get too close they will see you as a common enemy and attack you at a faster rate. \n And the aliens that are wandering around will notice you from further away.";
         //     if (Player.speed > 50f) { ChangeState(currentState); }
         // }
         // if (currentState == TaskState.Task2)
@@ -154,7 +155,7 @@ public class MarsTaskController : MonoBehaviour
         //     finishTask = true;
         //     ChangeState(currentState);
         // }
-        if (currentState == TaskState.Completed)
+        if (MineralsProgressBar.size == 20)
         {
             subTaskText.text = "Conguadulations!!!, You Finished The Task!!!\nNow Spaceship is more powerful now!!!\n Go Back To the <color=red>SpaceShip</color>.\nAnd You Can Go Back to The Solar System.";
             // foreach (ThunderArea thunderArea in thunderAreaList)
@@ -162,8 +163,9 @@ public class MarsTaskController : MonoBehaviour
             //     if (thunderArea.connected == false) { return; }
             // }
             finishTask = true;
-            ChangeState(currentState);
+            // ChangeState(currentState);
         }
+
     }
     void OnEnterPressed(TaskState State)
     {

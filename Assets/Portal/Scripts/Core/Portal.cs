@@ -19,6 +19,7 @@ public class Portal : MonoBehaviour {
     Material firstRecursionMat;
     List<PortalTraveller> trackedTravellers;
     MeshFilter screenMeshFilter;
+    AudioClip audioClip;
 
     void Awake () {
         playerCam = Camera.main;
@@ -35,6 +36,8 @@ public class Portal : MonoBehaviour {
         trackedTravellers = new List<PortalTraveller> ();
         screenMeshFilter = screen.GetComponent<MeshFilter> ();
         screen.material.SetInt ("displayMask", 1);
+        audioClip = Resources.Load<AudioClip>("portal");
+        
     }
 
     void LateUpdate () {
@@ -42,12 +45,11 @@ public class Portal : MonoBehaviour {
     }
 
     void HandleTravellers () {
-
+        
         for (int i = 0; i < trackedTravellers.Count; i++) {
             PortalTraveller traveller = trackedTravellers[i];
             Transform travellerT = traveller.transform;
             var m = linkedPortal.transform.localToWorldMatrix * transform.worldToLocalMatrix * travellerT.localToWorldMatrix;
-
             Vector3 offsetFromPortal = travellerT.position - transform.position;
             int portalSide = System.Math.Sign (Vector3.Dot (offsetFromPortal, transform.forward));
             int portalSideOld = System.Math.Sign (Vector3.Dot (traveller.previousOffsetFromPortal, transform.forward));

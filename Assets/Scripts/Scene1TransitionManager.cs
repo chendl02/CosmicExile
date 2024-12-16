@@ -33,11 +33,12 @@ public class Scene1TransitionManager : MonoBehaviour
         planetMeshes.Add(GameObject.Find("Venus"));
         //planetMeshes.Add(GameObject.Find("Earth"));
         planetMeshes.Add(GameObject.Find("Mars"));
+        planetMeshes.Add(GameObject.Find("Titan"));
         spaceShip = GameObject.Find("Space Ship");
         // ����һ��CanvasGroup���ں���Ч��
         GameObject fadeCanvas = new GameObject("FadeCanvas");
         Canvas canvas = fadeCanvas.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        //canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         fadeCanvasGroup = fadeCanvas.AddComponent<CanvasGroup>();
         fadeCanvasGroup.alpha = 1f; // ��ʼ͸����Ϊ0����ȫ͸����
 

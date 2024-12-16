@@ -21,6 +21,7 @@ public class AstronautControllerVenus : MonoBehaviour
     public Vector3 position;
     public bool enterThunderArea;
     public ThunderArea currentThunderArea;
+    public AudioClip audioClip;
 
     void Start()
     {
@@ -28,6 +29,7 @@ public class AstronautControllerVenus : MonoBehaviour
         rig.useGravity = false;                  // 禁用重力
         healthManager = FindObjectOfType<HealthManager>();
         currentThunderArea = null;
+        audioClip = Resources.Load<AudioClip>("Damage");
     }
 
     void Update()
@@ -103,8 +105,12 @@ public class AstronautControllerVenus : MonoBehaviour
     {
         if (canJump)
         {
+            GameObject innerPlanet = GameObject.Find("InnerPlanet");
             canJump = false;
-            rig.AddForce(Vector3.up * forceConst, ForceMode.Impulse);
+            Vector3 directionToInnerPlanet = transform.position - innerPlanet.transform.position; 
+            Vector3 jumpDirection = directionToInnerPlanet.normalized;
+                                                        
+            rig.AddForce(jumpDirection * forceConst, ForceMode.Impulse);
         }
     }
 
@@ -117,6 +123,11 @@ public class AstronautControllerVenus : MonoBehaviour
         }
         if (collision.gameObject.name == "Fireball")
         {
+            GameObject audioObject = new GameObject("AudioObject");
+            AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+            audioSource.clip = audioClip;
+            audioSource.Play();
+            Destroy(audioObject, audioClip.length);
             healthManager.ReduceHealth(5);
             //Destroy(collision.gameObject);
         }
