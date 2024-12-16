@@ -287,12 +287,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3694856578859090334}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &37290603 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3084476436675236748, guid: a3b2f2ce30ad94332aa1fd82172787af,
-    type: 3}
-  m_PrefabInstance: {fileID: 3694856578859090334}
-  m_PrefabAsset: {fileID: 0}
 --- !u!136 &37290604
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -26675,7 +26669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1750100170}
-  - component: {fileID: 1750100169}
+  - component: {fileID: 1750100171}
   m_Layer: 0
   m_Name: Return_to_Space
   m_TagString: Untagged
@@ -26683,22 +26677,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1750100169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1750100168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc8dcae191b74cfb89d4bb88662581d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 37290603}
-  targetPosition: {x: 0, y: 184, z: 0}
-  triggerDistance: 5
-  targetSceneName: Solar System
 --- !u!4 &1750100170
 Transform:
   m_ObjectHideFlags: 0
@@ -26714,6 +26692,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1750100171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750100168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a0266522daafba4a9363ddd79ec5992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  triggerDistance: 3
+  targetSceneName: 
+  taskController: {fileID: 0}
 --- !u!4 &1763866665 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3743597651704331073, guid: ce71ddc64223549ed8fc19f77f5948b2,
@@ -32164,9 +32159,9 @@ MonoBehaviour:
     E: Place Portal
 
     R:
-    Pick Up Items
+    Close/O Canvas
 
-    F: Close/O Canvas
+    F: Return to Space
 
 '
 --- !u!222 &1973174910
