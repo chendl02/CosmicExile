@@ -114,13 +114,13 @@ public class Clock : MonoBehaviour
         }
 
         //just for test
-        /*
+        
         if (Input.GetKeyDown(KeyCode.H))
         {
-            StageController.NextStage(1);
+            StageController.NextStage(2);
             StageController.LoadStage();
         }
-        */
+        
         
     }
 
