@@ -14,7 +14,7 @@ public class VirusMovement : MonoBehaviour
     void Start()
     {
         // 获取玩家对象及其 Transform 和 Rigidbody
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject player = GameObject.Find("Player");
         if (player != null)
         {
             playerTransform = player.transform;

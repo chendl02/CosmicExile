@@ -67,6 +67,8 @@ public class OrbitalMotion : MonoBehaviour
 
     public Vector3 GetRealPosition(float dayTime)
     {
+        if (orbitBody == null)
+            return Vector3.zero;
         // 获取二维轨道坐标
         Vector2 orbitalPosition = GetOrbitalPosition(dayTime);
         float x = orbitalPosition.x;
@@ -88,10 +90,7 @@ public class OrbitalMotion : MonoBehaviour
         float rotatedX = -Y;
         float rotatedY = X;
 
-        if (orbitBody != null)
-            return orbitBody.GetRealPosition(dayTime) + new Vector3(rotatedX, rotatedY, Z);
-        else
-            return new Vector3(rotatedX, rotatedY, Z);
+        return orbitBody.GetRealPosition(dayTime) + new Vector3(rotatedX, rotatedY, Z);
     }
 
 
