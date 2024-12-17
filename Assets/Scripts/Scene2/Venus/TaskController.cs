@@ -155,7 +155,7 @@ public class TaskController : MonoBehaviour
             subTaskText.text = "<color=red>Task:\n</color>Good Job!!!, You Finish All Begining Task!\nNow Go Back To Venus to Fight Against <color=red>Aliens</color>.\nAnd Place Cable to All the <color=red>Thunder Area</color>.";
             foreach (ThunderArea thunderArea in thunderAreaList)
             {
-                if (thunderArea.connected == true) { break; }
+                //if (thunderArea.connected == true) { break; }
                 if (thunderArea.connected == false) { return; }
             }
             finishTask = true;

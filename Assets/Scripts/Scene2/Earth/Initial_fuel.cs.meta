@@ -1,9 +1,11 @@
 fileFormatVersion: 2
-guid: 4ce9db52037a44727a05d9480e14a24d
+guid: 5e9568b02525340c3bbe5c5b6531d60f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - fuelPrefab: {fileID: 2758640188005275490, guid: 32af8d28afc564418bc004c57b7c3f93,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
