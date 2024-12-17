@@ -99,12 +99,24 @@ public class MarsAstronautController : MonoBehaviour
         transform.Rotate(0, turn, 0);
     }
 
+    // private void Jump()
+    // {
+    //     if (canJump)
+    //     {
+    //         canJump = false;
+    //         rig.AddForce(Vector3.up * forceConst, ForceMode.Impulse);
+    //     }
+    // }
     private void Jump()
     {
         if (canJump)
         {
+            GameObject innerPlanet = GameObject.Find("InnerPlanet");
             canJump = false;
-            rig.AddForce(Vector3.up * forceConst, ForceMode.Impulse);
+            Vector3 directionToInnerPlanet = transform.position - innerPlanet.transform.position; 
+            Vector3 jumpDirection = directionToInnerPlanet.normalized;
+                                                        
+            rig.AddForce(jumpDirection * forceConst, ForceMode.Impulse);
         }
     }
 

@@ -1671,6 +1671,7 @@ MonoBehaviour:
   lineMaterialFixed: {fileID: 2100000, guid: 71f3731cd6f9245a2ba19a646e1d8d56, type: 2}
   Player: {fileID: 0}
   taskController: {fileID: 0}
+  audioClip: {fileID: 0}
 --- !u!1 &943602767
 GameObject:
   m_ObjectHideFlags: 0
@@ -3243,7 +3244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MineralsProgressBar: {fileID: 1522503088}
-  collectedMinerals: 0
+  collectedMinerals: 18
 --- !u!114 &1522503088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4622,9 +4623,10 @@ MonoBehaviour:
 
     Space: Jump
 
-    E: Place Portal
+    E: Up/Down the SpaceTruck
 
-    F: Close/O Canvas
+    F: Close/O
+    Canvas
 
 '
 --- !u!222 &1999289966

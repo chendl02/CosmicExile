@@ -32,10 +32,10 @@ public class MineralsController : MonoBehaviour
                 switch (mineralType)
                 {
                     case "Iron":
-                        mineralsUI.AddMinerals(1);
+                        mineralsUI.AddMinerals(3);
                         break;
                     case "Uranium":
-                        mineralsUI.AddMinerals(5);
+                        mineralsUI.AddMinerals(6);
                         // MarsAstronautController astronautController = other.GetComponent<MarsAstronautController>();
                         // MarsAstronautController astronautController = other.GetComponent<MarsAstronautController>();
                         astronautController.isCarryingU = true;
