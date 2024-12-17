@@ -18,7 +18,7 @@ public class GameSetUp : MonoBehaviour {
         Ship ship = FindObjectOfType<Ship> ();
         PlayerController player = FindObjectOfType<PlayerController> ();
 
-
+        player.init();
         ship.PilotShip();
         ship.flightControls.ForcePlayerInInteractionZone();
         /*

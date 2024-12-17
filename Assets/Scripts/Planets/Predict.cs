@@ -41,7 +41,8 @@ public class Predict : MonoBehaviour
         toggle.onValueChanged.AddListener(togglePredict);
 
 
-        lineHandler = new LineRendererHandler(gameObject, lineColor);
+        lineHandler = this.gameObject.AddComponent<LineRendererHandler>();
+        lineHandler.Initialize(gameObject, lineColor);
         lineHandler.Enable(false);
     }
 

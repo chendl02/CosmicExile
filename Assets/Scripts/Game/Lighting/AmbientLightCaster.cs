@@ -25,7 +25,7 @@ public class AmbientLightCaster : MonoBehaviour {
     }
 
     Quaternion CalculateAmbientLightRot () {
-        CelestialBody[] bodies = NBodySimulation.Bodies;
+        CelestialBody[] bodies = FindObjectOfType<NBodySimulation>().bodies;
         Vector3 nearestPlanetToCam = Vector3.zero;
         float nearestSqrDst = float.PositiveInfinity;
 

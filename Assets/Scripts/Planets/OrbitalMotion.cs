@@ -143,9 +143,11 @@ public class OrbitalMotion : MonoBehaviour
         farPos = GetRealPosition(period / 2);
         farDistance = farPos.magnitude;
 
-        lineHandler = new LineRendererHandler(gameObject, lineColor);
+        lineHandler = this.gameObject.AddComponent<LineRendererHandler>();
+        lineHandler.Initialize(gameObject, lineColor);
         lineHandler.Enable(enableDrawer);
 
         DrawOrbit();
     }
+
 }

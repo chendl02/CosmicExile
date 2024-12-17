@@ -43,7 +43,7 @@ public class PlayerController : GravityObject {
     bool readyToFlyShip;
     public Vector3 delta;
 
-    void Awake () {
+    public void init () {
         cam = GetComponentInChildren<Camera> ();
         cameraLocalPos = cam.transform.localPosition;
         spaceship = FindObjectOfType<Ship> ();
@@ -70,6 +70,7 @@ public class PlayerController : GravityObject {
     }
 
     void HandleMovement () {
+        /*
         //DebugHelper.HandleEditorInput (lockCursor);
         // Look input
         yaw += Input.GetAxisRaw ("Mouse X") * mouseSensitivity;
@@ -80,8 +81,9 @@ public class PlayerController : GravityObject {
         smoothYaw = Mathf.SmoothDampAngle (smoothYaw, yaw, ref yawSmoothV, rotationSmoothTime);
         cam.transform.localEulerAngles = Vector3.right * smoothPitch;
         transform.Rotate (Vector3.up * Mathf.DeltaAngle (smoothYawOld, smoothYaw), Space.Self);
-
+        */
         // Movement
+        /*
         bool isGrounded = IsGrounded ();
         Vector3 input = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical"));
         float currentSpeed = Input.GetKey (KeyCode.LeftShift) ? runSpeed : walkSpeed;
@@ -97,6 +99,7 @@ public class PlayerController : GravityObject {
                 rb.AddForce (-transform.up * stickToGroundForce, ForceMode.VelocityChange);
             }
         }
+        */
     }
 
     bool IsGrounded () {
@@ -123,6 +126,7 @@ public class PlayerController : GravityObject {
     }
 
     void FixedUpdate () {
+        /*
         CelestialBody[] bodies = NBodySimulation.Bodies;
         Vector3 strongestGravitionalPull = Vector3.zero;
 
@@ -146,6 +150,7 @@ public class PlayerController : GravityObject {
 
         // Move
         rb.MovePosition (rb.position + smoothVelocity * Time.fixedDeltaTime);
+        */
     }
 
     public void SetVelocity (Vector3 velocity) {
