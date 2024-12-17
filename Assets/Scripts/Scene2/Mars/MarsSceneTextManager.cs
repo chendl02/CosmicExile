@@ -27,7 +27,7 @@ public class MarsSceneTextManager : MonoBehaviour
     void Start()
     {
         taskText = GameObject.Find("TaskText").GetComponent<Text>();
-        subTaskText = GameObject.Find("SubTaskText").GetComponent<Text>();
+        //subTaskText = GameObject.Find("SubTaskText").GetComponent<Text>();
     }
 
     void Update()
