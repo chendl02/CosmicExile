@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class MineralsUI : MonoBehaviour
 {
     [SerializeField] private Scrollbar MineralsProgressBar; 
-    public int collectedMinerals = 18; 
+    public int collectedMinerals = 0; 
     private int totalMinerals = 20;     
 
     void Start()
