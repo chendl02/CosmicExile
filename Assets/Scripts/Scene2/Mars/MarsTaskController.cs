@@ -61,6 +61,9 @@ public class MarsTaskController : MonoBehaviour
         panel1 = GameObject.Find("Panel1"); 
         panel2 = GameObject.Find("Panel2");
         panel3 = GameObject.Find("Panel3");
+        panel1.SetActive(panelActive); 
+        panel2.SetActive(panelActive); 
+        panel3.SetActive(panelActive); 
     }
     public void AddMessage(string message)
     {
