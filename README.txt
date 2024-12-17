@@ -1,3 +1,4 @@
+###################################################################################################
 Contributors
 List of all team members and their main contributions. You can reference GitHub commit history to detail each member's contributions and role in the project.
 
@@ -20,8 +21,9 @@ Commit History: https://github.com/chendl02/CosmicExile/commits/main/?author=che
 Siyuan Cen
 Main Contribution: Implement Earth
 Commit History: https://github.com/chendl02/CosmicExile/commits/main/?author=sy77777en
+###################################################################################################
 
-
+###################################################################################################
 External Resources/Code Used
 
 Low Poly Rock Pack: https://assetstore.unity.com/packages/3d/environments/low-poly-rock-pack-57874
@@ -34,4 +36,15 @@ Poly Angel - Space Pack: https://assetstore.unity.com/packages/3d/vehicles/space
 
 Stylized Astronaut: https://assetstore.unity.com/packages/3d/characters/humanoids/sci-fi/stylized-astronaut-114298
 
-Venus Portal
+Venus Portal: https://github.com/SebLague/Portals/tree/master
+###################################################################################################
+
+###################################################################################################
+Task/SourceCode BreakDown:
+
+Jiageng Liu: All scripts for Venus, "Assets/Scripts/Scene2/Venus"
+
+
+
+###################################################################################################
+
