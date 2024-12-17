@@ -42,7 +42,7 @@ Venus Portal: https://github.com/SebLague/Portals/tree/master
 ###################################################################################################
 Task/SourceCode BreakDown:
 
-Wenjun Liu: All scirpts for Celestial Motion, Spacecraft Motion and Trajectory Prediction
+Wenjun Liu: All scirpts for Celestial Motion, Spacecraft Motion and Trajectory Prediction, "Assets/Scripts/Scene1"
 Jiageng Liu: All scripts for Venus, "Assets/Scripts/Scene2/Venus"
 Siyuan Cen: All scripts for Earth, "Assets/Scripts/Scene2/Earth"
 

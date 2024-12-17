@@ -34,7 +34,6 @@ public class Clock : MonoBehaviour
 
     void Start()
     {
-        //Debug.Log("23333");
         if (!StageController.stageStart)
         { 
             dayTime = startDay;
@@ -116,17 +115,6 @@ public class Clock : MonoBehaviour
             pressPause();
         }
 
-        //just for test
-        /*
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            StageController.NextStage(2);
-            StageController.LoadStage();
-            pressPause();
-        }
-        */
-        
-        
     }
 
     public void pressPause()
