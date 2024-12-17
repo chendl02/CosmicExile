@@ -155,6 +155,7 @@ public class TaskController : MonoBehaviour
             subTaskText.text = "<color=red>Task:\n</color>Good Job!!!, You Finish All Begining Task!\nNow Go Back To Venus to Fight Against <color=red>Aliens</color>.\nAnd Place Cable to All the <color=red>Thunder Area</color>.";
             foreach (ThunderArea thunderArea in thunderAreaList)
             {
+                if (thunderArea.connected == true) { break; }
                 if (thunderArea.connected == false) { return; }
             }
             finishTask = true;
@@ -163,12 +164,7 @@ public class TaskController : MonoBehaviour
         if (currentState == TaskState.Completed)
         {
             subTaskText.text = "<color=red>Task:\n</color>Conguadulations!!!, You Finish All Task!!!\nNow Spaceship is Full of Energy!!!\n Go Back To the <color=red>SpaceShip</color>.\nAnd You Can Go Back to The Solar System<color=red>Thunder Area</color>.";
-            foreach (ThunderArea thunderArea in thunderAreaList)
-            {
-                if (thunderArea.connected == false) { return; }
-            }
             finishTask = true;
-            ChangeState(currentState);
         }
     }
     void OnEnterPressed(TaskState State)
