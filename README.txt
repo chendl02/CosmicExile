@@ -44,6 +44,8 @@ Task/SourceCode BreakDown:
 
 Wenjun Liu: Scirpts for Solar System. Map and Trajectory Prediction("Assets/Scripts/Scene1/Map"),  Celestial Orbit and Spacecraft Motion ("Assets/Scripts/Scene1/Motion"), UI and Scene Transition ("Assets/Scripts/Scene1/UI")
 Jiageng Liu: All scripts for Venus, "Assets/Scripts/Scene2/Venus"
+Delin Chen: All scripts for Mars, "Assets/Scripts/Scene2/Mars"
+Fengming Shen: All scripts for Lunar, "Assets/Scripts/Scene2/Lunar"
 Siyuan Cen: All scripts for Earth, "Assets/Scripts/Scene2/Earth"
 
 
