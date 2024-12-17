@@ -94,8 +94,8 @@ GameObject:
   - component: {fileID: 4161773538922570}
   - component: {fileID: 65591691683741800}
   - component: {fileID: 54201695082698132}
-  - component: {fileID: 8760947701847859357}
-  - component: {fileID: -4450834477640333689}
+  - component: {fileID: 2199369976418272511}
+  - component: {fileID: 8024197286396792656}
   m_Layer: 0
   m_Name: COVID
   m_TagString: Untagged
@@ -168,7 +168,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8760947701847859357
+--- !u!114 &2199369976418272511
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,10 +177,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1752992853893934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f695e4886c1e5439691d6cab03788e89, type: 3}
+  m_Script: {fileID: 11500000, guid: c10bae7ae0fb04a0c98051e9ac99f02d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-4450834477640333689
+--- !u!114 &8024197286396792656
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,11 +189,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1752992853893934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb453d63f72c14faf990f6f49061c919, type: 3}
+  m_Script: {fileID: 11500000, guid: 03e79867e439f403c8114f2b05c6ea00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  detectionRange: 10
+  detectionRange: 12
+  predictionTime: 0.5
   planetRadius: 184
   planetCenter: {x: 0, y: 0, z: 0}
 --- !u!1 &5767979664649647227
