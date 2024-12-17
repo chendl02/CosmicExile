@@ -43,7 +43,7 @@ Venus Portal: https://github.com/SebLague/Portals/tree/master
 Task/SourceCode BreakDown:
 
 Jiageng Liu: All scripts for Venus, "Assets/Scripts/Scene2/Venus"
-
+Siyuan Cen: All scripts for Earth, "Assets/Scripts/Scene2/Earth"
 
 
 ###################################################################################################
