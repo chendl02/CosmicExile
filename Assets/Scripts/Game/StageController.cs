@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public static class StageController
 {
@@ -67,6 +68,9 @@ public static class StageController
         ship.initPosition = spaceState.position;
         ship.motionData = new MotionData(spaceState.position, spaceState.velocity);
         ship.transform.position = spaceState.position;
+
+        TextMeshProUGUI target = GameObject.Find("Target").GetComponent<TextMeshProUGUI>();
+        target.text = "Target: " + spaceState.target;
 
     }
 }

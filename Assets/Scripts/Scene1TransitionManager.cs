@@ -85,12 +85,12 @@ public class Scene1TransitionManager : MonoBehaviour
     {
 
         //just for test
-        /*
-        if (Input.GetKeyDown(KeyCode.F))
+        
+        if (Input.GetKeyDown(KeyCode.J))
         {
             Win();
         }
-        */
+        
         
         
         if (!isTransitioning && !win)
