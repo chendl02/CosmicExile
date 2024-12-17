@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class Clock : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -27,7 +27,9 @@ public class Clock : MonoBehaviour
 
     void Awake()
     {
-        
+        dayTime = 0;
+        speed = 0.0f;
+        previousSpeed = 1.0f;
     }
 
     void Start()
@@ -48,10 +50,11 @@ public class Clock : MonoBehaviour
 
     void FixedUpdate()
     {
+        time_text.text = dayTime.ToString("F0") + " Days";
         if (Clock.speed == 0)
             return;
         dayTime += Universe.physicsTimeStep * Universe.timeCoefficient / 3600.0f / 24.0f;
-        time_text.text = dayTime.ToString("F0") + " Days";
+        
     }
 
     void SetSpeed(float newSpeed)
@@ -114,12 +117,14 @@ public class Clock : MonoBehaviour
         }
 
         //just for test
-        
+        /*
         if (Input.GetKeyDown(KeyCode.H))
         {
             StageController.NextStage(2);
             StageController.LoadStage();
+            pressPause();
         }
+        */
         
         
     }

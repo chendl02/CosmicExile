@@ -15,11 +15,11 @@ public struct MotionData
 }
 
 public class NBodySimulation : MonoBehaviour {
-    CelestialBody[] bodies;
-    static NBodySimulation instance;
+    public CelestialBody[] bodies;
+    //static NBodySimulation instance;
 
     void Awake () {
-
+        //instance = null;
         bodies = FindObjectsOfType<CelestialBody> ();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -78,7 +78,7 @@ public class NBodySimulation : MonoBehaviour {
     public static Vector3 CalculateAcceleration (Vector3 point, float dayTime, CelestialBody ignoreBody = null)
     {
         Vector3 acceleration = Vector3.zero;
-        foreach (var body in Instance.bodies)
+        foreach (var body in FindObjectOfType<NBodySimulation>().bodies)
         {
             if (body != ignoreBody)
             {
@@ -93,21 +93,21 @@ public class NBodySimulation : MonoBehaviour {
 
     public static void ActivateVirtualMesh(float dayTime)
     {
-        foreach (var body in Instance.bodies)
+        foreach (var body in FindObjectOfType<NBodySimulation>().bodies)
         {
             body.ActivateVirtualMesh(body.GetRealPosition(dayTime));
         }
     }
     public static void DeactivateVirtualMesh()
     {
-        foreach (var body in Instance.bodies)
+        foreach (var body in FindObjectOfType<NBodySimulation>().bodies)
         {
             body.DeactivateVirtualMesh();
         }
     }
     public static void DrawPredict(int days)
     {
-        foreach (var body in Instance.bodies)
+        foreach (var body in FindObjectOfType<NBodySimulation>().bodies)
         {
             body.DrawPredict(days);
         }
@@ -115,14 +115,14 @@ public class NBodySimulation : MonoBehaviour {
 
     public static void UpdatePredict(float dayTime)
     {
-        foreach (var body in Instance.bodies)
+        foreach (var body in FindObjectOfType<NBodySimulation>().bodies)
         {
             body.updatePredict(dayTime);
         }
     }
     public static void DrawOrbit()
     {
-        foreach (var body in Instance.bodies)
+        foreach (var body in FindObjectOfType<NBodySimulation>().bodies)
         {
             body.DrawOrbit();
         }
@@ -140,7 +140,7 @@ public class NBodySimulation : MonoBehaviour {
 
         return acceleration;
     }*/
-
+    /*
     public static CelestialBody[] Bodies {
         get {
             return Instance.bodies;
@@ -155,4 +155,11 @@ public class NBodySimulation : MonoBehaviour {
             return instance;
         }
     }
+
+    void OnDestroy()
+    {
+        instance = null;
+    }
+
+    */
 }

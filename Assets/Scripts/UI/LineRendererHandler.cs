@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LineRendererHandler
+public class LineRendererHandler : MonoBehaviour
 {
-    private static List<LineRendererHandler> instances = new List<LineRendererHandler>();
-
     private LineRenderer lineRenderer;
     private Color lineColor;
     private float emissionIntensity;
@@ -14,17 +12,18 @@ public class LineRendererHandler
 
     public static void setWidthMap(float orthographicSize)
     {
-        foreach (var instance in instances)
+        foreach (var instance in FindObjectsOfType<LineRendererHandler>())
         {
             if (instance == null)
                 continue;
+            //Debug.Log("set!");
             instance.SetLineWidth(orthographicSize * widthCoefficient);
         }
     }
 
     public static void setWidthDefault()
     {
-        foreach (var instance in instances)
+        foreach (var instance in FindObjectsOfType<LineRendererHandler>())
         {
             if (instance == null)
                 continue;
@@ -32,9 +31,8 @@ public class LineRendererHandler
         }
     }
 
-    public LineRendererHandler(GameObject parentObject, Color color, float intensity = 1.0f)
+    public void Initialize(GameObject parentObject, Color color, float intensity = 1.0f)
     {
-        instances.Add(this);
         lineColor = color;
         emissionIntensity = intensity;
 
@@ -50,11 +48,6 @@ public class LineRendererHandler
         InitializeLineRenderer();
     }
 
-    ~LineRendererHandler()
-    {
-        // ÊÖ¶¯ÒÆ³ýÊµÀý
-        instances.Remove(this);
-    }
 
     private void InitializeLineRenderer()
     {
@@ -81,12 +74,20 @@ public class LineRendererHandler
 
     public void SetPositions(Vector3[] positions)
     {
+        if (lineRenderer == null)
+        {
+            return;
+        }
         lineRenderer.positionCount = positions.Length;
         lineRenderer.SetPositions(positions);
     }
 
     public void SetLineWidth(float width)
     {
+        if (lineRenderer == null)
+        {
+            return;
+        }
         lineRenderer.startWidth = width;
         lineRenderer.endWidth = width;
     }
@@ -105,17 +106,29 @@ public class LineRendererHandler
 
     public void Enable(bool enabled)
     {
+        if (lineRenderer == null)
+        {
+            return;
+        }
         lineRenderer.enabled = enabled;
     }
 
 
     public bool isEnable()
     {
+        if (lineRenderer == null)
+        {
+            return false;
+        }
         return lineRenderer.enabled;
     }
 
     public void SetLoop(bool loop)
     {
+        if (lineRenderer == null)
+        {
+            return;
+        }
         lineRenderer.loop = loop;
     }
 }

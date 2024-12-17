@@ -132,12 +132,12 @@ public class Ship : GravityObject {
         if (Clock.speed == 0)
             return;
 
-
+        
         if (shipCam.enabled)
         { 
             // Thrusters
-            Vector3 thrustDir = transform.TransformVector(thrusterInput);
-            motionData.Velocity += thrustDir * thrustStrength;
+            //Vector3 thrustDir = transform.TransformVector(thrusterInput);
+            //motionData.Velocity += thrustDir * thrustStrength;
 
             // Rotate
             if (numCollisionTouches == 0)
@@ -145,7 +145,7 @@ public class Ship : GravityObject {
                 rb.MoveRotation(smoothedRot);
             }
         }
-
+        
 
         // Gravity
         motionData = NBodySimulation.RK4(motionData, Clock.dayTime, Universe.physicsTimeStep * Universe.timeCoefficient);

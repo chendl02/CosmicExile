@@ -66,5 +66,7 @@ public static class StageController
         ship.initVelocity = spaceState.velocity;
         ship.initPosition = spaceState.position;
         ship.motionData = new MotionData(spaceState.position, spaceState.velocity);
+        ship.transform.position = spaceState.position;
+
     }
 }

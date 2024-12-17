@@ -5,21 +5,24 @@ using UnityEngine.EventSystems;
 
 public class NonLinearSlider : MonoBehaviour
 {
-    public Slider slider; // ÍÏ×§°ó¶¨µÄ»¬¶¯Ìõ
-    public TMP_InputField inputField; // ÏÔÊ¾»¬¶¯ÌõÊýÖµµÄÎÄ±¾£¨¿ÉÑ¡£©
+    public Slider slider; // ï¿½ï¿½×§ï¿½ó¶¨µÄ»ï¿½ï¿½ï¿½ï¿½ï¿½
+    public TMP_InputField inputField; // ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
 
-    private int minValue = 10; // »¬¶¯ÌõµÄ×îÐ¡Öµ
-    private int maxValue = 1000; // »¬¶¯ÌõµÄ×î´óÖµ
+    private int minValue = 10; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡Öµ
+    private int maxValue = 1000; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
     public static int previousValidValue = Predict.initPredictDays;
 
-    private Predict predict; // ÓÃÓÚ´æ´¢¸¸¶ÔÏóÉÏµÄ Predict ÊµÀý
-
+    private Predict predict; // ï¿½ï¿½ï¿½Ú´æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ Predict Êµï¿½ï¿½
+    void Awake()
+    {
+        previousValidValue = Predict.initPredictDays;
+    }
 
     void Start()
     {
 
         predict = GetComponentInParent<Predict>();
-        slider.minValue = 0; // ÉèÖÃ»¬¶¯ÌõÏßÐÔ·¶Î§
+        slider.minValue = 0; // ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½Î§
         slider.maxValue = 1;
         float logMin = Mathf.Log10(minValue);
         float logMax = Mathf.Log10(maxValue);
@@ -36,23 +39,23 @@ public class NonLinearSlider : MonoBehaviour
         
     }
 
-    // ÔÚÊäÈëÊ±ÑéÖ¤£¨¶¯Ì¬¸üÐÂ£©
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½Â£ï¿½
     private void ValidateInput(string input)
     {
         if (!int.TryParse(input, out int value))
             return;
 
-        // ÏÞÖÆÊýÖµ·¶Î§£¨Èç¹ûÐèÒª¶¯Ì¬ÏÞÖÆ£©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Î§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ì¬ï¿½ï¿½ï¿½Æ£ï¿½
         if (value > maxValue)
             inputField.text = maxValue.ToString();
     }
 
-    // ÔÚÊäÈë½áÊøÊ±ÑéÖ¤£¨×îÖÕÈ·ÈÏ£©
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½Ï£ï¿½
     private void EnsureValidRange(string input)
     {
         if (int.TryParse(input, out int value))
         {
-            // ÏÞÖÆÊýÖµÔÚ 10-1000 ·¶Î§ÄÚ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 10-1000 ï¿½ï¿½Î§ï¿½ï¿½
             if (value < minValue)
                 inputField.text = minValue.ToString();
             else if (value > maxValue)
@@ -60,7 +63,7 @@ public class NonLinearSlider : MonoBehaviour
             if (previousValidValue.ToString() != inputField.text)
             {
                 previousValidValue = int.Parse(inputField.text);
-                // ½« previousValidValue µÄ¶ÔÊýÖµÓ³Éä»Ø slider.value
+                // ï¿½ï¿½ previousValidValue ï¿½Ä¶ï¿½ï¿½ï¿½ÖµÓ³ï¿½ï¿½ï¿½ slider.value
                 float logMin = Mathf.Log10(minValue);
                 float logMax = Mathf.Log10(maxValue);
                 slider.value = Mathf.InverseLerp(logMin, logMax, Mathf.Log10(previousValidValue));
@@ -69,7 +72,7 @@ public class NonLinearSlider : MonoBehaviour
         }
         else
         {
-            // Èç¹ûÊäÈëÎÞÐ§£¬ »¹Ô­
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ ï¿½ï¿½Ô­
             inputField.text = previousValidValue.ToString();
         }
     }
@@ -77,7 +80,7 @@ public class NonLinearSlider : MonoBehaviour
     void OnSliderValueChanged(float linearValue)
     {
         EventSystem.current.SetSelectedGameObject(null);
-        // ½«ÏßÐÔÖµÓ³ÉäÎª·ÇÏßÐÔÖµ£¨¶ÔÊýÓ³Éä£©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÓ³ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ä£©
         float nonlinearValue = Mathf.Pow(10, Mathf.Lerp(
             Mathf.Log10(minValue),
             Mathf.Log10(maxValue),
@@ -89,7 +92,7 @@ public class NonLinearSlider : MonoBehaviour
 
         predict.setRenderer(previousValidValue);
 
-        // Êä³ö·ÇÏßÐÔÖµµ½¿ØÖÆÌ¨£¨²âÊÔÓÃ£©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½
         // Debug.Log("Non-linear Value: " + nonlinearValue);
     }
 }
