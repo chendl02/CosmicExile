@@ -61,7 +61,7 @@ public class MarsBackToSpace : MonoBehaviour
 
     void SwitchScene()
     {
-        StageController.NextStage();
+        StageController.NextStage(4);
         SceneManager.LoadScene(targetSceneName);
     }
 
