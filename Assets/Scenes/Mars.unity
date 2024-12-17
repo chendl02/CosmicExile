@@ -4623,9 +4623,10 @@ MonoBehaviour:
 
     Space: Jump
 
-    E: Place Portal
+    E: Up/Down the SpaceTruck
 
-    F: Close/O Canvas
+    F: Close/O
+    Canvas
 
 '
 --- !u!222 &1999289966
